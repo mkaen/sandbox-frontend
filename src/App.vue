@@ -1,15 +1,16 @@
 <template>
-  <div class="container">
+  <TheHeader />
+  <div class="container mt-4">
     <RouterView />
   </div>
 </template>
 
 
 <script setup>
-
+import TheHeader from './shared/components/TheHeader/TheHeader.vue';
 </script>
 
 
-<style scoped>
+<!-- <style scoped>
 
-</style>
+</style> -->
