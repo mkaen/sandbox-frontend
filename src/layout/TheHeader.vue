@@ -56,5 +56,5 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import logo from '../../../assets/mk-vibecode-logo.svg';
+import logo from '@/assets/mk-vibecode-logo.svg'
 </script>

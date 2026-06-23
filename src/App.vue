@@ -1,18 +1,7 @@
 <template>
-  <TheHeader />
-    <div class="container my-4">
-      <RouterView />
-    </div>
-  <TheFooter />
+  <DefaultLayout />
 </template>
 
-
 <script setup>
-import TheHeader from './shared/components/TheHeader/TheHeader.vue';
-import TheFooter from './shared/components/TheFooter/TheFooter.vue';
+import DefaultLayout from './layout/DefaultLayout.vue'
 </script>
-
-
-<!-- <style scoped>
-
-</style> -->
