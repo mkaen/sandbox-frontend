@@ -1,9 +1,11 @@
 <template>
-  <TheHeader />
-  <div class="container my-4">
-    <RouterView />
+  <div class="d-flex flex-column min-vh-100">
+    <TheHeader />
+    <main class="container my-4 flex-grow-1">
+      <RouterView />
+    </main>
+    <TheFooter />
   </div>
-  <TheFooter />
 </template>
 
 <script setup>

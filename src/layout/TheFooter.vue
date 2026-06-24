@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-3 my-4 border-top fixed-bottom">
+  <footer class="py-3 mt-auto border-top">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center">
         <div class="col-md-4 d-flex align-items-center">
