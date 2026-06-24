@@ -25,8 +25,10 @@ export const useAuthStore = defineStore('auth', {
         async register(payload) {   
             try {
                 const response = await authApi.post('/register', payload);
-                if (response.status === 200) {
+                if (response.status === 201) {
                     console.log('Registration successful');
+                    // TODO: Add token to localStorage
+                    // localStorage.setItem('token', response.data.token);
                     return true;
                 } else {
                     return false;
