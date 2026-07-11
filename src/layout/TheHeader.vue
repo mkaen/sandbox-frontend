@@ -21,11 +21,11 @@
             type="search"
             class="form-control"
             placeholder="Search..."
-            aria-label="Search"
+            aria-label="Search"            
           >
         </form>
 
-        <div class="dropdown text-end">
+        <div v-if="userStore.isAuthenticated" class="dropdown text-end">
           <a
             href="#"
             class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
@@ -46,8 +46,12 @@
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">Sign out</a></li>
           </ul>
+        </div>
+        <div v-else class="d-flex align-items-center gap-2">
+          <RouterLink to="/login" class="btn btn-primary">Login</RouterLink>
+          <RouterLink to="/register" class="btn btn-secondary">Register</RouterLink>
         </div>
       </div>
     </div>
@@ -57,4 +61,13 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import mkSandboxLogo from '@/assets/mk-sandbox-icon.svg'
+import { useUserStore } from '@/features/users/userStore';
+import { useAuthStore } from '@/features/auth/authStore';
+
+const userStore = useUserStore();
+const authStore = useAuthStore();
+
+const handleLogout = async () => {
+  await authStore.logout();
+}
 </script>
