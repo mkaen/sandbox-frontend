@@ -25,7 +25,7 @@
           >
         </form>
 
-        <div v-if="userStore.isAuthenticated" class="dropdown text-end">
+        <div v-if="isAuthenticated" class="dropdown text-end">
           <a
             href="#"
             class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
@@ -63,11 +63,15 @@ import { RouterLink } from 'vue-router'
 import mkSandboxLogo from '@/assets/mk-sandbox-icon.svg'
 import { useUserStore } from '@/features/users/userStore';
 import { useAuthStore } from '@/features/auth/authStore';
+import { computed } from 'vue';
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
 
+const isAuthenticated = computed(() => userStore.isAuthenticated);
+
 const handleLogout = async () => {
   await authStore.logout();
 }
+
 </script>

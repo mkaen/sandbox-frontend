@@ -64,18 +64,15 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         async logout() {
+            const userStore = useUserStore();
             try {
-                const response = await authApi.post('/logout');
-                if (response.status === 200) {
-                    const userStore = useUserStore();
-                    userStore.resetUserData();
-                    return true;
-                } else {
-                    return false;
-                }
+                await authApi.post('/logout');
+                return true;
             } catch (error) {
                 console.error('Logout failed', error);
-                return false;  
+                return false;
+            } finally {
+                userStore.resetUserData();
             }
         },
         async initalizeAuth() {
