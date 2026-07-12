@@ -83,14 +83,14 @@
 
 <script setup>
 import { reactive } from 'vue';
-import { EMAIL_VALIDATION_PATTERN, 
-    FIRST_NAME_LENGTH_MIN, 
+import { FIRST_NAME_LENGTH_MIN, 
     FIRST_NAME_LENGTH_MAX, 
     LAST_NAME_LENGTH_MIN, 
     LAST_NAME_LENGTH_MAX, 
     PASSWORD_LENGTH_MIN,
     PHONE_LENGTH_MIN,
-    PHONE_LENGTH_MAX } from '../../../constants/constants';
+    PHONE_LENGTH_MAX } from '@/constants/constants';
+import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation';
 
 const emit = defineEmits(['submit-form']);
 

@@ -49,9 +49,10 @@
             <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">Sign out</a></li>
           </ul>
         </div>
-        <div v-else class="d-flex align-items-center gap-2">
-          <RouterLink to="/login" class="btn btn-primary">Login</RouterLink>
-          <RouterLink to="/register" class="btn btn-secondary">Register</RouterLink>
+        <div v-else>
+          <RouterLink to="/login">
+            <HeaderLoginButton text="Login" />
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -64,6 +65,7 @@ import mkSandboxLogo from '@/assets/mk-sandbox-icon.svg'
 import { useUserStore } from '@/features/users/userStore';
 import { useAuthStore } from '@/features/auth/authStore';
 import { computed } from 'vue';
+import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
@@ -75,3 +77,13 @@ const handleLogout = async () => {
 }
 
 </script>
+
+
+<style scoped>
+.dropdown-menu {
+  color: #000000;
+  border: solid .1px #000000;
+  border-radius: .375rem;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+</style>

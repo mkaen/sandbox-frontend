@@ -3,9 +3,6 @@ export const ROLES = {
     USER: 'user'
 }
 
-
-export const EMAIL_VALIDATION_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 export const FIRST_NAME_LENGTH_MIN = 2
 export const FIRST_NAME_LENGTH_MAX = 25
 

@@ -7,7 +7,7 @@ import './global.css'
 import { createPinia } from 'pinia';
 import { useAuthStore } from './features/auth/authStore';
 import { useUserStore } from './features/users/userStore';
-import BaseCard from './shared/components/ui/BaseCard.vue';
+import BaseCard from '@/components/ui/BaseCard.vue';
 
 const app = createApp(App);
 const pinia = createPinia()
