@@ -10,8 +10,7 @@ export const useUserStore = defineStore('user', {
         phone: '',
         imageReference: '',
         image: null,
-        role: null,
-        isAuthenticated: false
+        role: null
     }),
     actions: {
         setUser(userData) {
@@ -20,18 +19,17 @@ export const useUserStore = defineStore('user', {
             this.lastName = userData.lastName
             this.email = userData.email
             this.phone = userData.phone
-            this.imageReference = userData.imageReference
+            this.imageReference = userData.imageReference || null
             if (userData.role && Object.values(ROLES).includes(userData.role)) {
                 this.role = userData.role
             } else {
                 this.role = null
             }
-            this.isAuthenticated = true
         },
         setImage(image) {
             this.image = image
         },
-        logout() {
+        resetUserData() {
             this.id = ''
             this.firstName = ''
             this.lastName = ''
@@ -40,10 +38,10 @@ export const useUserStore = defineStore('user', {
             this.imageReference = ''
             this.image = null
             this.role = null
-            this.isAuthenticated = false
         },
     },
     getters: {
-        isAdmin: (state) => state.role === ROLES.ADMIN,
-    }
+        isAuthenticated: (state) => Boolean(state.id),
+        isAdmin: (state) => state.role && state.role === ROLES.ADMIN,
+    },
 })

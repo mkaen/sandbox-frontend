@@ -61,6 +61,17 @@
                 @blur="clearValidity('passwordConfirm')"/>
             </div>
             <p v-if="!passwordConfirm.isValid" class="text-danger">Passwords do not match</p>
+            <div class="form-group">
+                <label for="image">Add an image</label>
+                <input type="file" 
+                id="image" 
+                accept="image/*"
+                multiple="false"
+                @change="handleImageUpload"
+                class="form-control"
+                :class="{ 'is-invalid': !image.isValid }" />
+            </div>
+            <p v-if="!image.isValid" class="text-danger">{{ image.error }}</p>
             <button type="submit" class="btn btn-primary mt-3">Create account</button>
             <p class="register-link text-center mt-3 mb-0 w-100">
                 Already have an account? <a href="/login">Login</a>
@@ -72,14 +83,14 @@
 
 <script setup>
 import { reactive } from 'vue';
-import { EMAIL_VALIDATION_PATTERN, 
-    FIRST_NAME_LENGTH_MIN, 
+import { FIRST_NAME_LENGTH_MIN, 
     FIRST_NAME_LENGTH_MAX, 
     LAST_NAME_LENGTH_MIN, 
     LAST_NAME_LENGTH_MAX, 
     PASSWORD_LENGTH_MIN,
     PHONE_LENGTH_MIN,
-    PHONE_LENGTH_MAX } from '../../../constants/constants';
+    PHONE_LENGTH_MAX } from '@/constants/constants';
+import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation';
 
 const emit = defineEmits(['submit-form']);
 
@@ -89,8 +100,9 @@ const phone = reactive({ value: '', isValid: true });
 const email = reactive({ value: '', isValid: true });
 const password = reactive({ value: '', isValid: true });
 const passwordConfirm = reactive({ value: '', isValid: true });
+const image = reactive({ value: null, isValid: true, error: '' });
 
-const fields = { firstName, lastName, phone, email, password, passwordConfirm };
+const fields = { firstName, lastName, phone, email, password, passwordConfirm, image };
 let formIsValid = true;
 
 const validateForm = () => {
@@ -121,6 +133,9 @@ const validateForm = () => {
         passwordConfirm.isValid = false;
         formIsValid = false;
       }
+      if (!image.isValid) {
+        formIsValid = false;
+      }
 }
 
 const handleSubmit = () => {
@@ -134,13 +149,44 @@ const handleSubmit = () => {
         phone: phone.value,
         email: email.value,
         password: password.value,
-        hasImage: false // TODO: Add image upload functionality
+        hasImage: !!image.value,
     }
-    emit('submit-form', formData);
+
+    emit('submit-form', formData, image.value ? image.value : null);
 }
 
 const clearValidity = (fieldName) => {
     fields[fieldName].isValid = true;
+    if (fieldName === 'image') {
+        fields[fieldName].error = '';
+    }
+}
+
+const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    image.isValid = true;
+    image.error = '';
+
+    if (!file) {
+        image.value = null;
+        return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+        image.isValid = false;
+        image.error = 'File type must be an image';
+        image.value = null;
+        return;
+    }
+
+    if (file.size > 1024 * 1024 * 5) {
+        image.isValid = false;
+        image.error = 'Image must be less than 5MB';
+        image.value = null;
+        return;
+    }
+
+    image.value = file;
 }
 
 </script>
