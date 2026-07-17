@@ -1,13 +1,12 @@
 <template>
-    <BaseCard width="20rem">
+    <base-card width="20rem">
         <h1 class="text-center mb-3">Login</h1>
         <LoginForm @submit="handleLogin" />
-    </BaseCard>
+    </base-card>
 </template>
 
 
 <script setup>
-import BaseCard from '@/shared/components/ui/BaseCard.vue';
 import LoginForm from '../forms/LoginForm.vue';
 import { useAuthStore } from '../authStore';
 import { useRouter } from 'vue-router';

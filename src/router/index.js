@@ -8,15 +8,24 @@ const router = createRouter({
     routes: [
         {
             path: "/",
-            component: HomeView
+            component: HomeView,
+            meta: {
+                requiresAuth: false,
+            }
         },
         {
             path: "/login",
-            component: LoginView
+            component: LoginView,
+            meta: {
+                requiresAuth: false,
+            }
         },
         {
             path: "/register",
-            component: RegistrationView
+            component: RegistrationView,
+            meta: {
+                requiresAuth: false,
+            }
         },
     ]
 });

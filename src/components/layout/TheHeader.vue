@@ -21,11 +21,11 @@
             type="search"
             class="form-control"
             placeholder="Search..."
-            aria-label="Search"
+            aria-label="Search"            
           >
         </form>
 
-        <div class="dropdown text-end">
+        <div v-if="isAuthenticated" class="dropdown text-end">
           <a
             href="#"
             class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
@@ -46,8 +46,13 @@
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">Sign out</a></li>
           </ul>
+        </div>
+        <div v-else>
+          <RouterLink to="/login">
+            <HeaderLoginButton text="Login" />
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -57,4 +62,28 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import mkSandboxLogo from '@/assets/mk-sandbox-icon.svg'
+import { useUserStore } from '@/features/users/userStore';
+import { useAuthStore } from '@/features/auth/authStore';
+import { computed } from 'vue';
+import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
+
+const userStore = useUserStore();
+const authStore = useAuthStore();
+
+const isAuthenticated = computed(() => userStore.isAuthenticated);
+
+const handleLogout = async () => {
+  await authStore.logout();
+}
+
 </script>
+
+
+<style scoped>
+.dropdown-menu {
+  color: #000000;
+  border: solid .1px #000000;
+  border-radius: .375rem;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+</style>
