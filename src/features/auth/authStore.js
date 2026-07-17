@@ -1,6 +1,10 @@
-import { defineStore } from 'pinia';    
+import { defineStore } from 'pinia';
+    
 import { authApi } from '@/config/api';
 import { useUserStore } from '@/features/users/userStore';
+import { startSession, stopSession } from '@/composables/sessionManager';
+
+
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -14,6 +18,7 @@ export const useAuthStore = defineStore('auth', {
                     const userData = response.data;
                     const userStore = useUserStore();
                     userStore.setUser(userData);
+                    startSession();
                     if (userData.imageReference) {
                         await userStore.setImage(userData.imageReference);
                     }
@@ -34,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
                     // console.log('Data backend response:', response.data);
                     const userStore = useUserStore();
                     userStore.setUser(userData);
-
+                    startSession();
                     if (image && userData.imageReference) {
                         // TODO: "Upload image to cloudflare by naming it profile_imageReference"
                         await userStore.setImage(image);
@@ -53,8 +58,8 @@ export const useAuthStore = defineStore('auth', {
                 const response = await authApi.post('/refresh');
                 if (response.status === 200) {
                     const userStore = useUserStore();
-                    console.log('Response data:', response.data);
                     userStore.setUser(response.data);
+                    startSession();
                     return true;
                 }
                 return false;
@@ -72,6 +77,7 @@ export const useAuthStore = defineStore('auth', {
                 console.error('Logout failed', error);
                 return false;
             } finally {
+                stopSession();
                 userStore.resetUserData();
             }
         },
