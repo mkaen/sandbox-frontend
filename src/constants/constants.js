@@ -13,3 +13,8 @@ export const PASSWORD_LENGTH_MIN = 6
 
 export const PHONE_LENGTH_MIN = 7
 export const PHONE_LENGTH_MAX = 15
+
+export const SESSION_CONFIG = {
+    sessionLengthMinutes: Number(import.meta.env.VITE_SESSION_LENGTH_MIN) || 15,
+    sessionReminderBeforeEndMinutes: Number(import.meta.env.VITE_SESSION_LENGTH_REMINDER_BEFORE_END_MIN) || 1
+}

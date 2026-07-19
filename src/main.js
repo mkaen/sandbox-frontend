@@ -7,6 +7,7 @@ import './global.css'
 import { createPinia } from 'pinia';
 import { useAuthStore } from './features/auth/authStore';
 import { useUserStore } from './features/users/userStore';
+import { setupAuthInterceptors } from '@/config/api';
 import BaseCard from '@/components/ui/BaseCard.vue';
 
 const app = createApp(App);
@@ -14,6 +15,8 @@ const pinia = createPinia()
 
 app.use(router);
 app.use(pinia);
+
+setupAuthInterceptors();
 
 const authStore = useAuthStore();
 await authStore.initalizeAuth();

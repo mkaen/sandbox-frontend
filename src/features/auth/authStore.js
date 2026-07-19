@@ -1,6 +1,14 @@
-import { defineStore } from 'pinia';    
+import { defineStore } from 'pinia';
+    
 import { authApi } from '@/config/api';
 import { useUserStore } from '@/features/users/userStore';
+import { startSession, stopSession } from '@/composables/sessionManager';
+
+
+function userStore() {
+    return useUserStore();
+}
+
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -12,10 +20,10 @@ export const useAuthStore = defineStore('auth', {
                 const response = await authApi.post('/login', payload);
                 if (response.status === 200) {
                     const userData = response.data;
-                    const userStore = useUserStore();
-                    userStore.setUser(userData);
+                    userStore().setUser(userData);
+                    startSession();
                     if (userData.imageReference) {
-                        await userStore.setImage(userData.imageReference);
+                        await userStore().setImage(userData.imageReference);
                     }
                     return true;
                 } else {
@@ -32,12 +40,11 @@ export const useAuthStore = defineStore('auth', {
                 if (response.status === 201) {
                     const userData = response.data;
                     // console.log('Data backend response:', response.data);
-                    const userStore = useUserStore();
-                    userStore.setUser(userData);
-
+                    userStore().setUser(userData);
+                    startSession();
                     if (image && userData.imageReference) {
                         // TODO: "Upload image to cloudflare by naming it profile_imageReference"
-                        await userStore.setImage(image);
+                        await userStore().setImage(image);
                     }
                     return true;
                 } else {
@@ -50,11 +57,12 @@ export const useAuthStore = defineStore('auth', {
         },
         async refreshToken() {
             try {
-                const response = await authApi.post('/refresh');
+                const response = await authApi.post('/refresh', null, {
+                    skipAuthRefresh: true,
+                });
                 if (response.status === 200) {
-                    const userStore = useUserStore();
-                    console.log('Response data:', response.data);
-                    userStore.setUser(response.data);
+                    userStore().setUser(response.data);
+                    startSession();
                     return true;
                 }
                 return false;
@@ -64,7 +72,6 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         async logout() {
-            const userStore = useUserStore();
             try {
                 await authApi.post('/logout');
                 return true;
@@ -72,7 +79,8 @@ export const useAuthStore = defineStore('auth', {
                 console.error('Logout failed', error);
                 return false;
             } finally {
-                userStore.resetUserData();
+                stopSession();
+                userStore().resetUserData();
             }
         },
         async initalizeAuth() {
