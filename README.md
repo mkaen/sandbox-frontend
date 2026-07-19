@@ -8,6 +8,25 @@ Sandbox-frontend is the frontend application for the sandbox project. It communi
 
 ### Authorization JWT
 
+Tokenid hoitakse HTTP-only cookiedes (`withCredentials: true`). Frontend ei loe ega salvesta tokeneid ise.
+
+**Millal küsitakse uut access tokenit** (`POST /auth/refresh`):
+
+1. **Äpp'i käivitamisel** — `initalizeAuth()` kutsub `refreshToken()`, et taastada sessioon olemasoleva refresh cookie abil.
+2. **API vastab 401-ga** — axios interceptor püüab vea kinni, kutsub `refreshToken()` ja proovib algse päringu uuesti. Samaaegsed 401-d ootavad järjekorras, kuni üks refresh lõpeb. '/login', '/register', '/refresh' ja '/logout' päringutel refreshi ei tehta.
+
+**Millal vahetub refresh token:** refresh tokeni rotation toimub backendis iga eduka `/refresh` vastusega. Frontend saadab ainult cookie’d; uut refresh tokenit frontend ei käsitle eraldi.
+
+**Ebaõnnestunud refresh** → logout + suunamine `/login`.
+
+```
+login/register → cookies seatud → sessioon käib
+       ↓
+API 401 või äpi start → POST /refresh → uued cookies → päring uuesti
+       ↓
+refresh ebaõnnestub → logout → '/login'
+```
+
 ## Dependencies
 
 * API — axios
