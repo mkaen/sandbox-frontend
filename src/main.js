@@ -9,6 +9,7 @@ import { useAuthStore } from './features/auth/authStore';
 import { useUserStore } from './features/users/userStore';
 import { setupAuthInterceptors } from '@/config/api';
 import BaseCard from '@/components/ui/BaseCard.vue';
+import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 
 const app = createApp(App);
 const pinia = createPinia()
@@ -40,5 +41,5 @@ router.beforeEach( async (to) => {
 });
 
 app.component('base-card', BaseCard);
-
+app.component('primary-button', PrimaryButton);
 app.mount('#app');
