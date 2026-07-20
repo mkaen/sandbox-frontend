@@ -65,7 +65,7 @@
                 <label for="image">Add an image</label>
                 <input type="file" 
                 id="image" 
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/gif"
                 multiple="false"
                 @change="handleImageUpload"
                 class="form-control"
@@ -91,6 +91,7 @@ import { FIRST_NAME_LENGTH_MIN,
     PHONE_LENGTH_MIN,
     PHONE_LENGTH_MAX } from '@/constants/constants';
 import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation';
+import { validateProfileImageFile } from '@/utils/imageFile';
 
 const emit = defineEmits(['submit-form']);
 
@@ -162,8 +163,9 @@ const clearValidity = (fieldName) => {
     }
 }
 
-const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+const handleImageUpload = async (event) => {
+    const input = event.target;
+    const file = input.files[0];
     image.isValid = true;
     image.error = '';
 
@@ -172,17 +174,12 @@ const handleImageUpload = (event) => {
         return;
     }
 
-    if (!file.type.startsWith('image/')) {
+    const result = await validateProfileImageFile(file);
+    if (!result.ok) {
         image.isValid = false;
-        image.error = 'File type must be an image';
+        image.error = result.error;
         image.value = null;
-        return;
-    }
-
-    if (file.size > 1024 * 1024 * 5) {
-        image.isValid = false;
-        image.error = 'Image must be less than 5MB';
-        image.value = null;
+        input.value = '';
         return;
     }
 
