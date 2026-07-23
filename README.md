@@ -58,9 +58,9 @@ src/
 │   │   │   ├── LoginView.vue
 │   │   │   └── RegistrationView.vue
 │   │   └── authApi.js
-│   ├── home/
-│   │   └── views/
-│   │       └── HomeView.vue
+│   │
+│   │
+│   │   
 │   └── users/
 │       └── userStore.js
 ├── shared/                  # code reused across features
@@ -71,8 +71,11 @@ src/
 │   │   └── ui/
 │   └── utils/
 │       └── validation.js
-└── router/
-    └── index.js
+├── router/
+│    └── index.js
+├── views /
+│     └── Homeview.vue
+│
 ```
 
 ### Conventions
