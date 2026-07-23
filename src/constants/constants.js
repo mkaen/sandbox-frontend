@@ -18,3 +18,7 @@ export const SESSION_CONFIG = {
     sessionLengthMinutes: Number(import.meta.env.VITE_SESSION_LENGTH_MIN) || 15,
     sessionReminderBeforeEndMinutes: Number(import.meta.env.VITE_SESSION_LENGTH_REMINDER_BEFORE_END_MIN) || 1
 }
+
+export const R2_FOLDER_LOCATION = {
+    PROFILE_IMAGES: 'profile_images',
+}

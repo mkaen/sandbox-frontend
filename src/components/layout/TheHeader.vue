@@ -34,11 +34,13 @@
             @click.prevent
           >
             <img
-              src="https://github.com/mdo.png"
-              alt="mdo"
+              :src="displayImage"
+              alt="Profile"
+              style="object-fit: cover"
               width="40"
               height="40"
               class="rounded-circle"
+              @error="imageFailed = true"
             >
           </a>
           <ul class="dropdown-menu text-small">
@@ -64,8 +66,10 @@ import { RouterLink } from 'vue-router'
 import mkSandboxLogo from '@/assets/mk-sandbox-icon.svg'
 import { useUserStore } from '@/features/users/userStore';
 import { useAuthStore } from '@/features/auth/authStore';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
+import defaultProfileImage from '@/assets/icons/user.png';
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
@@ -75,6 +79,20 @@ const isAuthenticated = computed(() => userStore.isAuthenticated);
 const handleLogout = async () => {
   await authStore.logout();
 }
+
+const { image: profileImage } = storeToRefs(userStore);
+const imageFailed = ref(false);
+
+const displayImage = computed(() => {
+  if (imageFailed.value || !profileImage.value) {
+    return defaultProfileImage;
+  }
+  return profileImage.value;
+});
+
+watch(profileImage, () => {
+    imageFailed.value = false;
+});
 
 </script>
 

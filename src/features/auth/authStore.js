@@ -1,12 +1,20 @@
 import { defineStore } from 'pinia';
     
 import { authApi } from '@/config/api';
+import { getProfileImageUrl, uploadProfileImage } from '@/config/r2';
 import { useUserStore } from '@/features/users/userStore';
 import { startSession, stopSession } from '@/composables/sessionManager';
 
 
 function userStore() {
     return useUserStore();
+}
+
+function applyProfileImage(imageReference) {
+    const imageUrl = getProfileImageUrl(imageReference);
+    if (imageUrl) {
+        userStore().setImage(imageUrl);
+    }
 }
 
 
@@ -23,7 +31,7 @@ export const useAuthStore = defineStore('auth', {
                     userStore().setUser(userData);
                     startSession();
                     if (userData.imageReference) {
-                        await userStore().setImage(userData.imageReference);
+                        applyProfileImage(userData.imageReference);
                     }
                     return true;
                 } else {
@@ -39,12 +47,18 @@ export const useAuthStore = defineStore('auth', {
                 const response = await authApi.post('/register', payload);
                 if (response.status === 201) {
                     const userData = response.data;
-                    // console.log('Data backend response:', response.data);
                     userStore().setUser(userData);
                     startSession();
                     if (image && userData.imageReference) {
-                        // TODO: "Upload image to cloudflare by naming it profile_imageReference"
-                        await userStore().setImage(image);
+                        try {
+                            const imageUrl = await uploadProfileImage(
+                                userData.imageReference,
+                                image,
+                            );
+                            userStore().setImage(imageUrl);
+                        } catch (uploadError) {
+                            console.error('Profile image upload failed', uploadError);
+                        }
                     }
                     return true;
                 } else {
@@ -61,8 +75,12 @@ export const useAuthStore = defineStore('auth', {
                     skipAuthRefresh: true,
                 });
                 if (response.status === 200) {
-                    userStore().setUser(response.data);
+                    const userData = response.data;
+                    userStore().setUser(userData);
                     startSession();
+                    if (userData.imageReference) {
+                        applyProfileImage(userData.imageReference);
+                    }
                     return true;
                 }
                 return false;
