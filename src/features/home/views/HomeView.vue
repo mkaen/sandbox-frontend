@@ -6,11 +6,9 @@
 import { useAuthStore } from '@/features/auth/authStore';
 
 const authStore = useAuthStore();
+
+
 const handleRefreshToken = async () => {
     await authStore.refreshToken();
-}
+};
 </script>
-
-<!-- <style scoped>
-
-</style> -->

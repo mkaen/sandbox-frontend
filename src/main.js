@@ -9,11 +9,11 @@ import { useAuthStore } from './features/auth/authStore';
 import { useUserStore } from './features/users/userStore';
 import { setupAuthInterceptors } from '@/config/api';
 import BaseCard from '@/components/ui/BaseCard.vue';
+import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 
 const app = createApp(App);
 const pinia = createPinia()
 
-app.use(router);
 app.use(pinia);
 
 setupAuthInterceptors();
@@ -32,6 +32,10 @@ router.beforeEach( async (to) => {
         return { path: '/login' };
     }
 
+    if (['/login', '/register'].includes(to.path) && userStore.isAuthenticated) {
+        return { path: '/' };
+    }
+
     if (to.meta.requiresAdmin && !userStore.isAdmin) {
         return { path: '/' };
     }
@@ -39,6 +43,7 @@ router.beforeEach( async (to) => {
     return true;
 });
 
+app.use(router);
 app.component('base-card', BaseCard);
-
+app.component('primary-button', PrimaryButton);
 app.mount('#app');
