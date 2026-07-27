@@ -46,7 +46,11 @@
           <ul class="dropdown-menu text-small">
             <li><a class="dropdown-item" href="#">New project...</a></li>
             <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li>
+              <RouterLink class="dropdown-item" :to="`/user-profile/${userStore.id}`">
+                Profile
+              </RouterLink>
+            </li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">Sign out</a></li>
           </ul>

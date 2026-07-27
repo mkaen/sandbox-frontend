@@ -40,6 +40,13 @@ router.beforeEach( async (to) => {
         return { path: '/' };
     }
 
+    if (to.meta.requiresSelfOrAdmin) {
+        const isSelf = userStore.isAuthenticated && userStore.id === String(to.params.id);
+        if (!isSelf && !userStore.isAdmin) {
+            return { path: '/' };
+        }
+    }
+
     return true;
 });
 
