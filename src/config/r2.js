@@ -54,4 +54,29 @@ export async function uploadProfileImage(imageReference, file) {
     }
 
     return getProfileImageUrl(imageReference)
-}
+};
+
+export async function removeProfileImage(imageReference) {
+    if (!R2_WORKER_URL) {
+        throw new Error('VITE_R2_WORKER_URL is not configured')
+    }
+    if (!R2_UPLOAD_KEY) {
+        throw new Error('VITE_R2_UPLOAD_KEY is not configured')
+    }
+    if (!imageReference) {
+        throw new Error('imageReference is required')
+    }
+
+    const key = buildObjectKey(R2_FOLDER_LOCATION.PROFILE_IMAGES, imageReference)
+    const response = await fetch(`${R2_WORKER_URL}/${key}`, {
+        method: 'DELETE',
+        headers: {
+            'X-Upload-Key': R2_UPLOAD_KEY,
+        },
+    })
+
+    if (!response.ok) {
+        const detail = await response.text().catch(() => '')
+        throw new Error(`R2 delete failed (${response.status}): ${detail}`)
+    }
+};

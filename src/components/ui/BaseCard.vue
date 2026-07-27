@@ -1,5 +1,5 @@
 <template>
-    <div class="base-card" :style="{ maxWidth: width }">
+    <div class="base-card" :style="{ maxWidth: width, padding }">
       <slot></slot>
     </div>
   </template>
@@ -9,6 +9,10 @@
       width: {
           type: String,
           default: "40rem"
+      },
+      padding: {
+          type: String,
+          default: "1rem"
       }
   })
   </script>
