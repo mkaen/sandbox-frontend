@@ -362,7 +362,7 @@ function openRemoveAccountModal() {
 }
 
 async function removeAccount() {
-    const removed = await userStore.removeAccount(accountId)
+    const removed = await userStore.removeAccount(accountId, profileMeta.imageReference)
     if (!removed) {
         return
     }
