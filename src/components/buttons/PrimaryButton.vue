@@ -1,5 +1,5 @@
 <template>
-    <button :type="type" :disabled="disabled">{{ label }}</button>
+    <button :type="type" :disabled="disabled" :style="{minWidth: width}">{{ label }}</button>
 </template>
 
 
@@ -17,6 +17,10 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    width: {
+        type: String,
+        default: '6rem'
+    }
 });
 </script>
 
