@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-    
+import router from '@/router';    
 import { authApi } from '@/config/api';
 import { getProfileImageUrl, uploadProfileImage } from '@/config/r2';
 import { useUserStore } from '@/features/users/userStore';
@@ -92,6 +92,10 @@ export const useAuthStore = defineStore('auth', {
         async logout() {
             try {
                 await authApi.post('/logout');
+                const currentRoute = router.currentRoute.value;
+                if (currentRoute.meta.requiresAuth) {
+                    await router.push('/');
+                }
                 return true;
             } catch (error) {
                 console.error('Logout failed', error);

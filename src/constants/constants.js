@@ -1,6 +1,6 @@
 export const ROLES = {
-    ADMIN: 'admin',
-    USER: 'user'
+    ADMIN: 'ADMIN',
+    USER: 'USER'
 }
 
 export const FIRST_NAME_LENGTH_MIN = 2
@@ -21,4 +21,10 @@ export const SESSION_CONFIG = {
 
 export const R2_FOLDER_LOCATION = {
     PROFILE_IMAGES: 'profile_images',
+}
+
+export const PROFILE_IMAGE_CHANGE = {
+    NONE: 'NONE',
+    ADDED: 'ADDED',
+    CHANGED: 'CHANGED',
 }
