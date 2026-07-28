@@ -1,5 +1,14 @@
 <template>
     <div>
+        <notification-modal
+            ref="removeAccountModal"
+            :show-cancel="true"
+            title="Account Remove Confirmation"
+            body="Please confirm to remove account permanently."
+            confirm-button-label="Remove Account"
+            confirm-button-variant="danger"
+            @confirm="removeAccount"
+        />
         <h1>User Profile</h1>
         <base-card v-if="isLoaded" width="50rem" padding="1.5rem">
             <form @submit.prevent="handleSubmit">
@@ -181,7 +190,7 @@
                             >
                             <p v-if="!image.isValid" class="text-danger">{{ image.error }}</p>
                             <div v-if="hasPendingImage" class="restore-btn">
-                                <PrimaryButton
+                                <ConfirmationButton
                                     type="button"
                                     label="Restore Image"
                                     @click="restoreImage"
@@ -190,14 +199,21 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div v-if="canEditProfile || canEditRole" class="save-btn">
-                    <PrimaryButton
-                        type="submit"
-                        label="Save changes"
-                        :disabled="!canSave"
+                    <ConfirmationButton
+                    type="submit"
+                    label="Save changes"
+                    :disabled="!canSave"
                     />
                 </div>
+                <a
+                    v-if="isSelf || isAdmin"
+                    href="#"
+                    @click.prevent="openRemoveAccountModal"
+                >
+                    Remove account
+                </a>
             </form>
         </base-card>
     </div>
@@ -205,8 +221,9 @@
 
 <script setup>
 import { useUserStore } from '@/features/users/userStore';
-import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
-import { useRoute } from 'vue-router';
+import { useAuthStore } from '@/features/auth/authStore';
+import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
+import { useRoute, useRouter } from 'vue-router';
 import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import {
     ROLES,
@@ -225,24 +242,27 @@ import { validateProfileImageFile } from '@/utils/imageFile'
 import defaultProfileImage from '@/assets/icons/user.png'
 
 const route = useRoute();
+const router = useRouter();
 const userStore = useUserStore();
+const authStore = useAuthStore();
 
-const isLoaded = ref(false)
-const imageFailed = ref(false)
-const previewUrl = ref(null)
-const imageInput = ref(null)
+const removeAccountModal = ref(null);
+const isLoaded = ref(false);
+const imageFailed = ref(false);
+const previewUrl = ref(null);
+const imageInput = ref(null);
 const profileMeta = reactive({
     id: '',
     imageReference: '',
     image: null,
-})
+});
 const initialValues = reactive({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     role: '',
-})
+});
 
 const firstName = reactive({ value: '', isValid: true })
 const lastName = reactive({ value: '', isValid: true })
@@ -266,10 +286,12 @@ const fields = {
     image,
 }
 
-const isSelf = computed(() => String(route.params.id) === String(userStore.id))
+const accountId = route.params.id
+const isSelf = computed(() => String(accountId) === String(userStore.id))
 const canEditProfile = computed(() => isSelf.value)
 const canEditRole = computed(() => userStore.isAdmin && !isSelf.value)
 const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value))
+const isAdmin = computed(() => userStore.isAdmin)
 
 const hasProfileChanges = computed(() => {
     if (!canEditProfile.value) {
@@ -333,6 +355,22 @@ function revokePreviewUrl() {
         URL.revokeObjectURL(previewUrl.value)
         previewUrl.value = null
     }
+}
+
+function openRemoveAccountModal() {
+    removeAccountModal.value?.openModal()
+}
+
+async function removeAccount() {
+    const removed = await userStore.removeAccount(accountId, profileMeta.imageReference)
+    if (!removed) {
+        return
+    }
+    if (isSelf.value) {
+        await authStore.logout()
+        return
+    }
+    await router.push('/')
 }
 
 function restoreImage() {
@@ -490,7 +528,7 @@ const handleSubmit = async () => {
 
     const formData = {}
     if (canEditProfile.value) {
-        formData.id = route.params.id
+        formData.id = accountId
         formData.firstName = firstName.value
         formData.lastName = lastName.value
         formData.email = email.value
@@ -506,7 +544,7 @@ const handleSubmit = async () => {
     }
 
     const updatedUser = await userStore.updateUser(
-        route.params.id,
+        accountId,
         formData,
         {
             imageFile,
@@ -537,7 +575,7 @@ const handleSubmit = async () => {
 }
 
 onMounted(async () => {
-    const id = String(route.params.id)
+    const id = String(accountId)
     if (!isSelf.value && !userStore.isAdmin) {
         return
     }
@@ -646,5 +684,8 @@ select:disabled {
     margin-top: 0.5rem;
     display: flex;
     justify-content: center;
+}
+a {
+    color: #dc3545;
 }
 </style>

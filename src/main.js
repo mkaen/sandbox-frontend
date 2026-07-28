@@ -9,7 +9,7 @@ import { useAuthStore } from './features/auth/authStore';
 import { useUserStore } from './features/users/userStore';
 import { setupAuthInterceptors } from '@/config/api';
 import BaseCard from '@/components/ui/BaseCard.vue';
-import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
+import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
 import BaseNotificationModal from './components/modals/BaseNotificationModal.vue'
 
 const app = createApp(App);
@@ -53,6 +53,6 @@ router.beforeEach( async (to) => {
 
 app.use(router);
 app.component('base-card', BaseCard);
-app.component('primary-button', PrimaryButton);
+app.component('confirmation-button', ConfirmationButton);
 app.component('notification-modal', BaseNotificationModal);
 app.mount('#app');

@@ -15,7 +15,7 @@
 
         <div class="modal-actions">
         <button v-if="showCancel" class="btn btn-cancel" @click="cancel">{{ cancelButtonLabel }}</button>
-        <PrimaryButton :label="okButtonLabel" @click="ok" />
+        <ConfirmationButton :label="confirmButtonLabel" :variant="confirmButtonVariant" @click="confirm" />
       </div>
     </div>
   </dialog>
@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import PrimaryButton from '../buttons/PrimaryButton.vue';
+import ConfirmationButton from '../buttons/ConfirmationButton.vue';
 import closeButton from '@/assets/model-close-icon.jpg'
 const modalEl = ref(null);
 
@@ -49,13 +49,18 @@ const props = defineProps({
         type: String,
         default: 'Cancel'
     },
-    okButtonLabel: {
+    confirmButtonLabel: {
         type: String,
         default: 'OK'
-    }
+    },
+    confirmButtonVariant: {
+        type: String,
+        default: 'primary',
+        validator: (value) => ['primary', 'danger'].includes(value),
+    },
 });
 
-const emit = defineEmits(['cancel', 'ok']);
+const emit = defineEmits(['cancel', 'confirm']);
 
 
 function cancel() {
@@ -64,9 +69,9 @@ function cancel() {
     emit('cancel');
 }
 
-function ok() {
+function confirm() {
     closeModal()
-    emit('ok')
+    emit('confirm')
 }
 
 function openModal() {
