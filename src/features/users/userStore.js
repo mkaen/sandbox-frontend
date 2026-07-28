@@ -16,6 +16,15 @@ export const useUserStore = defineStore('user', {
         role: null
     }),
     actions: {
+        async removeAccount(userId) {
+            try {
+                const response = await userApi.delete(`/remove/${userId}`)
+                return response.status === 200
+            } catch (error) {
+                console.error('Error while removing account', error)
+                return false
+            }
+        },
         async updateUser(userId, userData, imageOptions = {}) {
             try {
                 const response = await userApi.put(`/update/${userId}`, userData);

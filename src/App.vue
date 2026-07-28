@@ -5,8 +5,8 @@
     :show-cancel="true"
     title="Session Timeout Reminder"
     body="Your session is about to expire. Do you want to extend the session?"
-    ok-button-label="Extend session"
-    @ok="onExtendSession"
+    confirm-button-label="Extend session"
+    @confirm="onExtendSession"
     @cancel="onCancelSession"
   />
   <notification-modal

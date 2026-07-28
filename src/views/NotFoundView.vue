@@ -3,7 +3,7 @@
         <div class="d-flex flex-column align-items-center justify-content-center gap-1">
             <h1 class="text-center">Page not found - 404</h1>
             <p class="mb-4 text-center">Something went wrong. Please check the URL and try again.</p>
-            <primary-button label="Go to Homepage" @click="navigateToHome"/>
+            <confirmation-button label="Go to Homepage" @click="navigateToHome"/>
         </div>
     </base-card>
 </template>
