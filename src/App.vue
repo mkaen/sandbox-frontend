@@ -9,6 +9,11 @@
     @ok="onExtendSession"
     @cancel="onCancelSession"
   />
+  <notification-modal
+  ref="loggedOutModal"
+  title="Session Expired"
+  body="You have been logged out."
+  />
 </template>
 
 <script setup>
@@ -21,12 +26,17 @@ import { watch, ref } from 'vue'
 const authStore = useAuthStore();
 const router = useRouter();
 const sessionModal = ref(null);
+const loggedOutModal = ref(null);
+
+
+// SESSION REMINDER
 
 watch(inactive, (newVal) => {
   if (newVal) {
     sessionModal.value?.closeModal();
     authStore.logout();
     router.push('/login');
+    loggedOutModal.value?.openModal()
   }
 });
 
