@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_HOST, API_PORT } from './env.js';
+import { generateUuid } from '../utils/index.js';
 
 
 export const API_BASE_URL = `http://${API_HOST}:${API_PORT}`;
@@ -17,6 +18,17 @@ export const API_ENDPOINT_PREFIX = {
     auth: `${API_BASE_URL}${ENDPOINT_VERSION.v1}${API_PREFIX.auth}`,
     user: `${API_BASE_URL}${ENDPOINT_VERSION.v1}${API_PREFIX.user}`
 };
+
+
+let xCorrelationId = null;
+
+export function setCorrelationId() {
+    xCorrelationId = generateUuid();
+}
+
+export function clearCorrelationId() {
+    xCorrelationId = null;
+}
 
 export const authApi = axios.create({
     baseURL: API_ENDPOINT_PREFIX.auth,
@@ -57,6 +69,18 @@ function shouldSkipAuthRefresh(config) {
 
     const url = config.url || '';
     return AUTH_ENDPOINTS_WITHOUT_REFRESH.some((endpoint) => url.includes(endpoint));
+}
+
+function attachTracingInterceptor(api) {
+    api.interceptors.request.use((config) => {
+        config.headers['X-Request-ID'] = generateUuid();
+
+        if (xCorrelationId) {
+            config.headers['X-Correlation-ID'] = xCorrelationId;
+        }
+
+        return config;
+    });
 }
 
 function attachAuthInterceptor(api) {
@@ -105,6 +129,8 @@ function attachAuthInterceptor(api) {
 }
 
 export function setupAuthInterceptors() {
+    attachTracingInterceptor(authApi);
+    attachTracingInterceptor(userApi);
     attachAuthInterceptor(authApi);
     attachAuthInterceptor(userApi);
 }
