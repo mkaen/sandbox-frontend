@@ -1,7 +1,7 @@
 import { SESSION_CONFIG } from '@/constants/constants';
 import { ref } from 'vue';
 import { formatMinutesToMilliseconds } from '@/utils/formatter';
-import { setCorrelationId, clearCorrelationId } from '@/config/api';
+import { clearCorrelationId } from '@/config/api';
 
 const timeout = formatMinutesToMilliseconds(SESSION_CONFIG.sessionLengthMinutes);
 const reminderTimerLength = timeout - formatMinutesToMilliseconds(SESSION_CONFIG.sessionReminderBeforeEndMinutes);
@@ -66,7 +66,6 @@ export function startSession() {
     activateReminder.value = false;
     addListeners();
     resetTimers();
-    setCorrelationId();
 }
 
 export function dismissReminder() {
