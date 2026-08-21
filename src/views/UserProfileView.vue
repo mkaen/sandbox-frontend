@@ -9,11 +9,11 @@
             confirm-button-variant="danger"
             @confirm="removeAccount"
         />
-        <h1>User Profile</h1>
         <base-card v-if="isLoaded" width="50rem" padding="1.5rem">
+        <span><u><b>User profile data</b></u></span>
             <form @submit.prevent="handleSubmit">
                 <div class="text-img-separator">
-                    <div class="data">
+                    <div class="data mt-3">
                         <div class="field-group">
                             <div class="field">
                                 <label for="first-name">First Name:</label>
@@ -114,7 +114,7 @@
 
                         <hr>
 
-                        <div v-if="canEditProfile">
+                        <div v-if="canEditProfile" class="password-section">
                             <span><u><b>Change password</b></u></span>
                             <div class="field-group">
                                 <div class="field">
@@ -632,6 +632,11 @@ onUnmounted(() => {
     flex: 1;
     min-width: 0;
     padding-top: 0;
+}
+.password-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 .field-group {
     display: flex;

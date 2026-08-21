@@ -149,8 +149,7 @@ const handleSubmit = () => {
         lastName: lastName.value,
         phone: phone.value,
         email: email.value,
-        password: password.value,
-        hasImage: !!image.value,
+        password: password.value
     }
 
     emit('submit-form', formData, image.value ? image.value : null);
@@ -187,7 +186,6 @@ const handleImageUpload = async (event) => {
 }
 
 </script>
-
 
 <style scoped>
 .form-group {

@@ -16,6 +16,22 @@ export const useUserStore = defineStore('user', {
         role: null
     }),
     actions: {
+        async uploadProfileImage(image, userId) {
+            if (!image || !userId) {
+                throw new Error("Missing image or user ID. Upload failed")
+            }
+            try {
+                const response = await userApi.post(`/upload-profile-image/${userId}`, image, {headers: {'Content-Type': image.type}});
+                if (response.status === 200 && String(this.id) === String(userId)) {
+                    this.setImage(image);
+                }
+                return;
+
+            } catch (error) {
+                console.error("Image upload failed", error)
+            }
+        },
+        
         async removeAccount(userId, imageReference) {
             try {
                 const response = await userApi.delete(`/remove/${userId}`)

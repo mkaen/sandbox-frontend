@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import router from '@/router';    
 import { authApi, setCorrelationId, ensureCorrelationId } from '@/config/api';
-import { getProfileImageUrl, uploadProfileImage } from '@/config/r2';
 import { useUserStore } from '@/features/users/userStore';
 import { startSession, stopSession } from '@/composables/sessionManager';
 
@@ -50,20 +49,9 @@ export const useAuthStore = defineStore('auth', {
                     userStore().setUser(userData);
                     setCorrelationId();
                     startSession();
-                    if (image && userData.imageReference) {
-                        try {
-                            const imageUrl = await uploadProfileImage(
-                                userData.imageReference,
-                                image,
-                            );
-                            userStore().setImage(imageUrl);
-                        } catch (uploadError) {
-                            console.error('Profile image upload failed', uploadError);
-                        }
-                    }
-                    return true;
+                    return userData;
                 } else {
-                    return false;
+                    return;
                 }
             } catch (error) {
                 console.error('Registration failed', error);
