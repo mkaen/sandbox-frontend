@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia';
 import router from '@/router';    
-import { authApi } from '@/config/api';
+import { authApi, setCorrelationId, ensureCorrelationId } from '@/config/api';
 import { getProfileImageUrl, uploadProfileImage } from '@/config/r2';
 import { useUserStore } from '@/features/users/userStore';
 import { startSession, stopSession } from '@/composables/sessionManager';
-
 
 function userStore() {
     return useUserStore();
@@ -29,6 +28,7 @@ export const useAuthStore = defineStore('auth', {
                 if (response.status === 200) {
                     const userData = response.data;
                     userStore().setUser(userData);
+                    setCorrelationId();
                     startSession();
                     if (userData.imageReference) {
                         applyProfileImage(userData.imageReference);
@@ -48,6 +48,7 @@ export const useAuthStore = defineStore('auth', {
                 if (response.status === 201) {
                     const userData = response.data;
                     userStore().setUser(userData);
+                    setCorrelationId();
                     startSession();
                     if (image && userData.imageReference) {
                         try {
@@ -77,6 +78,7 @@ export const useAuthStore = defineStore('auth', {
                 if (response.status === 200) {
                     const userData = response.data;
                     userStore().setUser(userData);
+                    ensureCorrelationId();
                     startSession();
                     if (userData.imageReference) {
                         applyProfileImage(userData.imageReference);
