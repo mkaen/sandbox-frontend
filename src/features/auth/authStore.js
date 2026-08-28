@@ -3,6 +3,7 @@ import router from '@/router';
 import { authApi, setCorrelationId, ensureCorrelationId } from '@/config/api';
 import { useUserStore } from '@/features/users/userStore';
 import { startSession, stopSession } from '@/composables/sessionManager';
+import defaultProfileImage from '@/assets/icons/user.png';
 
 function userStore() {
     return useUserStore();
@@ -50,7 +51,7 @@ export const useAuthStore = defineStore('auth', {
                     if (image && userData.id) {
                         await userStore().uploadProfileImage(image, userData.id);
                     } else {
-                        await applyProfileImage(userData.id);
+                        userStore().setImage(defaultProfileImage);
                     }
                     return userData;
                 } else {
