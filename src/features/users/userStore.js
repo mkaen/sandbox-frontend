@@ -1,8 +1,15 @@
 import { defineStore } from 'pinia'
-import { PROFILE_IMAGE_CHANGE, ROLES } from '@/constants/constants'
-import { userApi } from '@/config/api';
-import { getProfileImageUrl, removeProfileImage, uploadProfileImage } from '@/config/r2';
+import { ROLES } from '@/constants/constants'
+import { userApi } from '@/config/api'
 
+let managedProfileImageUrl = null
+
+function revokeManagedProfileImageUrl() {
+    if (managedProfileImageUrl) {
+        URL.revokeObjectURL(managedProfileImageUrl)
+        managedProfileImageUrl = null
+    }
+}
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -11,39 +18,61 @@ export const useUserStore = defineStore('user', {
         lastName: '',
         email: '',
         phone: '',
-        imageReference: '',
         image: null,
-        role: null
+        role: null,
     }),
     actions: {
         async uploadProfileImage(image, userId) {
             if (!image || !userId) {
-                throw new Error("Missing image or user ID. Upload failed")
+                throw new Error('Missing image or user ID. Upload failed')
             }
-            try {
-                const response = await userApi.post(`/upload-profile-image/${userId}`, image, {headers: {'Content-Type': image.type}});
-                if (response.status === 200 && String(this.id) === String(userId)) {
-                    this.setImage(image);
-                }
-                return;
 
+            const response = await userApi.post(`/upload-profile-image/${userId}`, image, {
+                headers: { 'Content-Type': image.type || 'application/octet-stream' },
+            })
+            if (response.status !== 204) {
+                throw new Error(`Profile image upload failed with status ${response.status}`)
+            }
+
+            const imageUrl = await this.getProfileImageById(userId)
+            if (String(this.id) === String(userId) && imageUrl) {
+                this.setImage(imageUrl)
+            }
+            return imageUrl
+        },
+        async getProfileImageById(userId) {
+            if (!userId) {
+                return null
+            }
+
+            try {
+                const response = await userApi.get(`/image/${userId}`, { responseType: 'blob' })
+                if (response.status !== 200 || !response.data?.size) {
+                    return null
+                }
+
+                revokeManagedProfileImageUrl()
+                managedProfileImageUrl = URL.createObjectURL(response.data)
+                return managedProfileImageUrl
             } catch (error) {
-                console.error("Image upload failed", error)
+                if (error.response?.status === 404) {
+                    return null
+                }
+                console.error('Profile image fetch failed', error)
+                return null
             }
         },
-        
-        async removeAccount(userId, imageReference) {
+        async loadProfileImage(userId) {
+            const imageUrl = await this.getProfileImageById(userId)
+            if (String(this.id) === String(userId)) {
+                this.setImage(imageUrl)
+            }
+            return imageUrl
+        },
+        async removeAccount(userId) {
             try {
                 const response = await userApi.delete(`/remove/${userId}`)
-                if (response.status === 200) {
-                    try {
-                        await removeProfileImage(imageReference)
-                    } catch (deleteError) {
-                        console.error('Profile image delete failed', deleteError)
-                    }
-                    return true;
-                }
-                return false;
+                return response.status === 200
             } catch (error) {
                 console.error('Error while removing account', error)
                 return false
@@ -51,22 +80,27 @@ export const useUserStore = defineStore('user', {
         },
         async updateUser(userId, userData, imageOptions = {}) {
             try {
-                const response = await userApi.put(`/update/${userId}`, userData);
+                const response = await userApi.put(`/update/${userId}`, userData)
                 if (response.status !== 200) {
                     return
                 }
 
                 const updatedUser = response.data
-                await syncProfileImage(updatedUser, imageOptions)
+                const { imageFile = null } = imageOptions
+                let imageUrl = null
+
+                if (imageFile) {
+                    imageUrl = await this.uploadProfileImage(imageFile, userId)
+                }
 
                 if (String(this.id) === String(userId)) {
                     this.setUser(updatedUser)
-                    if (updatedUser.image) {
-                        this.setImage(updatedUser.image)
+                    if (imageUrl) {
+                        this.setImage(imageUrl)
                     }
                 }
 
-                return updatedUser
+                return { ...updatedUser, image: imageUrl || (String(this.id) === String(userId) ? this.image : null) }
             } catch (error) {
                 if (error.response?.status === 400) {
                     return {
@@ -74,7 +108,7 @@ export const useUserStore = defineStore('user', {
                         details: 'Password do not match',
                     }
                 }
-                console.log(`Error while updating user`, error)
+                console.log('Error while updating user', error)
             }
         },
         async fetchUserById(id) {
@@ -86,11 +120,9 @@ export const useUserStore = defineStore('user', {
             try {
                 const response = await userApi.get(`/${userId}`)
                 if (response.status === 200) {
-                    const userData = response.data;
-                    if (userData.imageReference) {
-                        userData.image = getProfileImageUrl(userData.imageReference);
-                    }
-                    return userData;
+                    const userData = response.data
+                    userData.image = await this.getProfileImageById(userData.id)
+                    return userData
                 }
             } catch (error) {
                 console.log(`Error while fetching user by id ${userId}`, error)
@@ -102,7 +134,6 @@ export const useUserStore = defineStore('user', {
             this.lastName = userData.lastName
             this.email = userData.email
             this.phone = userData.phone
-            this.imageReference = userData.imageReference || null
             if (userData.role && Object.values(ROLES).includes(userData.role)) {
                 this.role = userData.role
             } else {
@@ -118,9 +149,9 @@ export const useUserStore = defineStore('user', {
             this.lastName = ''
             this.email = ''
             this.phone = ''
-            this.imageReference = ''
             this.image = null
             this.role = null
+            revokeManagedProfileImageUrl()
         },
         updateRole(newRole) {
             if (newRole && Object.values(ROLES).includes(newRole) && this.role !== newRole) {
@@ -132,36 +163,4 @@ export const useUserStore = defineStore('user', {
         isAuthenticated: (state) => Boolean(state.id),
         isAdmin: (state) => state.role && state.role === ROLES.ADMIN,
     },
-});
-
-async function replacePreviousProfileImage(imageChange, previousImageReference) {
-    if (imageChange !== PROFILE_IMAGE_CHANGE.CHANGED || !previousImageReference) {
-        return
-    }
-    try {
-        await removeProfileImage(previousImageReference)
-    } catch (deleteError) {
-        console.error('Profile image delete failed', deleteError)
-    }
-}
-
-async function syncProfileImage(updatedUser, imageOptions) {
-    const {
-        imageFile = null,
-        imageChange = PROFILE_IMAGE_CHANGE.NONE,
-        previousImageReference = null,
-    } = imageOptions
-    const newImageReference = updatedUser.imageReference
-
-    if (!imageFile || imageChange === PROFILE_IMAGE_CHANGE.NONE || !newImageReference) {
-        return
-    }
-
-    await replacePreviousProfileImage(imageChange, previousImageReference)
-
-    try {
-        updatedUser.image = await uploadProfileImage(newImageReference, imageFile)
-    } catch (uploadError) {
-        console.error('Profile image upload failed', uploadError)
-    }
-}
+})

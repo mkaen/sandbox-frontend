@@ -236,7 +236,6 @@ import {
     PHONE_LENGTH_MIN,
     PHONE_LENGTH_MAX,
 } from '@/constants/constants'
-import { getProfileImageUrl } from '@/config/r2'
 import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation'
 import { validateProfileImageFile } from '@/utils/imageFile'
 import defaultProfileImage from '@/assets/icons/user.png'
@@ -253,8 +252,8 @@ const previewUrl = ref(null);
 const imageInput = ref(null);
 const profileMeta = reactive({
     id: '',
-    imageReference: '',
     image: null,
+    hasImage: false,
 });
 const initialValues = reactive({
     firstName: '',
@@ -316,12 +315,7 @@ const hasRoleChange = computed(() => {
 
 const canSave = computed(() => hasProfileChanges.value || hasRoleChange.value)
 
-const profileImageUrl = computed(() => {
-    if (profileMeta.image) {
-        return profileMeta.image
-    }
-    return getProfileImageUrl(profileMeta.imageReference || profileMeta.id)
-})
+const profileImageUrl = computed(() => profileMeta.image)
 
 const displayImage = computed(() => {
     if (previewUrl.value) {
@@ -333,7 +327,7 @@ const displayImage = computed(() => {
     return profileImageUrl.value
 })
 
-function fillForm(userData) {
+async function fillForm(userData) {
     firstName.value = userData.firstName || ''
     lastName.value = userData.lastName || ''
     email.value = userData.email || ''
@@ -345,8 +339,17 @@ function fillForm(userData) {
     initialValues.phone = phone.value
     initialValues.role = role.value
     profileMeta.id = userData.id != null ? String(userData.id) : ''
-    profileMeta.imageReference = userData.imageReference || ''
-    profileMeta.image = userData.image || getProfileImageUrl(userData.imageReference || userData.id)
+    profileMeta.image = userData.image || null
+    profileMeta.hasImage = Boolean(userData.image)
+
+    if (!profileMeta.image && profileMeta.id) {
+        const imageUrl = await userStore.getProfileImageById(profileMeta.id)
+        if (imageUrl) {
+            profileMeta.image = imageUrl
+            profileMeta.hasImage = true
+        }
+    }
+
     isLoaded.value = true
 }
 
@@ -362,7 +365,7 @@ function openRemoveAccountModal() {
 }
 
 async function removeAccount() {
-    const removed = await userStore.removeAccount(accountId, profileMeta.imageReference)
+    const removed = await userStore.removeAccount(accountId)
     if (!removed) {
         return
     }
@@ -497,14 +500,14 @@ function validateRoleField() {
 
 /**
  * NONE — no new file selected
- * ADDED — new file, user had no imageReference yet
- * CHANGED — new file replacing an existing imageReference
+ * ADDED — new file, user had no profile image yet
+ * CHANGED — new file replacing an existing profile image
  */
 function resolveImageChange() {
     if (!canEditProfile.value || !image.value) {
         return PROFILE_IMAGE_CHANGE.NONE
     }
-    return profileMeta.imageReference
+    return profileMeta.hasImage
         ? PROFILE_IMAGE_CHANGE.CHANGED
         : PROFILE_IMAGE_CHANGE.ADDED
 }
@@ -524,7 +527,6 @@ const handleSubmit = async () => {
 
     const imageChange = resolveImageChange()
     const imageFile = imageChange === PROFILE_IMAGE_CHANGE.NONE ? null : image.value
-    const previousImageReference = profileMeta.imageReference || null
 
     const formData = {}
     if (canEditProfile.value) {
@@ -533,7 +535,6 @@ const handleSubmit = async () => {
         formData.lastName = lastName.value
         formData.email = email.value
         formData.phone = phone.value
-        formData.imageUpdated = imageChange !== PROFILE_IMAGE_CHANGE.NONE
         if (isPasswordChangeRequested()) {
             formData.oldPassword = oldPassword.value
             formData.newPassword = newPassword.value
@@ -546,11 +547,7 @@ const handleSubmit = async () => {
     const updatedUser = await userStore.updateUser(
         accountId,
         formData,
-        {
-            imageFile,
-            imageChange,
-            previousImageReference,
-        },
+        { imageFile },
     )
 
     if (updatedUser?.error) {
@@ -559,10 +556,9 @@ const handleSubmit = async () => {
     }
 
     if (updatedUser && canEditProfile.value) {
-        fillForm({
+        await fillForm({
             ...updatedUser,
-            image: updatedUser.image
-                || getProfileImageUrl(updatedUser.imageReference || updatedUser.id),
+            image: updatedUser.image || userStore.image,
         })
         restoreImage()
         oldPassword.value = ''
@@ -580,24 +576,20 @@ onMounted(async () => {
         return
     }
     if (isSelf.value) {
-        fillForm({
+        await fillForm({
             id: userStore.id,
             firstName: userStore.firstName,
             lastName: userStore.lastName,
             email: userStore.email,
             phone: userStore.phone,
             role: userStore.role,
-            imageReference: userStore.imageReference,
-            image: userStore.image || getProfileImageUrl(userStore.imageReference || userStore.id),
+            image: userStore.image,
         })
         return
     }
     const userData = await userStore.fetchUserById(id)
     if (userData) {
-        fillForm({
-            ...userData,
-            image: userData.image || getProfileImageUrl(userData.imageReference || userData.id),
-        })
+        await fillForm(userData)
     }
 })
 

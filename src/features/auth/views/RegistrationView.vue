@@ -6,29 +6,20 @@
 </template>
 
 <script setup>
-import RegistrationForm from '../forms/RegistrationForm.vue';   
+import RegistrationForm from '../forms/RegistrationForm.vue';
 import { useAuthStore } from '../authStore';
-import { useUserStore } from '../../users/userStore.js';
 import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
-const userStore = useUserStore();
 const router = useRouter();
 
 const handleRegistration = async (payload, image) => {
     try {
-        const userData = await authStore.register(payload);
+        const userData = await authStore.register(payload, image);
         if (userData) {
-            if (image && userData.id) {
-                try {
-                    await userStore.uploadProfileImage(image, userData.id);    
-                } catch (error) {
-                    console.error(error);
-                }
-            }
             router.push('/');
         } else {
-            console.error('Data upload failed');
+            console.error('Registration failed');
         }
     } catch (error) {
         console.error('Registration failed', error);
