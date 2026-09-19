@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import RegistrationForm from '../forms/RegistrationForm.vue';   
+import RegistrationForm from '../forms/RegistrationForm.vue';
 import { useAuthStore } from '../authStore';
 import { useRouter } from 'vue-router';
 
@@ -15,8 +15,8 @@ const router = useRouter();
 
 const handleRegistration = async (payload, image) => {
     try {
-        const response = await authStore.register(payload, image);
-        if (response) {
+        const userData = await authStore.register(payload, image);
+        if (userData) {
             router.push('/');
         } else {
             console.error('Registration failed');

@@ -1,19 +1,19 @@
 import { defineStore } from 'pinia';
-import router from '@/router';    
+import router from '@/router';
 import { authApi, setCorrelationId, ensureCorrelationId } from '@/config/api';
-import { getProfileImageUrl, uploadProfileImage } from '@/config/r2';
 import { useUserStore } from '@/features/users/userStore';
 import { startSession, stopSession } from '@/composables/sessionManager';
+import defaultProfileImage from '@/assets/icons/user.png';
 
 function userStore() {
     return useUserStore();
 }
 
-function applyProfileImage(imageReference) {
-    const imageUrl = getProfileImageUrl(imageReference);
-    if (imageUrl) {
-        userStore().setImage(imageUrl);
+async function applyProfileImage(userId) {
+    if (!userId) {
+        return;
     }
+    await userStore().loadProfileImage(userId);
 }
 
 
@@ -30,9 +30,7 @@ export const useAuthStore = defineStore('auth', {
                     userStore().setUser(userData);
                     setCorrelationId();
                     startSession();
-                    if (userData.imageReference) {
-                        applyProfileImage(userData.imageReference);
-                    }
+                    await applyProfileImage(userData.id);
                     return true;
                 } else {
                     return false;
@@ -42,7 +40,7 @@ export const useAuthStore = defineStore('auth', {
                 return false;
             }
         },
-        async register(payload, image) {   
+        async register(payload, image = null) {
             try {
                 const response = await authApi.post('/register', payload);
                 if (response.status === 201) {
@@ -50,20 +48,14 @@ export const useAuthStore = defineStore('auth', {
                     userStore().setUser(userData);
                     setCorrelationId();
                     startSession();
-                    if (image && userData.imageReference) {
-                        try {
-                            const imageUrl = await uploadProfileImage(
-                                userData.imageReference,
-                                image,
-                            );
-                            userStore().setImage(imageUrl);
-                        } catch (uploadError) {
-                            console.error('Profile image upload failed', uploadError);
-                        }
+                    if (image && userData.id) {
+                        await userStore().uploadProfileImage(image, userData.id);
+                    } else {
+                        userStore().setImage(defaultProfileImage);
                     }
-                    return true;
+                    return userData;
                 } else {
-                    return false;
+                    return;
                 }
             } catch (error) {
                 console.error('Registration failed', error);
@@ -80,9 +72,7 @@ export const useAuthStore = defineStore('auth', {
                     userStore().setUser(userData);
                     ensureCorrelationId();
                     startSession();
-                    if (userData.imageReference) {
-                        applyProfileImage(userData.imageReference);
-                    }
+                    await applyProfileImage(userData.id);
                     return true;
                 }
                 return false;

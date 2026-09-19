@@ -1,5 +1,4 @@
 import { R2_UPLOAD_KEY, R2_WORKER_URL } from '@/config/env'
-import { R2_FOLDER_LOCATION } from '@/constants/constants'
 import { validateProfileImageFile } from '@/utils/imageFile'
 
 function buildObjectKey(folder, imageReference) {
