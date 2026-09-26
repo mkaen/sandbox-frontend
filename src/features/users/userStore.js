@@ -20,6 +20,7 @@ export const useUserStore = defineStore('user', {
         phone: '',
         image: null,
         role: null,
+        profileViewUser: null,
     }),
     actions: {
         async uploadProfileImage(image, userId) {
@@ -117,16 +118,29 @@ export const useUserStore = defineStore('user', {
             if (!isSelf && this.role !== ROLES.ADMIN) {
                 return
             }
+            if (!isSelf && this.profileViewUser?.id === userId) {
+                return this.profileViewUser
+            }
             try {
                 const response = await userApi.get(`/${userId}`)
                 if (response.status === 200) {
                     const userData = response.data
+                    userData.id = userData.id != null ? String(userData.id) : userId
                     userData.image = await this.getProfileImageById(userData.id)
+                    if (!isSelf) {
+                        this.profileViewUser = userData
+                    }
                     return userData
                 }
             } catch (error) {
-                console.log(`Error while fetching user by id ${userId}`, error)
+                if (error.response?.status === 404) {
+                    return { notFound: true }
+                }
+                console.error(`Error while fetching user by id ${userId}`, error.response?.status ?? error.message)
             }
+        },
+        clearProfileViewUser() {
+            this.profileViewUser = null
         },
         setUser(userData) {
             this.id = userData.id != null ? String(userData.id) : ''
