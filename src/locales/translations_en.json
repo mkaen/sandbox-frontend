@@ -1,17 +1,47 @@
 {"en": {
-    "EMAIL": "E-mail", 
+    "ADD_IMAGE": "Add image",
+    "BUTTON": {
+        "CHOOSE_FILE": "Choose file",
+        "CREATE_ACCOUNT": "Create account",
+        "ENTER": "Enter",
+        "NO_FILE_CHOSEN": "No file chosen",
+        "RESTORE_IMAGE": "Restore image",
+        "SAVE": "Save",
+        "TO_HOMEPAGE": "Go to homepage",
+        "UPLOAD_NEW_IMAGE": "Upload new image"
+    },
+    "EMAIL": "E-mail",
+    "ERROR": {
+        "FIRST_NAME_LENGTH": "First name must be between {min} and {max} characters",
+        "INVALID_EMAIL": "Invalid e-mail address",
+        "INVALID_PHONE": "Phone length must be between {min} and {max}",
+        "LAST_NAME_LENGTH": "Last name must be between {min} and {max} characters",
+        "PAGE_NOT_FOUND": "Page not found - 404",
+        "PAGE_NOT_FOUND_CONTENT": "Something went wrong. Please check URL and try again.",
+        "PASSWORD": {
+            "INVALID_LENGTH": "Password length must be at least {min} symbols",
+            "NEW_DO_NOT_MATCH": "Password do not match",
+            "OLD_DO_NOT_MATCH": "Old password do not match. Please try again!",
+            "OLD_REQUIRED": "Old password is required"
+        }
+    },
     "FIRST_NAME": "First name",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "HERE": "HERE",
     "LAST_NAME": "Last name",
     "LOGIN": "Login",
     "MY_PROFILE_DATA": "My profile data",
+    "NOT_REGISTERED": "Haven't registered yet? Register",
     "PASSWORD": {
         "CHANGE": "Change password",
-        "OLD": "Old password",
+        "CONFIRM": "Confirm new password",
         "NEW": "New password",
-        "CONFIRM": "Confirm new password"
+        "OLD": "Old password",
+        "VALUE": "Password"
     },
     "PHONE": "Phone",
     "PROFILE": "Profile",
+    "REGISTER_NEW_ACCOUNT": "Register new account",
     "REMOVE_ACCOUNT": "Remove account",
     "ROLE": "Role",
     "SEARCH": "Search",

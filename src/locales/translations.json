@@ -1,17 +1,47 @@
 {"ee": {
+    "ADD_IMAGE": "Lisa pilt",
+    "BUTTON": {
+        "CHOOSE_FILE": "Vali fail",
+        "CREATE_ACCOUNT": "Loo konto",
+        "ENTER": "Sisene",
+        "NO_FILE_CHOSEN": "Faili pole valitud",
+        "RESTORE_IMAGE": "Taasta vana pilt",
+        "SAVE": "Salvesta",
+        "TO_HOMEPAGE": "Mine kodulehele",
+        "UPLOAD_NEW_IMAGE": "Lae uus pilt"
+    },
     "EMAIL": "E-mail",
+    "ERROR": {
+        "FIRST_NAME_LENGTH": "Eesnimi peab olema {min}–{max} tähemärki",
+        "INVALID_EMAIL": "Palun kontrolli sisestatud e-maili",
+        "INVALID_PHONE": "Telefoni numbri pikkuse vahemik peab olema {min}-{max}",
+        "LAST_NAME_LENGTH": "Perekonnanimi peab olema {min}-{max} tähemärki",
+        "PAGE_NOT_FOUND": "Lehte ei leitud - 404",
+        "PAGE_NOT_FOUND_CONTENT": "Midagi läks valesti. Palun kontrolli URL'i ja proovi uuesti.",
+        "PASSWORD": {
+            "INVALID_LENGTH": "Parooli pikkuse vahemik peab olema vähemalt {min} sümbolit",
+            "NEW_DO_NOT_MATCH": "Paroolid ei ühti",
+            "OLD_DO_NOT_MATCH": "Vana parool on vale. Palun proovi uuesti!",
+            "OLD_REQUIRED": "Vana parool on kohustuslik"
+        }
+    },
     "FIRST_NAME": "Eesnimi",
+    "HAVE_ACCOUNT": "Omad juba kontot?",
+    "HERE": "SIIN",
     "LAST_NAME": "Perekonnanimi",
     "LOGIN": "Logi sisse",
     "MY_PROFILE_DATA": "Minu konto andmed",
+    "NOT_REGISTERED": "Ei ole veel kontot? Registreeri",
     "PASSWORD": {
         "CHANGE": "Muuda parooli",
-        "OLD": "Praegune parool",
+        "CONFIRM": "Kinnita uus parool",
         "NEW": "Uus parool",
-        "CONFIRM": "Kinnita uus parool"
+        "OLD": "Praegune parool",
+        "VALUE": "Parool"
     },
     "PHONE": "Telefon",
     "PROFILE": "Profiil",
+    "REGISTER_NEW_ACCOUNT": "Registreeri uus konto", 
     "REMOVE_ACCOUNT": "Kustuta konto",
     "ROLE": "Roll",
     "SEARCH": "Otsi",

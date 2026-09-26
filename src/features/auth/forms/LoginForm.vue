@@ -2,16 +2,16 @@
     <form @submit.prevent="handleSubmit">
         <div class="d-flex flex-column align-items-center">
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">{{ t('EMAIL') }}</label>
                 <input type="email" id="email" v-model="email" class="form-control"/>
             </div>
             <div class="form-group mt-1">
-                <label for="password">Password</label>
+                <label for="password">{{ t('PASSWORD.VALUE') }}</label>
                 <input type="password" id="password" v-model="password" class="form-control"/>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Login</button>
+            <button type="submit" class="btn btn-primary mt-3">{{ t('BUTTON.ENTER') }}</button>
             <p class="register-link text-center mt-3 mb-0 w-100">
-                Haven't registered yet? <a href="/register">Register</a>
+                {{ t('NOT_REGISTERED') }} <a href="/register">{{ t('HERE') }}</a>
             </p>
         </div>
     </form>
@@ -20,6 +20,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const emit = defineEmits(['submit']);
 
