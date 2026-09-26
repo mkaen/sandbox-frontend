@@ -226,7 +226,7 @@ import { useUserStore } from '@/features/users/userStore';
 import { useAuthStore } from '@/features/auth/authStore';
 import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
 import { useRoute, useRouter } from 'vue-router';
-import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, onUnmounted, reactive, ref, watch } from 'vue';
 import {
     ROLES,
     PROFILE_IMAGE_CHANGE,
@@ -289,8 +289,9 @@ const fields = {
     image,
 }
 
-const accountId = route.params.id
-const isSelf = computed(() => String(accountId) === String(userStore.id))
+const accountId = computed(() => String(route.params.id ?? ''))
+const isSelf = computed(() => accountId.value === String(userStore.id))
+let profileLoadId = 0
 const canEditProfile = computed(() => isSelf.value)
 const canEditRole = computed(() => userStore.isAdmin && !isSelf.value)
 const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value))
@@ -332,7 +333,19 @@ const displayImage = computed(() => {
     return profileImageUrl.value
 })
 
-async function fillForm(userData) {
+async function fillForm(userData, loadId) {
+    const requestedId = userData.id != null ? String(userData.id) : ''
+    const hasImageField = Object.hasOwn(userData, 'image')
+    let imageUrl = hasImageField ? (userData.image || null) : null
+
+    if (!hasImageField && requestedId && loadId === profileLoadId) {
+        imageUrl = await userStore.getProfileImageById(requestedId)
+    }
+
+    if (loadId !== profileLoadId || requestedId !== accountId.value) {
+        return
+    }
+
     firstName.value = userData.firstName || ''
     lastName.value = userData.lastName || ''
     email.value = userData.email || ''
@@ -343,18 +356,9 @@ async function fillForm(userData) {
     initialValues.email = email.value
     initialValues.phone = phone.value
     initialValues.role = role.value
-    profileMeta.id = userData.id != null ? String(userData.id) : ''
-    profileMeta.image = userData.image || null
-    profileMeta.hasImage = Boolean(userData.image)
-
-    if (!profileMeta.image && profileMeta.id) {
-        const imageUrl = await userStore.getProfileImageById(profileMeta.id)
-        if (imageUrl) {
-            profileMeta.image = imageUrl
-            profileMeta.hasImage = true
-        }
-    }
-
+    profileMeta.id = requestedId
+    profileMeta.image = imageUrl || null
+    profileMeta.hasImage = Boolean(imageUrl)
     isLoaded.value = true
 }
 
@@ -370,11 +374,13 @@ function openRemoveAccountModal() {
 }
 
 async function removeAccount() {
-    const removed = await userStore.removeAccount(accountId)
+    const userId = accountId.value
+    const removingSelf = isSelf.value
+    const removed = await userStore.removeAccount(userId)
     if (!removed) {
         return
     }
-    if (isSelf.value) {
+    if (removingSelf) {
         await authStore.logout()
         return
     }
@@ -519,12 +525,14 @@ const handleSubmit = async () => {
         return
     }
 
+    const userId = accountId.value
+    const editingSelf = canEditProfile.value
     const imageChange = resolveImageChange()
     const imageFile = imageChange === PROFILE_IMAGE_CHANGE.NONE ? null : image.value
 
     const formData = {}
-    if (canEditProfile.value) {
-        formData.id = accountId
+    if (editingSelf) {
+        formData.id = userId
         formData.firstName = firstName.value
         formData.lastName = lastName.value
         formData.email = email.value
@@ -539,7 +547,7 @@ const handleSubmit = async () => {
     }
 
     const updatedUser = await userStore.updateUser(
-        accountId,
+        userId,
         formData,
         { imageFile },
     )
@@ -549,11 +557,11 @@ const handleSubmit = async () => {
         return updatedUser
     }
 
-    if (updatedUser && canEditProfile.value) {
+    if (updatedUser && editingSelf) {
         await fillForm({
             ...updatedUser,
             image: updatedUser.image || userStore.image,
-        })
+        }, profileLoadId)
         restoreImage()
         oldPassword.value = ''
         newPassword.value = ''
@@ -564,12 +572,46 @@ const handleSubmit = async () => {
     return updatedUser
 }
 
-onMounted(async () => {
-    const id = String(accountId)
+function resetProfileEditor() {
+    revokePreviewUrl()
+    image.value = null
+    image.isValid = true
+    image.error = ''
+    imageFailed.value = false
+    firstName.isValid = true
+    lastName.isValid = true
+    email.isValid = true
+    phone.isValid = true
+    oldPassword.value = ''
+    oldPassword.isValid = true
+    oldPassword.match = true
+    newPassword.value = ''
+    newPassword.isValid = true
+    passwordConfirm.value = ''
+    passwordConfirm.isValid = true
+    if (imageInput.value) {
+        imageInput.value.value = ''
+    }
+}
+
+async function loadProfile(id) {
+    const loadId = ++profileLoadId
+    resetProfileEditor()
+    isLoaded.value = false
+
     if (!isSelf.value && !userStore.isAdmin) {
         return
     }
+
     if (isSelf.value) {
+        const wasViewingOther = Boolean(userStore.profileViewUser)
+        userStore.clearProfileViewUser()
+        const imageUrl = wasViewingOther
+            ? await userStore.loadProfileImage(userStore.id)
+            : userStore.image
+        if (loadId !== profileLoadId) {
+            return
+        }
         await fillForm({
             id: userStore.id,
             firstName: userStore.firstName,
@@ -577,15 +619,23 @@ onMounted(async () => {
             email: userStore.email,
             phone: userStore.phone,
             role: userStore.role,
-            image: userStore.image,
-        })
+            image: imageUrl,
+        }, loadId)
         return
     }
+
     const userData = await userStore.fetchUserById(id)
-    if (userData) {
-        await fillForm(userData)
+    if (loadId !== profileLoadId || userData?.notFound) {
+        return
     }
-})
+    if (userData) {
+        await fillForm(userData, loadId)
+    }
+}
+
+watch(accountId, (id) => {
+    loadProfile(id)
+}, { immediate: true })
 
 watch(profileImageUrl, () => {
     imageFailed.value = false
@@ -613,36 +663,33 @@ onUnmounted(() => {
     gap: 2.5rem;
 }
 .data {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 0.75rem;
+    row-gap: 0.45rem;
+    align-items: center;
     flex: 1;
     min-width: 0;
     padding-top: 0;
 }
-.password-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-.field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-}
+.password-section,
+.field-group,
 .field {
-    display: grid;
-    grid-template-columns: 6.5rem 1fr;
-    align-items: center;
-    gap: 0.5rem;
+    display: contents;
 }
 .field label {
     text-align: right;
-    font-size: small;
+    font-size: 1rem;
+    white-space: nowrap;
 }
 .field-error {
-    margin: 0 0 0 7rem;
+    grid-column: 2;
+    margin: 0;
     font-size: 0.8rem;
+}
+.data > hr,
+.password-section > span {
+    grid-column: 1 / -1;
 }
 select,
 input {
