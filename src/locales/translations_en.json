@@ -1,7 +1,22 @@
 {"en": {
+    "EMAIL": "E-mail", 
     "FIRST_NAME": "First name",
-    "LANGUAGE": "Language",
     "LAST_NAME": "Last name",
+    "LOGIN": "Login",
+    "MY_PROFILE_DATA": "My profile data",
+    "PASSWORD": {
+        "CHANGE": "Change password",
+        "OLD": "Old password",
+        "NEW": "New password",
+        "CONFIRM": "Confirm new password"
+    },
+    "PHONE": "Phone",
     "PROFILE": "Profile",
-    "SEARCH": "Search"
-}}
+    "REMOVE_ACCOUNT": "Remove account",
+    "ROLE": "Role",
+    "SEARCH": "Search",
+    "SIGN_OUT": "Sign out",
+    "WELCOME": "Welcome",
+    "WELCOME_TEXT": "This \"Sandbox\" application is meant to learn and practice different tools and third party service providers. So feel free to test me and try different functions."
+    }
+}

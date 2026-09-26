@@ -176,5 +176,6 @@ export const useUserStore = defineStore('user', {
     getters: {
         isAuthenticated: (state) => Boolean(state.id),
         isAdmin: (state) => state.role && state.role === ROLES.ADMIN,
+        fullName: (state) => state.firstName + ' ' + state.lastName
     },
 })

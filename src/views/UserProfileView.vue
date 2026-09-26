@@ -10,13 +10,13 @@
             @confirm="removeAccount"
         />
         <base-card v-if="isLoaded" width="50rem" padding="1.5rem">
-        <span><u><b>User profile data</b></u></span>
+        <span><u><b>{{ t('MY_PROFILE_DATA') }}</b></u></span>
             <form @submit.prevent="handleSubmit">
                 <div class="text-img-separator">
                     <div class="data mt-3">
                         <div class="field-group">
                             <div class="field">
-                                <label for="first-name">First Name:</label>
+                                <label for="first-name">{{ t('FIRST_NAME') }}:</label>
                                 <input
                                     id="first-name"
                                     type="text"
@@ -34,7 +34,7 @@
 
                         <div class="field-group">
                             <div class="field">
-                                <label for="last-name">Last Name:</label>
+                                <label for="last-name">{{ t('LAST_NAME') }}:</label>
                                 <input
                                     id="last-name"
                                     type="text"
@@ -52,7 +52,7 @@
 
                         <div class="field-group">
                             <div class="field">
-                                <label for="email">E-mail:</label>
+                                <label for="email">{{ t('EMAIL') }}:</label>
                                 <input
                                     id="email"
                                     type="email"
@@ -70,7 +70,7 @@
 
                         <div class="field-group">
                             <div class="field">
-                                <label for="phone">Phone:</label>
+                                <label for="phone">{{ t('PHONE') }}:</label>
                                 <input
                                     id="phone"
                                     type="tel"
@@ -88,7 +88,7 @@
 
                         <div v-if="userStore.isAdmin" class="field-group">
                             <div class="field">
-                                <label for="role">Role:</label>
+                                <label for="role">{{ t('ROLE') }}:</label>
                                 <select
                                     id="role"
                                     name="role"
@@ -115,10 +115,10 @@
                         <hr>
 
                         <div v-if="canEditProfile" class="password-section">
-                            <span><u><b>Change password</b></u></span>
+                            <span><u><b>{{ t('PASSWORD.CHANGE') }}</b></u></span>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="old-password">Old password:</label>
+                                    <label for="old-password">{{ t('PASSWORD.OLD') }}:</label>
                                     <input
                                         id="old-password"
                                         type="password"
@@ -137,7 +137,7 @@
                             </div>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="new-password">New password:</label>
+                                    <label for="new-password">{{ t('PASSWORD.NEW') }}:</label>
                                     <input
                                         id="new-password"
                                         type="password"
@@ -153,7 +153,7 @@
                             </div>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="confirm-new-password">Confirm New password:</label>
+                                    <label for="confirm-new-password">{{ t('PASSWORD.CONFIRM') }}:</label>
                                     <input
                                         id="confirm-new-password"
                                         type="password"
@@ -212,7 +212,7 @@
                     href="#"
                     @click.prevent="openRemoveAccountModal"
                 >
-                    Remove account
+                    {{ t('REMOVE_ACCOUNT') }}
                 </a>
             </form>
         </base-card>
@@ -239,6 +239,9 @@ import {
 import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation'
 import { validateProfileImageFile } from '@/utils/imageFile'
 import defaultProfileImage from '@/assets/icons/user.png'
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const route = useRoute();
 const router = useRouter();

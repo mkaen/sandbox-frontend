@@ -1,6 +1,5 @@
 <template>
   <header class="p-3 mb-3 border-bottom">
-    <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <RouterLink
           to="/"
@@ -20,8 +19,8 @@
           <input
             type="search"
             class="form-control"
-            placeholder="Search..."
-            aria-label="Search"            
+            :placeholder="`${ t('SEARCH')}...`"
+            :aria-label="`${ t('SEARCH')}...`"
           >
         </form>
 
@@ -48,20 +47,27 @@
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li>
               <RouterLink class="dropdown-item" :to="`/user-profile/${userStore.id}`">
-                Profile
+                {{ t('PROFILE') }}
               </RouterLink>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">Sign out</a></li>
+            <li><a class="dropdown-item" @click.prevent="handleLogout">{{ t('SIGN_OUT') }}</a></li>
           </ul>
         </div>
         <div v-else>
           <RouterLink to="/login">
-            <HeaderLoginButton text="Login" />
+            <HeaderLoginButton :text="`${t('LOGIN')}`"/>
           </RouterLink>
         </div>
+        <div class="dropdown">
+          <HeaderLoginButton class="btn dropdown-toggle" type="button" :text="currentLanguageValue" data-bs-toggle="dropdown" aria-expanded="false"/>
+          
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" @click="setLocale(Language.ENG)">ENG</a></li>
+            <li><a class="dropdown-item" @click="setLocale(Language.EST)">EST</a></li>
+          </ul>
+        </div>
       </div>
-    </div>
   </header>
 </template>
 
@@ -74,6 +80,11 @@ import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
 import defaultProfileImage from '@/assets/icons/user.png';
+import { useI18n } from 'vue-i18n';
+import { Language } from '@/constants/enums.js';
+
+const { t, locale } = useI18n()
+
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
@@ -98,10 +109,20 @@ watch(profileImage, () => {
     imageFailed.value = false;
 });
 
+const currentLanguageValue = computed(() => locale.value)
+
+const setLocale = (lang) => {
+  locale.value = lang
+}
+
 </script>
 
 
 <style scoped>
+.dropdown {
+  margin-left: 1rem;
+}
+
 .dropdown-menu {
   color: #000000;
   border: solid .1px #000000;

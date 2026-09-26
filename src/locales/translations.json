@@ -1,7 +1,22 @@
 {"ee": {
+    "EMAIL": "E-mail",
     "FIRST_NAME": "Eesnimi",
-    "LANGUAGE": "Keel",
     "LAST_NAME": "Perekonnanimi",
+    "LOGIN": "Logi sisse",
+    "MY_PROFILE_DATA": "Minu konto andmed",
+    "PASSWORD": {
+        "CHANGE": "Muuda parooli",
+        "OLD": "Praegune parool",
+        "NEW": "Uus parool",
+        "CONFIRM": "Kinnita uus parool"
+    },
+    "PHONE": "Telefon",
     "PROFILE": "Profiil",
-    "SEARCH": "Otsi"
-}}
+    "REMOVE_ACCOUNT": "Kustuta konto",
+    "ROLE": "Roll",
+    "SEARCH": "Otsi",
+    "SIGN_OUT": "Logi välja",
+    "WELCOME": "Tere tulemast",
+    "WELCOME_TEXT": "See \"Sandbox\" rakendus on mõeldud harjutamiseks, erinevate tööriistade kasutamiseks ja testimiseks. Nii et tunne end vabalt, testi erinevaid funktsiooni ja pane mind proovile"
+    }
+}
