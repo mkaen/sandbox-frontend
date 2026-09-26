@@ -1,10 +1,14 @@
 {"en": {
     "ADD_IMAGE": "Add image",
     "BUTTON": {
+        "CANCEL": "Cancel",
         "CHOOSE_FILE": "Choose file",
+        "CLOSE": "Close",
         "CREATE_ACCOUNT": "Create account",
         "ENTER": "Enter",
+        "EXTEND_SESSION": "Extend session",
         "NO_FILE_CHOSEN": "No file chosen",
+        "OK": "OK",
         "RESTORE_IMAGE": "Restore image",
         "SAVE": "Save",
         "TO_HOMEPAGE": "Go to homepage",
@@ -30,6 +34,14 @@
     "HERE": "HERE",
     "LAST_NAME": "Last name",
     "LOGIN": "Login",
+    "MODAL": {
+        "REMOVE_ACCOUNT_BODY": "Please confirm that you want to remove the account permanently.",
+        "REMOVE_ACCOUNT_TITLE": "Confirm account removal",
+        "SESSION_EXPIRED_BODY": "You have been logged out.",
+        "SESSION_EXPIRED_TITLE": "Session expired",
+        "SESSION_TIMEOUT_BODY": "Your session is about to expire. Do you want to extend it?",
+        "SESSION_TIMEOUT_TITLE": "Session is about to expire"
+    },
     "MY_PROFILE_DATA": "My profile data",
     "NOT_REGISTERED": "Haven't registered yet? Register",
     "PASSWORD": {

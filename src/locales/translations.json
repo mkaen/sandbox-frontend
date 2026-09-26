@@ -1,10 +1,14 @@
 {"ee": {
     "ADD_IMAGE": "Lisa pilt",
     "BUTTON": {
+        "CANCEL": "Tühista",
         "CHOOSE_FILE": "Vali fail",
+        "CLOSE": "Sulge",
         "CREATE_ACCOUNT": "Loo konto",
         "ENTER": "Sisene",
+        "EXTEND_SESSION": "Pikenda sessiooni",
         "NO_FILE_CHOSEN": "Faili pole valitud",
+        "OK": "OK",
         "RESTORE_IMAGE": "Taasta vana pilt",
         "SAVE": "Salvesta",
         "TO_HOMEPAGE": "Mine kodulehele",
@@ -30,6 +34,14 @@
     "HERE": "SIIN",
     "LAST_NAME": "Perekonnanimi",
     "LOGIN": "Logi sisse",
+    "MODAL": {
+        "REMOVE_ACCOUNT_BODY": "Kinnita, et soovid konto jäädavalt kustutada.",
+        "REMOVE_ACCOUNT_TITLE": "Konto kustutamise kinnitus",
+        "SESSION_EXPIRED_BODY": "Oled välja logitud.",
+        "SESSION_EXPIRED_TITLE": "Sessioon on aegunud",
+        "SESSION_TIMEOUT_BODY": "Sinu sessioon aegub peagi. Kas soovid sessiooni pikendada?",
+        "SESSION_TIMEOUT_TITLE": "Sessioon aegub peagi"
+    },
     "MY_PROFILE_DATA": "Minu konto andmed",
     "NOT_REGISTERED": "Ei ole veel kontot? Registreeri",
     "PASSWORD": {

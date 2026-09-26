@@ -3,9 +3,9 @@
         <notification-modal
             ref="removeAccountModal"
             :show-cancel="true"
-            title="Account Remove Confirmation"
-            body="Please confirm to remove account permanently."
-            confirm-button-label="Remove Account"
+            :title="t('MODAL.REMOVE_ACCOUNT_TITLE')"
+            :body="t('MODAL.REMOVE_ACCOUNT_BODY')"
+            :confirm-button-label="t('REMOVE_ACCOUNT')"
             confirm-button-variant="danger"
             @confirm="removeAccount"
         />
