@@ -5,6 +5,8 @@ import RegistrationView from "../features/auth/views/RegistrationView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import UserProfileView from "@/views/UserProfileView.vue";
 
+import { validateUserProfileId } from './validation.js'
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -36,6 +38,7 @@ const router = createRouter({
             path: '/user-profile/:id',
             name: "user-profile",
             component: UserProfileView,
+            beforeEnter: validateUserProfileId,
             meta: {
                 requiresAuth: true,
                 requiresSelfOrAdmin: true,

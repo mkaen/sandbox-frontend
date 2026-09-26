@@ -599,6 +599,7 @@ watch(profileImageUrl, () => {
 
 onUnmounted(() => {
     revokePreviewUrl()
+    userStore.clearProfileViewUser()
 })
 </script>
 
