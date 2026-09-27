@@ -16,6 +16,7 @@ export const useUserStore = defineStore('user', {
         id: '',
         firstName: '',
         lastName: '',
+        isArchived: false,
         email: '',
         phone: '',
         image: null,
@@ -146,6 +147,7 @@ export const useUserStore = defineStore('user', {
             this.id = userData.id != null ? String(userData.id) : ''
             this.firstName = userData.firstName
             this.lastName = userData.lastName
+            this.isArchived = userData.isArchived
             this.email = userData.email
             this.phone = userData.phone
             if (userData.role && Object.values(ROLES).includes(userData.role)) {

@@ -10,7 +10,16 @@
             @confirm="removeAccount"
         />
         <base-card v-if="isLoaded" width="50rem" padding="1.5rem">
-        <span><u><b>{{ t('MY_PROFILE_DATA') }}</b></u></span>
+        <div class="profile-heading d-flex align-items-center gap-2 flex-wrap">
+            <span><u><b>{{ t('MY_PROFILE_DATA') }}</b></u></span>
+            <basic-badge
+                v-if="canManageArchiveStatus"
+                :label="profileMeta.isArchived ? 'Archived' : 'Active'"
+                :variant="profileMeta.isArchived ? 'warning' : 'secondary'"
+                clickable
+                @click="onArchiveBadgeClick"
+            />
+        </div>
             <form @submit.prevent="handleSubmit">
                 <div class="text-img-separator">
                     <div class="data mt-3">
@@ -241,6 +250,7 @@ import {
 import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation'
 import { validateProfileImageFile } from '@/utils/imageFile'
 import defaultProfileImage from '@/assets/icons/user.png'
+import BasicBadge from '@/components/badges/BasicBadge.vue'
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
@@ -259,6 +269,7 @@ const profileMeta = reactive({
     id: '',
     image: null,
     hasImage: false,
+    isArchived: false,
 });
 const initialValues = reactive({
     firstName: '',
@@ -294,6 +305,7 @@ const isSelf = computed(() => accountId.value === String(userStore.id))
 let profileLoadId = 0
 const canEditProfile = computed(() => isSelf.value)
 const canEditRole = computed(() => userStore.isAdmin && !isSelf.value)
+const canManageArchiveStatus = computed(() => userStore.isAdmin && !isSelf.value)
 const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value))
 const selectedFileName = computed(() => image.value?.name || t('BUTTON.NO_FILE_CHOSEN'))
 const isAdmin = computed(() => userStore.isAdmin)
@@ -350,6 +362,9 @@ async function fillForm(userData, loadId) {
     lastName.value = userData.lastName || ''
     email.value = userData.email || ''
     phone.value = userData.phone || ''
+    if (Object.hasOwn(userData, 'isArchived')) {
+        profileMeta.isArchived = Boolean(userData.isArchived)
+    }
     role.value = userData.role || ''
     initialValues.firstName = firstName.value
     initialValues.lastName = lastName.value
@@ -371,6 +386,10 @@ function revokePreviewUrl() {
 
 function openRemoveAccountModal() {
     removeAccountModal.value?.openModal()
+}
+
+async function onArchiveBadgeClick() {
+    // Call your archive/unarchive endpoint here, then set profileMeta.isArchived from the response.
 }
 
 async function removeAccount() {
@@ -619,6 +638,7 @@ async function loadProfile(id) {
             email: userStore.email,
             phone: userStore.phone,
             role: userStore.role,
+            isArchived: userStore.isArchived,
             image: imageUrl,
         }, loadId)
         return
