@@ -97,7 +97,7 @@
 
                         <div v-if="userStore.isAdmin" class="field-group">
                             <div class="field">
-                                <label for="role">{{ t('ROLE') }}:</label>
+                                <label for="role">{{ t('ROLE.VALUE') }}:</label>
                                 <select
                                     id="role"
                                     name="role"
@@ -110,7 +110,7 @@
                                         :key="roleOption"
                                         :value="roleOption"
                                     >
-                                        {{ roleOption }}
+                                        {{ t(`ROLE.${roleOption}`) }}
                                     </option>
                                 </select>
                             </div>

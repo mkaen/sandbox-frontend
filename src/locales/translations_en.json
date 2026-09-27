@@ -56,7 +56,11 @@
     "PROFILE": "Profile",
     "REGISTER_NEW_ACCOUNT": "Register new account",
     "REMOVE_ACCOUNT": "Remove account",
-    "ROLE": "Role",
+    "ROLE": {
+        "VALUE": "Role",
+        "USER": "User",
+        "ADMIN": "Admin"
+    },
     "SEARCH": "Search",
     "SIGN_OUT": "Sign out",
     "WELCOME": "Welcome",

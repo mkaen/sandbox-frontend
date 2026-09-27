@@ -56,7 +56,11 @@
     "PROFILE": "Profiil",
     "REGISTER_NEW_ACCOUNT": "Registreeri uus konto", 
     "REMOVE_ACCOUNT": "Kustuta konto",
-    "ROLE": "Roll",
+    "ROLE": {
+        "VALUE": "Roll",
+        "USER": "Tavakasutaja",
+        "ADMIN": "Admin"
+    },
     "SEARCH": "Otsi",
     "SIGN_OUT": "Logi välja",
     "WELCOME": "Tere tulemast",
