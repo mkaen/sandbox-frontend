@@ -14,7 +14,7 @@
             <span><u><b>{{ t('MY_PROFILE_DATA') }}</b></u></span>
             <basic-badge
                 v-if="canManageArchiveStatus"
-                :label="profileMeta.isArchived ? 'Archived' : 'Active'"
+                :label="profileMeta.isArchived ? t('ARCHIVED') : t('ACTIVE')"
                 :variant="profileMeta.isArchived ? 'warning' : 'secondary'"
                 clickable
                 @click="onArchiveBadgeClick"
