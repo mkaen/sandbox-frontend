@@ -390,6 +390,11 @@ function openRemoveAccountModal() {
 
 async function onArchiveBadgeClick() {
     // Call your archive/unarchive endpoint here, then set profileMeta.isArchived from the response.
+    console.log(`Id: ${profileMeta.id} ja isArchived väärtus ${!profileMeta.isArchived}`)
+    const response = await userStore.archiveUser(profileMeta.id, !profileMeta.isArchived)
+    if (response) {
+        profileMeta.isArchived = response.isArchived
+    }
 }
 
 async function removeAccount() {

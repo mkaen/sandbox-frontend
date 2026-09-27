@@ -80,6 +80,21 @@ export const useUserStore = defineStore('user', {
                 return false
             }
         },
+        async archiveUser(userId, value) {
+            try {
+                const response = await userApi.put(`${userId}/archive`, {data: value});
+                if (response.status === 200) {
+                    return response.data
+                }
+                return false
+            } catch (error) {
+                console.error(
+                    'User archive request failed',
+                    userId,
+                    error.response?.status ?? error.message,
+                )
+            }
+        },
         async updateUser(userId, userData, imageOptions = {}) {
             try {
                 const response = await userApi.put(`/update/${userId}`, userData)
