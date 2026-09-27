@@ -29,7 +29,7 @@ export const useUserStore = defineStore('user', {
                 throw new Error('Missing image or user ID. Upload failed')
             }
 
-            const response = await userApi.post(`/upload-profile-image/${userId}`, image, {
+            const response = await userApi.post(`/${userId}/upload-profile-image`, image, {
                 headers: { 'Content-Type': image.type || 'application/octet-stream' },
             })
             if (response.status !== 204) {
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
             }
 
             try {
-                const response = await userApi.get(`/image/${userId}`, { responseType: 'blob' })
+                const response = await userApi.get(`/${userId}/image`, { responseType: 'blob' })
                 if (response.status !== 200 || !response.data?.size) {
                     return null
                 }
@@ -73,7 +73,7 @@ export const useUserStore = defineStore('user', {
         },
         async removeAccount(userId) {
             try {
-                const response = await userApi.delete(`/remove/${userId}`)
+                const response = await userApi.delete(`/${userId}/remove`)
                 return response.status === 200
             } catch (error) {
                 console.error('Error while removing account', error)
@@ -97,7 +97,7 @@ export const useUserStore = defineStore('user', {
         },
         async updateUser(userId, userData, imageOptions = {}) {
             try {
-                const response = await userApi.put(`/update/${userId}`, userData)
+                const response = await userApi.put(`/${userId}/update`, userData)
                 if (response.status !== 200) {
                     return
                 }
