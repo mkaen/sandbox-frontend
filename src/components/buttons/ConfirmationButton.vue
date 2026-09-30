@@ -5,16 +5,20 @@
         :class="variant"
         :style="{minWidth: width}"
     >
-        {{ label }}
+        {{ resolvedLabel }}
     </button>
 </template>
 
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+const props = defineProps({
     label: {
         type: String,
-        default: 'OK',
     },
     type: {
         type: String,
@@ -34,6 +38,8 @@ defineProps({
         validator: (value) => ['primary', 'danger'].includes(value),
     },
 });
+
+const resolvedLabel = computed(() => props.label ?? t('BUTTON.OK'));
 </script>
 
 

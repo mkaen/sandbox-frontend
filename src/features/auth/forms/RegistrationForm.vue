@@ -2,7 +2,7 @@
     <form @submit.prevent="handleSubmit">
         <div class="d-flex flex-column align-items-center">
             <div class="form-group">
-                <label for="first-name">First Name</label>
+                <label for="first-name">{{ t('FIRST_NAME') }}</label>
                 <input type="text" 
                 id="first-name" 
                 v-model.trim="firstName.value" 
@@ -10,9 +10,11 @@
                 :class="{ 'is-invalid': !firstName.isValid }"
                 @blur="clearValidity('firstName')"/>
             </div>
-            <p v-if="!firstName.isValid" class="text-danger">First name must be between {{ FIRST_NAME_LENGTH_MIN }} and {{ FIRST_NAME_LENGTH_MAX }} characters</p>
+            <p v-if="!firstName.isValid" class="text-danger">
+                {{ t('ERROR.FIRST_NAME_LENGTH', { min: FIRST_NAME_LENGTH_MIN, max: FIRST_NAME_LENGTH_MAX }) }}
+            </p>
             <div class="form-group">
-                <label for="last-name">Last Name</label>
+                <label for="last-name">{{ t('LAST_NAME') }}</label>
                 <input type="text"
                 id="last-name" 
                 v-model.trim="lastName.value" 
@@ -20,9 +22,11 @@
                 :class="{ 'is-invalid': !lastName.isValid }" 
                 @blur="clearValidity('lastName')"/>
             </div>
-            <p v-if="!lastName.isValid" class="text-danger">Last name must be between {{ LAST_NAME_LENGTH_MIN }} and {{ LAST_NAME_LENGTH_MAX }} characters</p>
+            <p v-if="!lastName.isValid" class="text-danger">
+                {{ t('ERROR.LAST_NAME_LENGTH', { min: LAST_NAME_LENGTH_MIN, max: LAST_NAME_LENGTH_MAX }) }}
+            </p>
             <div class="form-group">
-                <label for="phone">Phone</label>
+                <label for="phone">{{ t('PHONE') }}</label>
                 <input type="tel" 
                 id="phone" 
                 v-model.trim="phone.value" 
@@ -30,9 +34,9 @@
                 :class="{ 'is-invalid': !phone.isValid }"
                 @blur="clearValidity('phone')"/>
             </div>
-            <p v-if="!phone.isValid" class="text-danger">Phone must be a valid phone number</p>
+            <p v-if="!phone.isValid" class="text-danger">{{ t('ERROR.INVALID_PHONE', {min: PHONE_LENGTH_MIN, max: PHONE_LENGTH_MAX}) }}</p>
             <div class="form-group">
-                <label for="email">E-mail</label>
+                <label for="email">{{ t('EMAIL') }}</label>
                 <input type="email" 
                 id="email" 
                 v-model.trim="email.value" 
@@ -40,9 +44,9 @@
                 :class="{ 'is-invalid': !email.isValid }" 
                 @blur="clearValidity('email')"/>
             </div>
-            <p v-if="!email.isValid" class="text-danger">Invalid e-mail address</p>
+            <p v-if="!email.isValid" class="text-danger">{{ t('ERROR.INVALID_EMAIL') }}</p>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">{{ t('PASSWORD.VALUE') }}</label>
                 <input type="password" 
                 id="password" 
                 v-model.trim="password.value" 
@@ -50,9 +54,11 @@
                 :class="{ 'is-invalid': !password.isValid }" 
                 @blur="clearValidity('password')"/>
             </div>
-            <p v-if="!password.isValid" class="text-danger">Password must be at least {{ PASSWORD_LENGTH_MIN }} characters long</p>
+            <p v-if="!password.isValid" class="text-danger">
+                {{ t('ERROR.PASSWORD.INVALID_LENGTH', {min: PASSWORD_LENGTH_MIN}) }}
+            </p>
             <div class="form-group">
-                <label for="password-confirm">Confirm Password</label>
+                <label for="password-confirm">{{ t('PASSWORD.CONFIRM') }}</label>
                 <input type="password" 
                 id="password-confirm" 
                 v-model.trim="passwordConfirm.value" 
@@ -60,9 +66,11 @@
                 :class="{ 'is-invalid': !passwordConfirm.isValid }" 
                 @blur="clearValidity('passwordConfirm')"/>
             </div>
-            <p v-if="!passwordConfirm.isValid" class="text-danger">Passwords do not match</p>
+            <p v-if="!passwordConfirm.isValid" class="text-danger">
+                {{ t('ERROR.PASSWORD.NEW_DO_NOT_MATCH') }}
+            </p>
             <div class="form-group">
-                <label for="image">Add an image</label>
+                <label for="image">{{ t('ADD_IMAGE') }}</label>
                 <input type="file" 
                 id="image" 
                 accept="image/jpeg,image/png,image/webp,image/gif"
@@ -72,9 +80,9 @@
                 :class="{ 'is-invalid': !image.isValid }" />
             </div>
             <p v-if="!image.isValid" class="text-danger">{{ image.error }}</p>
-            <button type="submit" class="btn btn-primary mt-3">Create account</button>
+            <button type="submit" class="btn btn-primary mt-3">{{ t('BUTTON.CREATE_ACCOUNT') }}</button>
             <p class="register-link text-center mt-3 mb-0 w-100">
-                Already have an account? <a href="/login">Login</a>
+                {{ t('HAVE_ACCOUNT') }} <a href="/login">{{ t('LOGIN') }}</a>
             </p>
         </div>
     </form>
@@ -92,6 +100,9 @@ import { FIRST_NAME_LENGTH_MIN,
     PHONE_LENGTH_MAX } from '@/constants/constants';
 import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation';
 import { validateProfileImageFile } from '@/utils/imageFile';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const emit = defineEmits(['submit-form']);
 

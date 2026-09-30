@@ -1,6 +1,6 @@
 <template>
     <base-card width="20rem">
-        <h1 class="text-center mb-3">Login</h1>
+        <h1 class="text-center mb-3">{{ t('LOGIN') }}</h1>
         <LoginForm @submit="handleLogin" />
     </base-card>
 </template>
@@ -10,7 +10,9 @@
 import LoginForm from '../forms/LoginForm.vue';
 import { useAuthStore } from '../authStore';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n()
 const authStore = useAuthStore();
 const router = useRouter();
 

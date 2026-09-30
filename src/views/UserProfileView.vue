@@ -3,20 +3,29 @@
         <notification-modal
             ref="removeAccountModal"
             :show-cancel="true"
-            title="Account Remove Confirmation"
-            body="Please confirm to remove account permanently."
-            confirm-button-label="Remove Account"
+            :title="t('MODAL.REMOVE_ACCOUNT_TITLE')"
+            :body="t('MODAL.REMOVE_ACCOUNT_BODY')"
+            :confirm-button-label="t('REMOVE_ACCOUNT')"
             confirm-button-variant="danger"
             @confirm="removeAccount"
         />
         <base-card v-if="isLoaded" width="50rem" padding="1.5rem">
-        <span><u><b>User profile data</b></u></span>
+        <div class="profile-heading d-flex align-items-center gap-2 flex-wrap">
+            <span><u><b>{{ t('MY_PROFILE_DATA') }}</b></u></span>
+            <basic-badge
+                v-if="canManageArchiveStatus"
+                :label="profileMeta.isArchived ? t('ARCHIVED') : t('ACTIVE')"
+                :variant="profileMeta.isArchived ? 'warning' : 'secondary'"
+                clickable
+                @click="onArchiveBadgeClick"
+            />
+        </div>
             <form @submit.prevent="handleSubmit">
                 <div class="text-img-separator">
                     <div class="data mt-3">
                         <div class="field-group">
                             <div class="field">
-                                <label for="first-name">First Name:</label>
+                                <label for="first-name">{{ t('FIRST_NAME') }}:</label>
                                 <input
                                     id="first-name"
                                     type="text"
@@ -28,13 +37,13 @@
                                 >
                             </div>
                             <p v-if="!firstName.isValid" class="text-danger field-error">
-                                First name must be between {{ FIRST_NAME_LENGTH_MIN }} and {{ FIRST_NAME_LENGTH_MAX }} characters
+                                {{ t('ERROR.FIRST_NAME_LENGTH', { min: FIRST_NAME_LENGTH_MIN, max: FIRST_NAME_LENGTH_MAX }) }}
                             </p>
                         </div>
 
                         <div class="field-group">
                             <div class="field">
-                                <label for="last-name">Last Name:</label>
+                                <label for="last-name">{{ t('LAST_NAME') }}:</label>
                                 <input
                                     id="last-name"
                                     type="text"
@@ -46,13 +55,13 @@
                                 >
                             </div>
                             <p v-if="!lastName.isValid" class="text-danger field-error">
-                                Last name must be between {{ LAST_NAME_LENGTH_MIN }} and {{ LAST_NAME_LENGTH_MAX }} characters
+                                {{ t('ERROR.LAST_NAME_LENGTH', { min: LAST_NAME_LENGTH_MIN, max: LAST_NAME_LENGTH_MAX }) }}
                             </p>
                         </div>
 
                         <div class="field-group">
                             <div class="field">
-                                <label for="email">E-mail:</label>
+                                <label for="email">{{ t('EMAIL') }}:</label>
                                 <input
                                     id="email"
                                     type="email"
@@ -64,13 +73,13 @@
                                 >
                             </div>
                             <p v-if="!email.isValid" class="text-danger field-error">
-                                Invalid e-mail address
+                                {{ t('ERROR.INVALID_EMAIL') }}
                             </p>
                         </div>
 
                         <div class="field-group">
                             <div class="field">
-                                <label for="phone">Phone:</label>
+                                <label for="phone">{{ t('PHONE') }}:</label>
                                 <input
                                     id="phone"
                                     type="tel"
@@ -82,43 +91,38 @@
                                 >
                             </div>
                             <p v-if="!phone.isValid" class="text-danger field-error">
-                                Phone must be a valid phone number
+                                {{ t('ERROR.INVALID_PHONE', {min: PHONE_LENGTH_MIN, max: PHONE_LENGTH_MAX}) }}
                             </p>
                         </div>
 
                         <div v-if="userStore.isAdmin" class="field-group">
                             <div class="field">
-                                <label for="role">Role:</label>
+                                <label for="role">{{ t('ROLE.VALUE') }}:</label>
                                 <select
                                     id="role"
                                     name="role"
                                     class="form-control"
                                     v-model="role.value"
                                     :disabled="!canEditRole"
-                                    :class="{ 'is-invalid': !role.isValid }"
-                                    @change="clearValidity('role')"
                                 >
                                     <option
                                         v-for="roleOption in Object.values(ROLES)"
                                         :key="roleOption"
                                         :value="roleOption"
                                     >
-                                        {{ roleOption }}
+                                        {{ t(`ROLE.${roleOption}`) }}
                                     </option>
                                 </select>
                             </div>
-                            <p v-if="!role.isValid" class="text-danger field-error">
-                                Role is required
-                            </p>
                         </div>
 
                         <hr>
 
                         <div v-if="canEditProfile" class="password-section">
-                            <span><u><b>Change password</b></u></span>
+                            <span><u><b>{{ t('PASSWORD.CHANGE') }}</b></u></span>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="old-password">Old password:</label>
+                                    <label for="old-password">{{ t('PASSWORD.OLD') }}:</label>
                                     <input
                                         id="old-password"
                                         type="password"
@@ -129,15 +133,15 @@
                                     >
                                 </div>
                                 <p v-if="!oldPassword.isValid" class="text-danger field-error">
-                                    Old password is required
+                                    {{ t('ERROR.PASSWORD.OLD_REQUIRED') }}
                                 </p>
                                 <p v-if="!oldPassword.match" class="text-danger field-error">
-                                    Old password do not match. Please try again!
+                                    {{ t('ERROR.PASSWORD.OLD_DO_NOT_MATCH') }}
                                 </p>
                             </div>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="new-password">New password:</label>
+                                    <label for="new-password">{{ t('PASSWORD.NEW') }}:</label>
                                     <input
                                         id="new-password"
                                         type="password"
@@ -148,12 +152,12 @@
                                     >
                                 </div>
                                 <p v-if="!newPassword.isValid" class="text-danger field-error">
-                                    Password must be at least {{ PASSWORD_LENGTH_MIN }} characters long
+                                    {{ t('ERROR.PASSWORD.INVALID_LENGTH', {min: PASSWORD_LENGTH_MIN}) }}
                                 </p>
                             </div>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="confirm-new-password">Confirm New password:</label>
+                                    <label for="confirm-new-password">{{ t('PASSWORD.CONFIRM') }}:</label>
                                     <input
                                         id="confirm-new-password"
                                         type="password"
@@ -164,7 +168,7 @@
                                     >
                                 </div>
                                 <p v-if="!passwordConfirm.isValid" class="text-danger field-error">
-                                    Passwords do not match
+                                    {{ t('ERROR.PASSWORD.NEW_DO_NOT_MATCH') }}
                                 </p>
                             </div>
                         </div>
@@ -178,21 +182,28 @@
                             @error="imageFailed = true"
                         >
                         <div v-if="canEditProfile" class="upload-image">
-                            <label for="image">Upload new image</label>
-                            <input
-                                ref="imageInput"
-                                type="file"
-                                class="form-control"
-                                id="image"
-                                accept="image/jpeg,image/png,image/webp,image/gif"
-                                :class="{ 'is-invalid': !image.isValid }"
-                                @change="updateImage"
-                            >
+                            <div class="file-picker" :class="{ 'is-invalid': !image.isValid }">
+                                <input
+                                    ref="imageInput"
+                                    type="file"
+                                    id="image"
+                                    class="file-picker-input"
+                                    accept="image/jpeg,image/png,image/webp,image/gif"
+                                    :aria-invalid="!image.isValid"
+                                    @change="updateImage"
+                                >
+                                <label for="image" class="file-picker-button">
+                                    {{ t('BUTTON.UPLOAD_NEW_IMAGE') }}
+                                </label>
+                                <span class="file-picker-name" :class="{ 'has-file': image.value }">
+                                    {{ selectedFileName }}
+                                </span>
+                            </div>
                             <p v-if="!image.isValid" class="text-danger">{{ image.error }}</p>
                             <div v-if="hasPendingImage" class="restore-btn">
                                 <ConfirmationButton
                                     type="button"
-                                    label="Restore Image"
+                                    :label="`${t('BUTTON.RESTORE_IMAGE')}`"
                                     @click="restoreImage"
                                 />
                             </div>
@@ -203,7 +214,7 @@
                 <div v-if="canEditProfile || canEditRole" class="save-btn">
                     <ConfirmationButton
                     type="submit"
-                    label="Save changes"
+                    :label="`${t('BUTTON.SAVE')}`"
                     :disabled="!canSave"
                     />
                 </div>
@@ -212,7 +223,7 @@
                     href="#"
                     @click.prevent="openRemoveAccountModal"
                 >
-                    Remove account
+                    {{ t('REMOVE_ACCOUNT') }}
                 </a>
             </form>
         </base-card>
@@ -224,7 +235,7 @@ import { useUserStore } from '@/features/users/userStore';
 import { useAuthStore } from '@/features/auth/authStore';
 import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
 import { useRoute, useRouter } from 'vue-router';
-import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, onUnmounted, reactive, ref, watch } from 'vue';
 import {
     ROLES,
     PROFILE_IMAGE_CHANGE,
@@ -239,6 +250,10 @@ import {
 import { EMAIL_VALIDATION_PATTERN } from '@/utils/validation'
 import { validateProfileImageFile } from '@/utils/imageFile'
 import defaultProfileImage from '@/assets/icons/user.png'
+import BasicBadge from '@/components/badges/BasicBadge.vue'
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const route = useRoute();
 const router = useRouter();
@@ -254,6 +269,7 @@ const profileMeta = reactive({
     id: '',
     image: null,
     hasImage: false,
+    isArchived: false,
 });
 const initialValues = reactive({
     firstName: '',
@@ -267,7 +283,7 @@ const firstName = reactive({ value: '', isValid: true })
 const lastName = reactive({ value: '', isValid: true })
 const email = reactive({ value: '', isValid: true })
 const phone = reactive({ value: '', isValid: true })
-const role = reactive({ value: '', isValid: true })
+const role = reactive({ value: '' })
 const oldPassword = reactive({ value: '', isValid: true, match: true })
 const newPassword = reactive({ value: '', isValid: true })
 const passwordConfirm = reactive({ value: '', isValid: true })
@@ -278,18 +294,20 @@ const fields = {
     lastName,
     email,
     phone,
-    role,
     oldPassword,
     newPassword,
     passwordConfirm,
     image,
 }
 
-const accountId = route.params.id
-const isSelf = computed(() => String(accountId) === String(userStore.id))
+const accountId = computed(() => String(route.params.id ?? ''))
+const isSelf = computed(() => accountId.value === String(userStore.id))
+let profileLoadId = 0
 const canEditProfile = computed(() => isSelf.value)
 const canEditRole = computed(() => userStore.isAdmin && !isSelf.value)
+const canManageArchiveStatus = computed(() => userStore.isAdmin && !isSelf.value)
 const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value))
+const selectedFileName = computed(() => image.value?.name || t('BUTTON.NO_FILE_CHOSEN'))
 const isAdmin = computed(() => userStore.isAdmin)
 
 const hasProfileChanges = computed(() => {
@@ -327,29 +345,35 @@ const displayImage = computed(() => {
     return profileImageUrl.value
 })
 
-async function fillForm(userData) {
+async function fillForm(userData, loadId) {
+    const requestedId = userData.id != null ? String(userData.id) : ''
+    const hasImageField = Object.hasOwn(userData, 'image')
+    let imageUrl = hasImageField ? (userData.image || null) : null
+
+    if (!hasImageField && requestedId && loadId === profileLoadId) {
+        imageUrl = await userStore.getProfileImageById(requestedId)
+    }
+
+    if (loadId !== profileLoadId || requestedId !== accountId.value) {
+        return
+    }
+
     firstName.value = userData.firstName || ''
     lastName.value = userData.lastName || ''
     email.value = userData.email || ''
     phone.value = userData.phone || ''
+    if (Object.hasOwn(userData, 'isArchived')) {
+        profileMeta.isArchived = Boolean(userData.isArchived)
+    }
     role.value = userData.role || ''
     initialValues.firstName = firstName.value
     initialValues.lastName = lastName.value
     initialValues.email = email.value
     initialValues.phone = phone.value
     initialValues.role = role.value
-    profileMeta.id = userData.id != null ? String(userData.id) : ''
-    profileMeta.image = userData.image || null
-    profileMeta.hasImage = Boolean(userData.image)
-
-    if (!profileMeta.image && profileMeta.id) {
-        const imageUrl = await userStore.getProfileImageById(profileMeta.id)
-        if (imageUrl) {
-            profileMeta.image = imageUrl
-            profileMeta.hasImage = true
-        }
-    }
-
+    profileMeta.id = requestedId
+    profileMeta.image = imageUrl || null
+    profileMeta.hasImage = Boolean(imageUrl)
     isLoaded.value = true
 }
 
@@ -364,12 +388,23 @@ function openRemoveAccountModal() {
     removeAccountModal.value?.openModal()
 }
 
+async function onArchiveBadgeClick() {
+    // Call your archive/unarchive endpoint here, then set profileMeta.isArchived from the response.
+    console.log(`Id: ${profileMeta.id} ja isArchived väärtus ${!profileMeta.isArchived}`)
+    const response = await userStore.archiveUser(profileMeta.id, !profileMeta.isArchived)
+    if (response) {
+        profileMeta.isArchived = response.isArchived
+    }
+}
+
 async function removeAccount() {
-    const removed = await userStore.removeAccount(accountId)
+    const userId = accountId.value
+    const removingSelf = isSelf.value
+    const removed = await userStore.removeAccount(userId)
     if (!removed) {
         return
     }
-    if (isSelf.value) {
+    if (removingSelf) {
         await authStore.logout()
         return
     }
@@ -490,14 +525,6 @@ function validateProfileFields() {
     return formIsValid
 }
 
-function validateRoleField() {
-    if (!role.value || !Object.values(ROLES).includes(role.value)) {
-        role.isValid = false
-        return false
-    }
-    return true
-}
-
 /**
  * NONE — no new file selected
  * ADDED — new file, user had no profile image yet
@@ -518,19 +545,18 @@ const handleSubmit = async () => {
     if (canEditProfile.value) {
         formIsValid = validateProfileFields() && formIsValid
     }
-    if (canEditRole.value) {
-        formIsValid = validateRoleField() && formIsValid
-    }
     if (!formIsValid) {
         return
     }
 
+    const userId = accountId.value
+    const editingSelf = canEditProfile.value
     const imageChange = resolveImageChange()
     const imageFile = imageChange === PROFILE_IMAGE_CHANGE.NONE ? null : image.value
 
     const formData = {}
-    if (canEditProfile.value) {
-        formData.id = accountId
+    if (editingSelf) {
+        formData.id = userId
         formData.firstName = firstName.value
         formData.lastName = lastName.value
         formData.email = email.value
@@ -545,7 +571,7 @@ const handleSubmit = async () => {
     }
 
     const updatedUser = await userStore.updateUser(
-        accountId,
+        userId,
         formData,
         { imageFile },
     )
@@ -555,11 +581,11 @@ const handleSubmit = async () => {
         return updatedUser
     }
 
-    if (updatedUser && canEditProfile.value) {
+    if (updatedUser && editingSelf) {
         await fillForm({
             ...updatedUser,
             image: updatedUser.image || userStore.image,
-        })
+        }, profileLoadId)
         restoreImage()
         oldPassword.value = ''
         newPassword.value = ''
@@ -570,12 +596,46 @@ const handleSubmit = async () => {
     return updatedUser
 }
 
-onMounted(async () => {
-    const id = String(accountId)
+function resetProfileEditor() {
+    revokePreviewUrl()
+    image.value = null
+    image.isValid = true
+    image.error = ''
+    imageFailed.value = false
+    firstName.isValid = true
+    lastName.isValid = true
+    email.isValid = true
+    phone.isValid = true
+    oldPassword.value = ''
+    oldPassword.isValid = true
+    oldPassword.match = true
+    newPassword.value = ''
+    newPassword.isValid = true
+    passwordConfirm.value = ''
+    passwordConfirm.isValid = true
+    if (imageInput.value) {
+        imageInput.value.value = ''
+    }
+}
+
+async function loadProfile(id) {
+    const loadId = ++profileLoadId
+    resetProfileEditor()
+    isLoaded.value = false
+
     if (!isSelf.value && !userStore.isAdmin) {
         return
     }
+
     if (isSelf.value) {
+        const wasViewingOther = Boolean(userStore.profileViewUser)
+        userStore.clearProfileViewUser()
+        const imageUrl = wasViewingOther
+            ? await userStore.loadProfileImage(userStore.id)
+            : userStore.image
+        if (loadId !== profileLoadId) {
+            return
+        }
         await fillForm({
             id: userStore.id,
             firstName: userStore.firstName,
@@ -583,15 +643,24 @@ onMounted(async () => {
             email: userStore.email,
             phone: userStore.phone,
             role: userStore.role,
-            image: userStore.image,
-        })
+            isArchived: userStore.isArchived,
+            image: imageUrl,
+        }, loadId)
         return
     }
+
     const userData = await userStore.fetchUserById(id)
-    if (userData) {
-        await fillForm(userData)
+    if (loadId !== profileLoadId || userData?.notFound) {
+        return
     }
-})
+    if (userData) {
+        await fillForm(userData, loadId)
+    }
+}
+
+watch(accountId, (id) => {
+    loadProfile(id)
+}, { immediate: true })
 
 watch(profileImageUrl, () => {
     imageFailed.value = false
@@ -619,36 +688,33 @@ onUnmounted(() => {
     gap: 2.5rem;
 }
 .data {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 0.75rem;
+    row-gap: 0.45rem;
+    align-items: center;
     flex: 1;
     min-width: 0;
     padding-top: 0;
 }
-.password-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-.field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-}
+.password-section,
+.field-group,
 .field {
-    display: grid;
-    grid-template-columns: 6.5rem 1fr;
-    align-items: center;
-    gap: 0.5rem;
+    display: contents;
 }
 .field label {
     text-align: right;
-    font-size: small;
+    font-size: 1rem;
+    white-space: nowrap;
 }
 .field-error {
-    margin: 0 0 0 7rem;
+    grid-column: 2;
+    margin: 0;
     font-size: 0.8rem;
+}
+.data > hr,
+.password-section > span {
+    grid-column: 1 / -1;
 }
 select,
 input {
@@ -677,6 +743,63 @@ select:disabled {
 }
 .upload-image {
     width: 300px;
+}
+.upload-heading {
+    display: block;
+    margin-bottom: 0.35rem;
+}
+.file-picker {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 0.3rem;
+    background-color: #fff;
+    overflow: hidden;
+}
+.file-picker.is-invalid {
+    border-color: #dc3545;
+}
+.file-picker-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.file-picker-input:focus-visible + .file-picker-button {
+    outline: 2px solid #2a74c2;
+    outline-offset: -2px;
+}
+.file-picker-button {
+    margin: 0;
+    flex-shrink: 0;
+    padding: 0.375rem 0.75rem;
+    background-color: #e9ecef;
+    border-right: 1px solid #ced4da;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+.file-picker-name {
+    flex: 1;
+    min-width: 0;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #6c757d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.file-picker-name.has-file {
+    color: inherit;
 }
 .restore-btn {
     margin-top: 0.5rem;

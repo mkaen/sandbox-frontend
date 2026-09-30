@@ -9,13 +9,13 @@
     <div class="modal-box">
       <div class="modal-header"> 
         <h2 id="modal-title">{{ title }}</h2>
-        <img :src=closeButton alt="close" @click="cancel" width="20px"/>
+        <img :src="closeButton" :alt="t('BUTTON.CLOSE')" @click="cancel" width="20px"/>
       </div>
       <p>{{ body }}</p>
 
         <div class="modal-actions">
-        <button v-if="showCancel" class="btn btn-cancel" @click="cancel">{{ cancelButtonLabel }}</button>
-        <ConfirmationButton :label="confirmButtonLabel" :variant="confirmButtonVariant" @click="confirm" />
+        <button v-if="showCancel" class="btn btn-cancel" @click="cancel">{{ resolvedCancelLabel }}</button>
+        <ConfirmationButton :label="resolvedConfirmLabel" :variant="confirmButtonVariant" @click="confirm" />
       </div>
     </div>
   </dialog>
@@ -23,9 +23,12 @@
 
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ConfirmationButton from '../buttons/ConfirmationButton.vue';
-import closeButton from '@/assets/model-close-icon.jpg'
+import closeButton from '@/assets/model-close-icon.jpg';
+
+const { t } = useI18n();
 const modalEl = ref(null);
 
 
@@ -47,11 +50,9 @@ const props = defineProps({
     },
     cancelButtonLabel: {
         type: String,
-        default: 'Cancel'
     },
     confirmButtonLabel: {
         type: String,
-        default: 'OK'
     },
     confirmButtonVariant: {
         type: String,
@@ -59,6 +60,13 @@ const props = defineProps({
         validator: (value) => ['primary', 'danger'].includes(value),
     },
 });
+
+const resolvedCancelLabel = computed(
+  () => props.cancelButtonLabel ?? t('BUTTON.CANCEL'),
+)
+const resolvedConfirmLabel = computed(
+  () => props.confirmButtonLabel ?? t('BUTTON.OK'),
+)
 
 const emit = defineEmits(['cancel', 'confirm']);
 

@@ -10,11 +10,13 @@ import { useUserStore } from './features/users/userStore';
 import { setupAuthInterceptors } from '@/config/api';
 import BaseCard from '@/components/ui/BaseCard.vue';
 import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
-import BaseNotificationModal from './components/modals/BaseNotificationModal.vue'
+import BaseNotificationModal from './components/modals/BaseNotificationModal.vue';
+import { i18n } from '@/config/i18n';
 
 const app = createApp(App);
 const pinia = createPinia()
 
+app.use(i18n);
 app.use(pinia);
 
 setupAuthInterceptors();
