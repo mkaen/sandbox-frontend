@@ -1,0 +1,77 @@
+{"ee": {
+    "ACTIVE": "Aktiivne",
+    "ADD_IMAGE": "Lisa pilt",
+    "ARCHIVED": "Arhiveeritud",
+    "BUTTON": {
+        "CANCEL": "Tühista",
+        "CHOOSE_FILE": "Vali fail",
+        "CLOSE": "Sulge",
+        "CREATE_ACCOUNT": "Loo konto",
+        "ENTER": "Sisene",
+        "EXTEND_SESSION": "Pikenda sessiooni",
+        "NO_FILE_CHOSEN": "Faili pole valitud",
+        "OK": "OK",
+        "RESTORE_IMAGE": "Taasta vana pilt",
+        "SAVE": "Salvesta",
+        "TO_HOMEPAGE": "Mine kodulehele",
+        "UPLOAD_NEW_IMAGE": "Lae uus pilt"
+    },
+    "EMAIL": "E-mail",
+    "ERROR": "Viga",
+    "ERRORS": {
+        "FIRST_NAME_LENGTH": "Eesnimi peab olema {min}–{max} tähemärki",
+        "INVALID_EMAIL": "Palun kontrolli sisestatud e-maili",
+        "INVALID_PHONE": "Telefoni numbri pikkuse vahemik peab olema {min}-{max}",
+        "LAST_NAME_LENGTH": "Perekonnanimi peab olema {min}-{max} tähemärki",
+        "LOGIN_FAILED": "Sisselogimine ebaõnnestus! Vale email või parool",
+        "PAGE_NOT_FOUND": "Lehte ei leitud - 404",
+        "PAGE_NOT_FOUND_CONTENT": "Midagi läks valesti. Palun kontrolli URL'i ja proovi uuesti.",
+        "PASSWORD": {
+            "INVALID_LENGTH": "Parooli pikkuse vahemik peab olema vähemalt {min} sümbolit",
+            "NEW_DO_NOT_MATCH": "Paroolid ei ühti",
+            "OLD_DO_NOT_MATCH": "Vana parool on vale. Palun proovi uuesti!",
+            "OLD_REQUIRED": "Vana parool on kohustuslik"
+        }
+    },
+    "FIRST_NAME": "Eesnimi",
+    "HAVE_ACCOUNT": "Omad juba kontot?",
+    "HERE": "SIIN",
+    "LAST_NAME": "Perekonnanimi",
+    "LOGIN": "Logi sisse",
+    "MODAL": {
+        "REMOVE_ACCOUNT_BODY": "Kinnita, et soovid konto jäädavalt kustutada.",
+        "REMOVE_ACCOUNT_TITLE": "Konto kustutamise kinnitus",
+        "SESSION_EXPIRED_BODY": "Oled välja logitud.",
+        "SESSION_EXPIRED_TITLE": "Sessioon on aegunud",
+        "SESSION_TIMEOUT_BODY": "Sinu sessioon aegub peagi. Kas soovid sessiooni pikendada?",
+        "SESSION_TIMEOUT_TITLE": "Sessioon aegub peagi"
+    },
+    "MY_PROFILE_DATA": "Minu konto andmed",
+    "NOT_REGISTERED": "Ei ole veel kontot? Registreeri",
+    "OPERATION_SUCCESSFUL": "Toiming õnnestus",
+    "PASSWORD": {
+        "CHANGE": "Muuda parooli",
+        "CONFIRM": "Kinnita uus parool",
+        "NEW": "Uus parool",
+        "OLD": "Praegune parool",
+        "VALUE": "Parool"
+    },
+    "PHONE": "Telefon",
+    "PROFILE": "Profiil",
+    "REGISTER_NEW_ACCOUNT": "Registreeri uus konto", 
+    "REMOVE_ACCOUNT": "Kustuta konto",
+    "ROLE": {
+        "VALUE": "Roll",
+        "USER": "Tavakasutaja",
+        "ADMIN": "Admin"
+    },
+    "SEARCH": "Otsi",
+    "SIGN_OUT": "Logi välja",
+    "SUCCESS": {
+        "LOGIN": "Sisselogimine õnnestus"
+    },
+    "WARNING": "Hoiatus!",
+    "WELCOME": "Tere tulemast",
+    "WELCOME_TEXT": "See \"Sandbox\" rakendus on mõeldud harjutamiseks, erinevate tööriistade kasutamiseks ja testimiseks. Nii et tunne end vabalt, testi erinevaid funktsiooni ja pane mind proovile"
+    }
+}

@@ -1,6 +1,7 @@
 :root {
   --text: #6b6375;
   --text-h: #08060d;
+  --text-h-blue: var(--bs-primary);
   --bg: #ffffff;
   --bg-gradient-top: #3b6fc7;
   --bg-gradient-mid: #a8cce8;
@@ -21,11 +22,13 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: 'Iceland', sans-serif;
+  --heading: 'Iceland', sans-serif;
+  --bs-font-sans-serif: 'Iceland', sans-serif;
+  --bs-body-font-family: 'Iceland', sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
+  font: 22px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light;
   color: var(--text);
@@ -35,7 +38,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   @media (max-width: 1024px) {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 
@@ -79,6 +82,7 @@ h2 {
 }
 
 h1 {
+  color: var(--text-h-blue);
   font-size: 56px;
   letter-spacing: -1.68px;
   margin: 32px 0;
