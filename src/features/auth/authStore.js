@@ -31,13 +31,20 @@ export const useAuthStore = defineStore('auth', {
                     setCorrelationId();
                     startSession();
                     await applyProfileImage(userData.id);
-                    return true;
+                    return {success: true};
                 } else {
                     return false;
                 }
             } catch (error) {
-                console.error('Login failed', error);
-                return false;
+                const data = error.response?.data;
+                const detail = data?.detail ?? 'Login failed';
+                const notificationCode = data?.notificationCode ?? null;
+                console.log('Login error:', detail, notificationCode);
+                return { 
+                    success: false,
+                    detail, 
+                    notificationCode
+                };
             }
         },
         async register(payload, image = null) {

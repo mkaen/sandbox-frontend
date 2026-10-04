@@ -12,6 +12,9 @@ import BaseCard from '@/components/ui/BaseCard.vue';
 import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
 import BaseNotificationModal from './components/modals/BaseNotificationModal.vue';
 import { i18n } from '@/config/i18n';
+import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice';
+import { preset } from './preset.js'
 
 const app = createApp(App);
 const pinia = createPinia()
@@ -54,7 +57,19 @@ router.beforeEach( async (to) => {
 });
 
 app.use(router);
+app.use(PrimeVue, {
+    theme: {
+        preset: preset,
+        options: {
+            prefix: 'p',
+            darkModeSelector: false,
+            cssLayer: false
+        }
+    }
+})
+
 app.component('base-card', BaseCard);
 app.component('confirmation-button', ConfirmationButton);
 app.component('notification-modal', BaseNotificationModal);
+app.use(ToastService);
 app.mount('#app');
