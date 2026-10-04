@@ -1,5 +1,6 @@
 <template>
   <DefaultLayout />
+  <Toast />
   <notification-modal
     ref="sessionModal"
     :show-cancel="true"
@@ -22,6 +23,7 @@ import { inactive, activateReminder, resetSession, dismissReminder } from '@/com
 import { useAuthStore } from '@/features/auth/authStore'
 import { useRouter } from 'vue-router'
 import { watch, ref } from 'vue'
+import Toast from 'primevue/toast'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

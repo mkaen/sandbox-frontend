@@ -11,7 +11,7 @@
                 @blur="clearValidity('firstName')"/>
             </div>
             <p v-if="!firstName.isValid" class="text-danger">
-                {{ t('ERROR.FIRST_NAME_LENGTH', { min: FIRST_NAME_LENGTH_MIN, max: FIRST_NAME_LENGTH_MAX }) }}
+                {{ t('ERRORS.FIRST_NAME_LENGTH', { min: FIRST_NAME_LENGTH_MIN, max: FIRST_NAME_LENGTH_MAX }) }}
             </p>
             <div class="form-group">
                 <label for="last-name">{{ t('LAST_NAME') }}</label>
@@ -23,7 +23,7 @@
                 @blur="clearValidity('lastName')"/>
             </div>
             <p v-if="!lastName.isValid" class="text-danger">
-                {{ t('ERROR.LAST_NAME_LENGTH', { min: LAST_NAME_LENGTH_MIN, max: LAST_NAME_LENGTH_MAX }) }}
+                {{ t('ERRORS.LAST_NAME_LENGTH', { min: LAST_NAME_LENGTH_MIN, max: LAST_NAME_LENGTH_MAX }) }}
             </p>
             <div class="form-group">
                 <label for="phone">{{ t('PHONE') }}</label>
@@ -34,7 +34,7 @@
                 :class="{ 'is-invalid': !phone.isValid }"
                 @blur="clearValidity('phone')"/>
             </div>
-            <p v-if="!phone.isValid" class="text-danger">{{ t('ERROR.INVALID_PHONE', {min: PHONE_LENGTH_MIN, max: PHONE_LENGTH_MAX}) }}</p>
+            <p v-if="!phone.isValid" class="text-danger">{{ t('ERRORS.INVALID_PHONE', {min: PHONE_LENGTH_MIN, max: PHONE_LENGTH_MAX}) }}</p>
             <div class="form-group">
                 <label for="email">{{ t('EMAIL') }}</label>
                 <input type="email" 
@@ -44,7 +44,7 @@
                 :class="{ 'is-invalid': !email.isValid }" 
                 @blur="clearValidity('email')"/>
             </div>
-            <p v-if="!email.isValid" class="text-danger">{{ t('ERROR.INVALID_EMAIL') }}</p>
+            <p v-if="!email.isValid" class="text-danger">{{ t('ERRORS.INVALID_EMAIL') }}</p>
             <div class="form-group">
                 <label for="password">{{ t('PASSWORD.VALUE') }}</label>
                 <input type="password" 
@@ -55,7 +55,7 @@
                 @blur="clearValidity('password')"/>
             </div>
             <p v-if="!password.isValid" class="text-danger">
-                {{ t('ERROR.PASSWORD.INVALID_LENGTH', {min: PASSWORD_LENGTH_MIN}) }}
+                {{ t('ERRORS.PASSWORD.INVALID_LENGTH', {min: PASSWORD_LENGTH_MIN}) }}
             </p>
             <div class="form-group">
                 <label for="password-confirm">{{ t('PASSWORD.CONFIRM') }}</label>
@@ -67,7 +67,7 @@
                 @blur="clearValidity('passwordConfirm')"/>
             </div>
             <p v-if="!passwordConfirm.isValid" class="text-danger">
-                {{ t('ERROR.PASSWORD.NEW_DO_NOT_MATCH') }}
+                {{ t('ERRORS.PASSWORD.NEW_DO_NOT_MATCH') }}
             </p>
             <div class="form-group">
                 <label for="image">{{ t('ADD_IMAGE') }}</label>

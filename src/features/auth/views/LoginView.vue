@@ -10,22 +10,21 @@
 import LoginForm from '../forms/LoginForm.vue';
 import { useAuthStore } from '../authStore';
 import { useRouter } from 'vue-router';
+import { useToast } from '@/utils/toastUtils';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
 const authStore = useAuthStore();
 const router = useRouter();
+const toast = useToast();
 
 const handleLogin = async (payload) => {
-    try {
-        const response = await authStore.login(payload);
-        if (response) {
-            router.push('/');
-        } else {
-            console.error('Login failed');
-        }
-    } catch (error) {
-        console.error('Login failed', error);
+    const response = await authStore.login(payload);
+    if (response.success) {
+        router.push('/');
+        toast.makeSuccessToast(t('SUCCESS.LOGIN'));
+    } else {
+        toast.makeErrorToast(t(`${response.notificationCode}`));
     }
-}
+};
 </script>

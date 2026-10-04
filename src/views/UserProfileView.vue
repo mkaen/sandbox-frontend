@@ -37,7 +37,7 @@
                                 >
                             </div>
                             <p v-if="!firstName.isValid" class="text-danger field-error">
-                                {{ t('ERROR.FIRST_NAME_LENGTH', { min: FIRST_NAME_LENGTH_MIN, max: FIRST_NAME_LENGTH_MAX }) }}
+                                {{ t('ERRORS.FIRST_NAME_LENGTH', { min: FIRST_NAME_LENGTH_MIN, max: FIRST_NAME_LENGTH_MAX }) }}
                             </p>
                         </div>
 
@@ -55,7 +55,7 @@
                                 >
                             </div>
                             <p v-if="!lastName.isValid" class="text-danger field-error">
-                                {{ t('ERROR.LAST_NAME_LENGTH', { min: LAST_NAME_LENGTH_MIN, max: LAST_NAME_LENGTH_MAX }) }}
+                                {{ t('ERRORS.LAST_NAME_LENGTH', { min: LAST_NAME_LENGTH_MIN, max: LAST_NAME_LENGTH_MAX }) }}
                             </p>
                         </div>
 
@@ -73,7 +73,7 @@
                                 >
                             </div>
                             <p v-if="!email.isValid" class="text-danger field-error">
-                                {{ t('ERROR.INVALID_EMAIL') }}
+                                {{ t('ERRORS.INVALID_EMAIL') }}
                             </p>
                         </div>
 
@@ -91,7 +91,7 @@
                                 >
                             </div>
                             <p v-if="!phone.isValid" class="text-danger field-error">
-                                {{ t('ERROR.INVALID_PHONE', {min: PHONE_LENGTH_MIN, max: PHONE_LENGTH_MAX}) }}
+                                {{ t('ERRORS.INVALID_PHONE', {min: PHONE_LENGTH_MIN, max: PHONE_LENGTH_MAX}) }}
                             </p>
                         </div>
 
@@ -133,10 +133,10 @@
                                     >
                                 </div>
                                 <p v-if="!oldPassword.isValid" class="text-danger field-error">
-                                    {{ t('ERROR.PASSWORD.OLD_REQUIRED') }}
+                                    {{ t('ERRORS.PASSWORD.OLD_REQUIRED') }}
                                 </p>
                                 <p v-if="!oldPassword.match" class="text-danger field-error">
-                                    {{ t('ERROR.PASSWORD.OLD_DO_NOT_MATCH') }}
+                                    {{ t('ERRORS.PASSWORD.OLD_DO_NOT_MATCH') }}
                                 </p>
                             </div>
                             <div class="field-group">
@@ -152,7 +152,7 @@
                                     >
                                 </div>
                                 <p v-if="!newPassword.isValid" class="text-danger field-error">
-                                    {{ t('ERROR.PASSWORD.INVALID_LENGTH', {min: PASSWORD_LENGTH_MIN}) }}
+                                    {{ t('ERRORS.PASSWORD.INVALID_LENGTH', {min: PASSWORD_LENGTH_MIN}) }}
                                 </p>
                             </div>
                             <div class="field-group">
@@ -168,7 +168,7 @@
                                     >
                                 </div>
                                 <p v-if="!passwordConfirm.isValid" class="text-danger field-error">
-                                    {{ t('ERROR.PASSWORD.NEW_DO_NOT_MATCH') }}
+                                    {{ t('ERRORS.PASSWORD.NEW_DO_NOT_MATCH') }}
                                 </p>
                             </div>
                         </div>

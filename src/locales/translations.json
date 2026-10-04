@@ -17,11 +17,13 @@
         "UPLOAD_NEW_IMAGE": "Lae uus pilt"
     },
     "EMAIL": "E-mail",
-    "ERROR": {
+    "ERROR": "Viga",
+    "ERRORS": {
         "FIRST_NAME_LENGTH": "Eesnimi peab olema {min}–{max} tähemärki",
         "INVALID_EMAIL": "Palun kontrolli sisestatud e-maili",
         "INVALID_PHONE": "Telefoni numbri pikkuse vahemik peab olema {min}-{max}",
         "LAST_NAME_LENGTH": "Perekonnanimi peab olema {min}-{max} tähemärki",
+        "LOGIN_FAILED": "Sisselogimine ebaõnnestus! Vale email või parool",
         "PAGE_NOT_FOUND": "Lehte ei leitud - 404",
         "PAGE_NOT_FOUND_CONTENT": "Midagi läks valesti. Palun kontrolli URL'i ja proovi uuesti.",
         "PASSWORD": {
@@ -46,6 +48,7 @@
     },
     "MY_PROFILE_DATA": "Minu konto andmed",
     "NOT_REGISTERED": "Ei ole veel kontot? Registreeri",
+    "OPERATION_SUCCESSFUL": "Toiming õnnestus",
     "PASSWORD": {
         "CHANGE": "Muuda parooli",
         "CONFIRM": "Kinnita uus parool",
@@ -64,6 +67,10 @@
     },
     "SEARCH": "Otsi",
     "SIGN_OUT": "Logi välja",
+    "SUCCESS": {
+        "LOGIN": "Sisselogimine õnnestus"
+    },
+    "WARNING": "Hoiatus!",
     "WELCOME": "Tere tulemast",
     "WELCOME_TEXT": "See \"Sandbox\" rakendus on mõeldud harjutamiseks, erinevate tööriistade kasutamiseks ja testimiseks. Nii et tunne end vabalt, testi erinevaid funktsiooni ja pane mind proovile"
     }
