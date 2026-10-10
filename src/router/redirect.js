@@ -1,5 +1,5 @@
 const DEFAULT_REDIRECT = '/';
-const NON_REDIRECT_ROUTE_NAMES = ['login', 'register-user', 'not-found'];
+const NON_REDIRECT_ROUTE_NAMES = new Set(['login', 'register-user', 'not-found']);
 
 export function buildLoginLocation(fullPath) {
     return { path: '/login', query: { redirect: fullPath } };
@@ -19,7 +19,7 @@ export function resolveSafeRedirect(router, redirect) {
     }
 
     const resolved = router.resolve(redirect);
-    if (NON_REDIRECT_ROUTE_NAMES.includes(resolved.name)) {
+    if (NON_REDIRECT_ROUTE_NAMES.has(resolved.name)) {
         return DEFAULT_REDIRECT;
     }
 
