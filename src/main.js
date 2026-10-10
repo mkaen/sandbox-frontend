@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { buildLoginLocation } from './router/redirect'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './global.css'
@@ -36,7 +37,7 @@ router.beforeEach( async (to) => {
     }
 
     if (to.meta.requiresAuth && !userStore.isAuthenticated) {
-        return { path: '/login' };
+        return buildLoginLocation(to.fullPath);
     }
 
     if (['/login', '/register'].includes(to.path) && userStore.isAuthenticated) {

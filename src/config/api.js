@@ -2,6 +2,7 @@ import axios from 'axios';
 import { API_HOST, API_PORT } from './env.js';
 import { generateUuid } from '../utils/index.js';
 import { showApiErrorToast } from '../utils/toastUtils.js';
+import { buildLoginLocation } from '../router/redirect.js';
 
 
 export const API_BASE_URL = `http://${API_HOST}:${API_PORT}`;
@@ -256,8 +257,9 @@ function attachAuthInterceptor(api) {
 
                 const { useAuthStore } = await import('@/features/auth/authStore');
                 const { default: router } = await import('@/router');
+                const loginLocation = buildLoginLocation(router.currentRoute.value.fullPath);
                 await useAuthStore().logout();
-                router.push('/login');
+                router.push(loginLocation);
 
                 throw refreshError;
             } finally {
