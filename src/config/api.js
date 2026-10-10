@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { API_HOST, API_PORT } from './env.js';
 import { generateUuid } from '../utils/index.js';
+import { showApiErrorToast } from '../utils/toastUtils.js';
+import { buildLoginLocation } from '../router/redirect.js';
 
 
 export const API_BASE_URL = `http://${API_HOST}:${API_PORT}`;
@@ -151,6 +153,7 @@ export const userApi = axios.create({
 });
 
 const AUTH_ENDPOINTS_WITHOUT_REFRESH = ['/login', '/register', '/refresh', '/logout'];
+const USER_FACING_AUTH_ENDPOINTS = ['/login', '/register'];
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -167,13 +170,57 @@ function processQueue(error) {
     failedQueue = [];
 }
 
+function requestUrlIncludes(config, endpoints) {
+    const url = config?.url || '';
+    return endpoints.some((endpoint) => url.includes(endpoint));
+}
+
 function shouldSkipAuthRefresh(config) {
     if (!config || config.skipAuthRefresh || config._retry) {
         return true;
     }
 
-    const url = config.url || '';
-    return AUTH_ENDPOINTS_WITHOUT_REFRESH.some((endpoint) => url.includes(endpoint));
+    return requestUrlIncludes(config, AUTH_ENDPOINTS_WITHOUT_REFRESH);
+}
+
+function readNotificationCode(error) {
+    const data = error?.response?.data;
+    if (!data || typeof data !== 'object' || typeof data.notificationCode !== 'string') {
+        return null;
+    }
+
+    return data.notificationCode || null;
+}
+
+function shouldSkipErrorToast(error) {
+    const config = error?.config;
+    if (config?.skipErrorToast) {
+        return true;
+    }
+
+    const status = error?.response?.status;
+    if (
+        status &&
+        Array.isArray(config?.silentErrorStatuses) &&
+        config.silentErrorStatuses.includes(status)
+    ) {
+        return true;
+    }
+
+    return status === 401 && !requestUrlIncludes(config, USER_FACING_AUTH_ENDPOINTS);
+}
+
+function attachErrorToastInterceptor(api) {
+    api.interceptors.response.use(
+        (response) => response,
+        (error) => {
+            if (!shouldSkipErrorToast(error)) {
+                showApiErrorToast(readNotificationCode(error));
+            }
+
+            throw error;
+        }
+    );
 }
 
 function attachAuthInterceptor(api) {
@@ -210,8 +257,9 @@ function attachAuthInterceptor(api) {
 
                 const { useAuthStore } = await import('@/features/auth/authStore');
                 const { default: router } = await import('@/router');
+                const loginLocation = buildLoginLocation(router.currentRoute.value.fullPath);
                 await useAuthStore().logout();
-                router.push('/login');
+                router.push(loginLocation);
 
                 throw refreshError;
             } finally {
@@ -227,6 +275,8 @@ export function setupAuthInterceptors() {
     }
 
     authInterceptorsAttached = true;
+    attachErrorToastInterceptor(authApi);
+    attachErrorToastInterceptor(userApi);
     attachAuthInterceptor(authApi);
     attachAuthInterceptor(userApi);
 }

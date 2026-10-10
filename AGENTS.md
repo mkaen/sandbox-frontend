@@ -24,12 +24,12 @@ This app will be deployed to production soon. Treat every change as code that **
 
 Frontend security rules:
 
-- **No secrets in the client.** Anything in `VITE_*` or bundled JS is public. Never put API keys, upload keys, or credentials in env, source, or comments.
+- **No secrets in the client.** Anything in `VITE_`* or bundled JS is public. Never put API keys, upload keys, or credentials in env, source, or comments.
 - **Tokens stay in HTTP-only cookies.** Do not read, store, or log tokens. Do not add `Authorization` headers with bearer tokens from frontend state.
 - **UI checks are not authorization.** Route `meta` and store getters hide pages; the backend enforces access. Never invent a client-only “admin” or “owner” bypass.
 - **Do not trust the browser.** Validate on the client for UX; assume the backend re-validates (auth, roles, file type/size, input length). Do not skip client checks “because the API will catch it” if that leaves users with a broken or unsafe flow.
 - **XSS and unsafe HTML.** Do not use `v-html`, `innerHTML`, or `eval` with user-controlled data. Interpolate with Vue text bindings.
-- **Do not log secrets or PII.** No passwords, tokens, cookies, or full payloads in `console.*`. Log only what is needed to debug (status, endpoint, correlation id).
+- **Do not log secrets or PII.** No passwords, tokens, cookies, or full payloads in `console.`*. Log only what is needed to debug (status, endpoint, correlation id).
 - **Production URLs and transport.** Do not hardcode `http://127.0.0.1` or disable `withCredentials` “to make it work”. HTTPS and cookie credentials are the live setup; keep the client compatible with that.
 - **Dependencies and shortcuts.** Do not add a library that weakens CSRF/XSS protections, stores sessions in `localStorage`, or talks to storage with a browser-side secret.
 
@@ -67,7 +67,7 @@ src/
 - The router stays central: `router/index.js`. Do not add per-feature route files until the app actually needs them.
 - New code goes in an existing folder. Add a new folder only when no current role covers it.
 
-The README structure diagram may be outdated. **`src/` is the source of truth**, not the README sketch.
+The README structure diagram may be outdated. `src/` **is the source of truth**, not the README sketch.
 
 ## Data flow
 
@@ -105,6 +105,8 @@ Tracing: `X-Correlation-ID` (session scope), `X-Request-ID` (every request). Do 
 - New endpoint: add a prefix in `api.js` if needed, use the existing client, do not create a new axios instance “for a quick test”.
 - Env variables: `VITE_*` in `env.js`. Do not scatter `import.meta.env` reads across the codebase.
 
+
+
 ## Images
 
 All user images are served and stored by the **backend**. The frontend never talks to object storage (no R2, no CDN worker, no direct PUT/DELETE to a bucket).
@@ -125,12 +127,16 @@ Static UI assets (logo, default avatar, icons) stay in `src/assets/`. Those are 
 - Store: `defineStore`, clear `state` / `actions` / `getters`. An action returns a meaningful result (`true`/`false`, data, or a structured error), not a silent `undefined` on success.
 - IDs: compare as strings (`String(id)`), because backend and route params may differ in type.
 
+
+
 ## UI
 
 - Layout: Bootstrap utilities (`d-flex`, `container`, `form-control`, …) plus component `scoped` CSS.
 - Global colours/fonts: `global.css` CSS variables. Do not add a second design system.
 - Navigation: `RouterLink` / `router.push`, not raw `<a href>` for in-app routes.
 - Modals: existing `notification-modal` + `defineExpose({ openModal, closeModal })`. Do not bring in another modal library.
+
+
 
 ## Code quality
 
@@ -141,6 +147,8 @@ Static UI assets (logo, default avatar, icons) stay in `src/assets/`. Those are 
 - Do not commit secrets (`.env`, keys, cookies).
 - Do not add a dependency when Vue / Pinia / axios / Bootstrap can do it.
 - Refactor only what the task touches. Do not “clean the whole file” when you were asked to fix one bug.
+
+
 
 ## Examples
 

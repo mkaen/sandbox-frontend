@@ -9,22 +9,22 @@
 <script setup>
 import LoginForm from '../forms/LoginForm.vue';
 import { useAuthStore } from '../authStore';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { resolveSafeRedirect } from '@/router/redirect';
 import { useToast } from '@/utils/toastUtils';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
+const { t } = useI18n();
 const authStore = useAuthStore();
 const router = useRouter();
+const route = useRoute();
 const toast = useToast();
 
 const handleLogin = async (payload) => {
     const response = await authStore.login(payload);
-    if (response.success) {
-        router.push('/');
+    if (response) {
+        router.push(resolveSafeRedirect(router, route.query.redirect));
         toast.makeSuccessToast(t('SUCCESS.LOGIN'));
-    } else {
-        toast.makeErrorToast(t(`${response.notificationCode}`));
     }
 };
 </script>

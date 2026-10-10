@@ -19,7 +19,9 @@
     "EMAIL": "E-mail",
     "ERROR": "Viga",
     "ERRORS": {
+        "EMAIL_ALREADY_EXISTS": "Selle e-mailiga kasutaja on juba registreeritud.",
         "FIRST_NAME_LENGTH": "Eesnimi peab olema {min}–{max} tähemärki",
+        "GENERAL": "Midagi läks valesti",
         "INVALID_EMAIL": "Palun kontrolli sisestatud e-maili",
         "INVALID_PHONE": "Telefoni numbri pikkuse vahemik peab olema {min}-{max}",
         "LAST_NAME_LENGTH": "Perekonnanimi peab olema {min}-{max} tähemärki",
@@ -34,7 +36,7 @@
         }
     },
     "FIRST_NAME": "Eesnimi",
-    "HAVE_ACCOUNT": "Omad juba kontot?",
+    "HAVE_ACCOUNT": "Sul on juba konto?",
     "HERE": "SIIN",
     "LAST_NAME": "Perekonnanimi",
     "LOGIN": "Logi sisse",

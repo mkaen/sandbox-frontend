@@ -22,6 +22,7 @@ import DefaultLayout from '@/components/layout/DefaultLayout.vue'
 import { inactive, activateReminder, resetSession, dismissReminder } from '@/composables/sessionManager'
 import { useAuthStore } from '@/features/auth/authStore'
 import { useRouter } from 'vue-router'
+import { buildLoginLocation } from '@/router/redirect'
 import { watch, ref } from 'vue'
 import Toast from 'primevue/toast'
 import { useI18n } from 'vue-i18n'
@@ -39,8 +40,9 @@ const loggedOutModal = ref(null);
 watch(inactive, (newVal) => {
   if (newVal) {
     sessionModal.value?.closeModal();
+    const loginLocation = buildLoginLocation(router.currentRoute.value.fullPath);
     authStore.logout();
-    router.push('/login');
+    router.push(loginLocation);
     loggedOutModal.value?.openModal()
   }
 });

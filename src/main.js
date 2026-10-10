@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { buildLoginLocation } from './router/redirect'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './global.css'
@@ -12,6 +13,7 @@ import BaseCard from '@/components/ui/BaseCard.vue';
 import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
 import BaseNotificationModal from './components/modals/BaseNotificationModal.vue';
 import { i18n } from '@/config/i18n';
+import { registerAppToast } from '@/utils/toastUtils';
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice';
 import { preset } from './preset.js'
@@ -35,7 +37,7 @@ router.beforeEach( async (to) => {
     }
 
     if (to.meta.requiresAuth && !userStore.isAuthenticated) {
-        return { path: '/login' };
+        return buildLoginLocation(to.fullPath);
     }
 
     if (['/login', '/register'].includes(to.path) && userStore.isAuthenticated) {
@@ -72,4 +74,5 @@ app.component('base-card', BaseCard);
 app.component('confirmation-button', ConfirmationButton);
 app.component('notification-modal', BaseNotificationModal);
 app.use(ToastService);
+registerAppToast(app.config.globalProperties.$toast);
 app.mount('#app');
