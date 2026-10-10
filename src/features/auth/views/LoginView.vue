@@ -20,12 +20,9 @@ const toast = useToast();
 
 const handleLogin = async (payload) => {
     const response = await authStore.login(payload);
-    if (response.success) {
+    if (response) {
         router.push('/');
         toast.makeSuccessToast(t('SUCCESS.LOGIN'));
-    } else {
-        const toastInfoReference = response.notificationCode ? response.notificationCode : 'GENERAL'
-        toast.makeErrorToast(t('ERRORS.' + toastInfoReference));
     }
 };
 </script>

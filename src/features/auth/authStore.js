@@ -31,14 +31,15 @@ export const useAuthStore = defineStore('auth', {
                     setCorrelationId();
                     startSession();
                     await applyProfileImage(userData.id);
-                    return {success: true};
+                    return true;
                 }
+                return false;
             } catch (error) {
                 const data = error.response?.data;
                 const detail = data?.detail ?? 'Login failed';
                 const notificationCode = data?.notificationCode ?? null;
                 console.error('Login error:', detail, notificationCode);
-                return { success: false, notificationCode };
+                return false;
             }
         },
         async register(payload, image = null) {
@@ -54,22 +55,22 @@ export const useAuthStore = defineStore('auth', {
                     } else {
                         userStore().setImage(defaultProfileImage);
                     }
-                    return { success: true, userData};
-                } else {
-                    return;
+                    return true;
                 }
+                return false;
             } catch (error) {
                 const data = error.response?.data;
                 const detail = data?.detail ?? 'Registration failed';
                 const notificationCode = data?.notificationCode ?? null;
                 console.error(detail, notificationCode);
-                return {success: false, notificationCode}
+                return false;
             }
         },
         async refreshToken() {
             try {
                 const response = await authApi.post('/refresh', null, {
                     skipAuthRefresh: true,
+                    skipErrorToast: true,
                 });
                 if (response.status === 200) {
                     const userData = response.data;
@@ -87,7 +88,9 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                await authApi.post('/logout');
+                await authApi.post('/logout', null, {
+                    skipErrorToast: true,
+                });
                 const currentRoute = router.currentRoute.value;
                 if (currentRoute.meta.requiresAuth) {
                     await router.push('/');
