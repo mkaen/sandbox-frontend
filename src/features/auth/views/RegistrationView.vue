@@ -9,23 +9,22 @@
 import RegistrationForm from '../forms/RegistrationForm.vue';
 import { useAuthStore } from '../authStore';
 import { useRouter } from 'vue-router';
+import { useToast } from '@/utils/toastUtils.js';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
+const toast = useToast();
+const { t } = useI18n();
 
 const authStore = useAuthStore();
 const router = useRouter();
 
 const handleRegistration = async (payload, image) => {
-    try {
-        const userData = await authStore.register(payload, image);
-        if (userData) {
-            router.push('/');
-        } else {
-            console.error('Registration failed');
-        }
-    } catch (error) {
-        console.error('Registration failed', error);
+    const response = await authStore.register(payload, image);
+    if (response.success) {
+        router.push('/');
+    } else {
+        const toastInfoReference = response.notificationCode ? response.notificationCode : 'GENERAL'
+        toast.makeErrorToast(t('ERRORS.' + toastInfoReference));
     }
 }
 </script>

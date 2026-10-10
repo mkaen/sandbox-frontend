@@ -32,19 +32,13 @@ export const useAuthStore = defineStore('auth', {
                     startSession();
                     await applyProfileImage(userData.id);
                     return {success: true};
-                } else {
-                    return false;
                 }
             } catch (error) {
                 const data = error.response?.data;
                 const detail = data?.detail ?? 'Login failed';
                 const notificationCode = data?.notificationCode ?? null;
-                console.log('Login error:', detail, notificationCode);
-                return { 
-                    success: false,
-                    detail, 
-                    notificationCode
-                };
+                console.error('Login error:', detail, notificationCode);
+                return { success: false, notificationCode };
             }
         },
         async register(payload, image = null) {
@@ -60,13 +54,16 @@ export const useAuthStore = defineStore('auth', {
                     } else {
                         userStore().setImage(defaultProfileImage);
                     }
-                    return userData;
+                    return { success: true, userData};
                 } else {
                     return;
                 }
             } catch (error) {
-                console.error('Registration failed', error);
-                return false;
+                const data = error.response?.data;
+                const detail = data?.detail ?? 'Registration failed';
+                const notificationCode = data?.notificationCode ?? null;
+                console.error(detail, notificationCode);
+                return {success: false, notificationCode}
             }
         },
         async refreshToken() {

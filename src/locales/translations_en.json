@@ -19,7 +19,9 @@
     "EMAIL": "E-mail",
     "ERROR": "Error",
     "ERRORS": {
+        "EMAIL_ALREADY_EXISTS": "Email already exists",
         "FIRST_NAME_LENGTH": "First name must be between {min} and {max} characters",
+        "GENERAL": "Something went wrong",
         "INVALID_EMAIL": "Invalid e-mail address",
         "INVALID_PHONE": "Phone length must be between {min} and {max}",
         "LAST_NAME_LENGTH": "Last name must be between {min} and {max} characters",

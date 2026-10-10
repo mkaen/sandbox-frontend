@@ -13,7 +13,7 @@ import { useRouter } from 'vue-router';
 import { useToast } from '@/utils/toastUtils';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
+const { t } = useI18n();
 const authStore = useAuthStore();
 const router = useRouter();
 const toast = useToast();
@@ -24,7 +24,8 @@ const handleLogin = async (payload) => {
         router.push('/');
         toast.makeSuccessToast(t('SUCCESS.LOGIN'));
     } else {
-        toast.makeErrorToast(t(`${response.notificationCode}`));
+        const toastInfoReference = response.notificationCode ? response.notificationCode : 'GENERAL'
+        toast.makeErrorToast(t('ERRORS.' + toastInfoReference));
     }
 };
 </script>
