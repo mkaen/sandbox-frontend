@@ -1,7 +1,7 @@
 <template>
     <base-card style="max-width: 60rem;">
         <div class="filter-content">
-            <UsersFilter/>
+            <UsersFilter @filterInputValues="fetchFilteredUsers"/>
             <hr style="color: var(--text-h-blue);"/>
 
             <nav aria-label="Page navigation example">
@@ -30,6 +30,10 @@
 <script setup>
 import UsersFilter from '@/features/users/UsersFilter.vue';
 import UsersItem from '@/features/users/UsersItem.vue';
+
+function fetchFilteredUsers(filterBy) {
+    console.log(filterBy);
+}
 
 </script>
 

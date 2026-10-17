@@ -15,10 +15,10 @@
                     <button class="dropdown-item" type="button" @click="setChosenRole(null)">{{ t('ROLE.ALL') }}</button>
                 </li>
                 <li>
-                    <button class="dropdown-item" type="button" @click="setChosenRole(role)">{{ t('ROLE.ADMIN') }}</button>
+                    <button class="dropdown-item" type="button" @click="setChosenRole(ROLES.ADMIN)">{{ t('ROLE.ADMIN') }}</button>
                 </li>
                 <li>
-                    <button class="dropdown-item" type="button" @click="setChosenRole(role)">{{ t('ROLE.USER') }}</button>
+                    <button class="dropdown-item" type="button" @click="setChosenRole(ROLES.USER)">{{ t('ROLE.USER') }}</button>
                 </li>
             </ul>
         </div>
@@ -28,21 +28,24 @@
 
 
 <script setup>
-import {ROLES} from '@/constants/constants.js';
 import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
+import { ROLES } from '@/constants/constants';
 import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 
 const{ t } = useI18n();
 
+const emit = defineEmits(['filterInputValues'])
+
 const chosenRole = ref(null);
 const searchInput = ref('');
 
-const filterUsers = () => {
-    console.log(searchInput.value, chosenRole.value);
-};
 const setChosenRole = (role) => {
     chosenRole.value = role;
+};
+
+const filterUsers = () => {
+    emit('filterInputValues', {search: searchInput.value, role: chosenRole.value});
 };
 </script>
 
