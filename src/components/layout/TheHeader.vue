@@ -9,8 +9,9 @@
         </RouterLink>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a></li>
+          <li v-if="userStore.hasRole(ROLES.ADMIN)">
+            <RouterLink to="/users" class="nav-link px-2 link-body-emphasis">{{ t('USERS') }}</RouterLink>
+          </li>
           <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
           <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
         </ul>
@@ -56,11 +57,11 @@
         </div>
         <div v-else>
           <RouterLink to="/login">
-            <HeaderLoginButton :text="`${t('LOGIN')}`"/>
+            <HeaderLoginButton :label="`${t('LOGIN')}`"/>
           </RouterLink>
         </div>
         <div class="dropdown">
-          <HeaderLoginButton class="btn dropdown-toggle" type="button" :text="currentLanguageValue" data-bs-toggle="dropdown" aria-expanded="false"/>
+          <HeaderLoginButton class="btn dropdown-toggle" type="button" :label="currentLanguageValue" data-bs-toggle="dropdown" aria-expanded="false"/>
           
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" @click="setLocale(Language.ENG)">ENG</a></li>
@@ -82,6 +83,7 @@ import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
 import defaultProfileImage from '@/assets/icons/user.png';
 import { useI18n } from 'vue-i18n';
 import { Language } from '@/constants/enums.js';
+import { ROLES } from '@/constants/constants.js'
 
 const { t, locale } = useI18n()
 
@@ -128,5 +130,7 @@ const setLocale = (lang) => {
   border: solid .1px #000000;
   border-radius: .375rem;
   background-color: rgba(255, 255, 255, 0.5);
+  min-width: 2rem;
+  margin-right: 0.5rem;
 }
 </style>

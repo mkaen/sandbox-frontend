@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import RegistrationForm from '../forms/RegistrationForm.vue';
-import { useAuthStore } from '../authStore';
+import RegistrationForm from '@/components/forms/RegistrationForm.vue';
+import { useAuthStore } from '@/features/auth/authStore.js';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 

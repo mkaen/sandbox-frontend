@@ -35,6 +35,7 @@
             "OLD_REQUIRED": "Old password is required"
         }
     },
+    "FILTER_USERS": "Filter users",
     "FIRST_NAME": "First name",
     "HAVE_ACCOUNT": "Already have an account?",
     "HERE": "HERE",
@@ -64,14 +65,17 @@
     "REMOVE_ACCOUNT": "Remove account",
     "ROLE": {
         "VALUE": "Role",
+        "ALL": "All roles",
         "USER": "User",
         "ADMIN": "Admin"
     },
+    "ROWS_PER_PAGE": "Rows per page",
     "SEARCH": "Search",
     "SIGN_OUT": "Sign out",
     "SUCCESS": {
         "LOGIN": "Login successful"
     },
+    "USERS": "Users",
     "WARNING": "Warning!",
     "WELCOME": "Welcome",
     "WELCOME_TEXT": "This \"Sandbox\" application is meant to learn and practice different tools and third party service providers. So feel free to test me and try different functions."

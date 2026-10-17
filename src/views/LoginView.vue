@@ -7,8 +7,8 @@
 
 
 <script setup>
-import LoginForm from '../forms/LoginForm.vue';
-import { useAuthStore } from '../authStore';
+import LoginForm from '@/components/forms/LoginForm.vue';
+import { useAuthStore } from '@/features/auth/authStore.js';
 import { useRoute, useRouter } from 'vue-router';
 import { resolveSafeRedirect } from '@/router/redirect';
 import { useToast } from '@/utils/toastUtils';

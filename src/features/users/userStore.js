@@ -196,6 +196,12 @@ export const useUserStore = defineStore('user', {
                 this.role = newRole
             }
         },
+        hasRole(role) {
+            if (this.role === ROLES.ADMIN) {
+                return true;
+            }
+            return this.role === role
+        }
     },
     getters: {
         isAuthenticated: (state) => Boolean(state.id),

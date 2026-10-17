@@ -35,6 +35,7 @@
             "OLD_REQUIRED": "Vana parool on kohustuslik"
         }
     },
+    "FILTER_USERS": "Filtreeri kasutajaid",
     "FIRST_NAME": "Eesnimi",
     "HAVE_ACCOUNT": "Sul on juba konto?",
     "HERE": "SIIN",
@@ -64,14 +65,17 @@
     "REMOVE_ACCOUNT": "Kustuta konto",
     "ROLE": {
         "VALUE": "Roll",
+        "ALL": "Kõik rollid",
         "USER": "Tavakasutaja",
         "ADMIN": "Admin"
     },
+    "ROWS_PER_PAGE": "Ridasid lehekülje kohta",
     "SEARCH": "Otsi",
     "SIGN_OUT": "Logi välja",
     "SUCCESS": {
         "LOGIN": "Sisselogimine õnnestus"
     },
+    "USERS": "Kasutajad",
     "WARNING": "Hoiatus!",
     "WELCOME": "Tere tulemast",
     "WELCOME_TEXT": "See \"Sandbox\" rakendus on mõeldud harjutamiseks, erinevate tööriistade kasutamiseks ja testimiseks. Nii et tunne end vabalt, testi erinevaid funktsiooni ja pane mind proovile"
