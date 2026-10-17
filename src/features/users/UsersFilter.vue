@@ -24,7 +24,7 @@
         </div>
         <HeaderLoginButton class="button" type="submit" :label="`${ t('SEARCH') }`"/>
     </form>
-    <hr style="color: var(--text-h-blue); margin-top: 2rem;"/>
+    <hr style="color: var(--text-h-blue);"/>
     <div class="pagination-size-selector">
         <h6>{{ t('ROWS_PER_PAGE') }}</h6>
         <div class="dropdown">
@@ -112,7 +112,8 @@ input,
 form {
     display: flex;
     flex-direction: row;
-    justify-content: center;    
+    justify-content: center;
+    margin: 2rem 0   
 }
 .pagination-size-selector {
     --pagination-control-width: 3.5rem;
@@ -121,7 +122,7 @@ form {
     justify-content: flex-end;
     align-items: center;
 }
-h6 {
+h6, h2 {
     margin: 0;
 }
 .pagination-button {
