@@ -2,7 +2,6 @@
     <base-card style="max-width: 60rem;">
         <div class="filter-content">
             <UsersFilter @filterInputValues="fetchFilteredUsers"/>
-            <hr style="color: var(--text-h-blue);"/>
 
             <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -21,6 +20,7 @@
                 </li>
             </ul>
             </nav>
+            <button type="button" @click="start">Filtri väärtused</button>
             <UsersItem/>
         </div>
     </base-card>
@@ -30,11 +30,24 @@
 <script setup>
 import UsersFilter from '@/features/users/UsersFilter.vue';
 import UsersItem from '@/features/users/UsersItem.vue';
+import {ROLES} from '@/constants/constants';
+import { DEFAULT_PAGINATION_PAGE_SIZE } from '@/constants/enums';
+
+const fiterValues = {
+    search: null | String,
+    role: null | ROLES,
+    paginationSize: DEFAULT_PAGINATION_PAGE_SIZE
+}
 
 function fetchFilteredUsers(filterBy) {
     console.log(filterBy);
+    fiterValues.search = filterBy.search;
+    fiterValues.role = filterBy.role;
 }
 
+function start() {
+    console.log(fiterValues);
+}
 </script>
 
 

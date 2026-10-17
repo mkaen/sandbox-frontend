@@ -24,25 +24,50 @@
         </div>
         <HeaderLoginButton class="button" type="submit" :label="`${ t('SEARCH') }`"/>
     </form>
+    <hr style="color: var(--text-h-blue); margin-top: 2rem;"/>
+    <div class="pagination-size-selector">
+        <h6>{{ t('ROWS_PER_PAGE') }}</h6>
+        <div class="dropdown">
+            <HeaderLoginButton class="button pagination-button dropdown-toggle"
+            type="button"
+            :label="paginationSize" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
+            />
+            <ul class="dropdown-menu dropdown-menu-end pagination-dropdown-menu">
+                <li v-for="size in PaginationPageSize" :key="size">
+                    <button class="dropdown-item pagination-dropdown-item" type="button" @click="setPaginationSize(size)">{{ size }}</button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </template>
 
 
 <script setup>
 import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
+import { PaginationPageSize, DEFAULT_PAGINATION_PAGE_SIZE } from '@/constants/enums';
 import { ROLES } from '@/constants/constants';
-import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const{ t } = useI18n();
 
-const emit = defineEmits(['filterInputValues'])
+const emit = defineEmits(['filterInputValues', 'paginationSize'])
 
 const chosenRole = ref(null);
 const searchInput = ref('');
+const paginationSize = ref(DEFAULT_PAGINATION_PAGE_SIZE)
 
 const setChosenRole = (role) => {
     chosenRole.value = role;
 };
+
+const setPaginationSize = (size) => {
+    paginationSize.value = size;
+    console.log(size)
+    emit('paginationSize', size)
+}
 
 const filterUsers = () => {
     emit('filterInputValues', {search: searchInput.value, role: chosenRole.value});
@@ -88,5 +113,32 @@ form {
     display: flex;
     flex-direction: row;
     justify-content: center;    
+}
+.pagination-size-selector {
+    --pagination-control-width: 3.5rem;
+    display: flex;
+    direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+h6 {
+    margin: 0;
+}
+.pagination-button {
+    width: var(--pagination-control-width);
+    padding-left: 0.75rem;
+    padding-right: 1.75rem;
+    text-align: left;
+}
+.pagination-button::after {
+    right: 0.6rem;
+}
+.pagination-dropdown-menu {
+    width: var(--pagination-control-width);
+    min-width: var(--pagination-control-width);
+}
+.pagination-dropdown-item {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
 }
 </style>
