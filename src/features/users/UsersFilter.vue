@@ -65,12 +65,11 @@ const setChosenRole = (role) => {
 
 const setPaginationSize = (size) => {
     paginationSize.value = size;
-    console.log(size)
     emit('paginationSize', size)
 }
 
 const filterUsers = () => {
-    emit('filterInputValues', {search: searchInput.value, role: chosenRole.value});
+    emit('filterInputValues', {search: searchInput.value.trim() || null, role: chosenRole.value || null});
 };
 </script>
 

@@ -1,7 +1,7 @@
 export const Language = {
     EST: 'EST',
     ENG: 'ENG',
-}
+};
 
 export const PaginationPageSize = {
     SIZE_10: '10',
@@ -10,6 +10,7 @@ export const PaginationPageSize = {
     SIZE_30: '30',
     SIZE_40: '40',
     SIZE_50: '50'
-}
+};
 
-export const DEFAULT_PAGINATION_PAGE_SIZE = PaginationPageSize.SIZE_10
+export const DEFAULT_PAGINATION_PAGE_SIZE = PaginationPageSize.SIZE_10;
+export const FIRST_PAGINATION_PAGE = 1;

@@ -162,6 +162,24 @@ export const useUserStore = defineStore('user', {
                 console.error(`Error while fetching user by id ${userId}`, error.response?.status ?? error.message)
             }
         },
+        async fetchUsers(payload) {
+            if (this.role !== ROLES.ADMIN) {
+                return
+            }
+            try {
+                console.log(payload)
+                const response = await userApi.get('/', {params: payload});
+                if (response.status === 200) {
+                    const data = response.data;
+                    return {
+                        totalPages: data.totalPages,
+                         users: data.filteredList
+                        };
+                } return false;
+            } catch (error) {
+                console.log('Error while fetching users', error.response?.status ?? error.message)
+            }
+        },
         clearProfileViewUser() {
             this.profileViewUser = null
         },
