@@ -6,8 +6,19 @@
             @pagination-size="savePaginationSize"
             />
             <UsersPagination/>            
-            <button type="button" @click="start">Filtri väärtused</button>
-            <UsersItem/>
+            <!-- <button type="button" @click="start">Filtri väärtused</button> -->
+            <ul>
+                <UsersItem class="user-item"
+                v-for="user in users"
+                :key=user.id
+                :id=user.id
+                :firstName="user.firstName"
+                :lastName="user.lastName"
+                :email="user.email"
+                :isArchived="user.isArchived"
+                :role="user.role"
+                />
+            </ul>
             <UsersPagination/>
         </div>
     </base-card>
@@ -18,9 +29,8 @@
 import UsersFilter from '@/features/users/UsersFilter.vue';
 import UsersItem from '@/features/users/UsersItem.vue';
 import UsersPagination from './UsersPagination.vue';
-// import { ROLES } from '@/constants/constants';
 import { DEFAULT_PAGINATION_PAGE_SIZE, FIRST_PAGINATION_PAGE } from '@/constants/enums';
-import { onMounted, watch, reactive, ref } from 'vue'
+import { onMounted, watch, reactive, ref } from 'vue';
 import { useUserStore } from './userStore.js';
 
 const userStore = useUserStore();
@@ -56,7 +66,6 @@ async function loadUsers() {
     if (!response) return
     users.value = response.users
     totalPages.value = response.totalPages
-    console.log(users.value, totalPages.value)
 }
 watch(filterValues, loadUsers)
 onMounted(loadUsers)
@@ -71,5 +80,12 @@ onMounted(loadUsers)
 nav {
     display: flex;
     justify-content: center;
+}
+ul {
+    margin: 0;
+    padding: 0;
+}
+.user-item {
+    margin: 0.2em 0;
 }
 </style>

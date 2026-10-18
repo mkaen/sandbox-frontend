@@ -1,5 +1,5 @@
 <template>
-    <base-card width="28rem">
+    <base-card class="auth-card" width="28rem">
         <h1 class="text-center mb-3">{{ t('REGISTER_NEW_ACCOUNT') }}</h1>
         <RegistrationForm @submit-form="handleRegistration" />
     </base-card>
@@ -22,3 +22,9 @@ const handleRegistration = async (payload, image) => {
     }
 }
 </script>
+
+<style scoped>
+.auth-card {
+    margin: 2rem auto;
+}
+</style>

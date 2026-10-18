@@ -1,5 +1,5 @@
 <template>
-    <base-card width="20rem">
+    <base-card class="auth-card" width="20rem">
         <h1 class="text-center mb-3">{{ t('LOGIN') }}</h1>
         <LoginForm @submit="handleLogin" />
     </base-card>
@@ -28,3 +28,9 @@ const handleLogin = async (payload) => {
     }
 };
 </script>
+
+<style scoped>
+.auth-card {
+    margin: 2rem auto;
+}
+</style>
