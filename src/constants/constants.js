@@ -19,6 +19,8 @@ export const SESSION_CONFIG = {
     sessionReminderBeforeEndMinutes: Number(import.meta.env.VITE_SESSION_LENGTH_REMINDER_BEFORE_END_MIN) || 1
 }
 
+export const LOCALE_STORAGE_KEY = 'locale'
+
 export const PROFILE_IMAGE_CHANGE = {
     NONE: 'NONE',
     ADDED: 'ADDED',

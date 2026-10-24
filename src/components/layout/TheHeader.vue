@@ -83,7 +83,7 @@ import HeaderLoginButton from '@/components/buttons/HeaderLoginButton.vue';
 import defaultProfileImage from '@/assets/icons/user.png';
 import { useI18n } from 'vue-i18n';
 import { Language } from '@/constants/enums.js';
-import { ROLES } from '@/constants/constants.js'
+import { ROLES, LOCALE_STORAGE_KEY } from '@/constants/constants.js'
 
 const { t, locale } = useI18n()
 
@@ -115,6 +115,7 @@ const currentLanguageValue = computed(() => locale.value)
 
 const setLocale = (lang) => {
   locale.value = lang
+  localStorage.setItem(LOCALE_STORAGE_KEY, lang)
 }
 
 </script>

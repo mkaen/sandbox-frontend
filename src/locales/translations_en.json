@@ -21,6 +21,7 @@
     "ERRORS": {
         "EMAIL_ALREADY_EXISTS": "Email already exists",
         "FIRST_NAME_LENGTH": "First name must be between {min} and {max} characters",
+        "FORBIDDEN_ACTION": "Forbidden action",
         "FORBIDDEN_REQUEST": "Forbidden request",
         "GENERAL": "Something went wrong",
         "INVALID_EMAIL": "Invalid e-mail address",

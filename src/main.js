@@ -14,7 +14,7 @@ import BasicBadge from '@/components/badges/BasicBadge.vue';
 import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
 import BaseNotificationModal from './components/modals/BaseNotificationModal.vue';
 import { i18n } from '@/config/i18n';
-import { registerAppToast } from '@/utils/toastUtils';
+import { registerAppToast, showApiErrorToast } from '@/utils/toastUtils';
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice';
 import { preset } from './preset.js'
@@ -32,8 +32,8 @@ await authStore.initalizeAuth();
 
 const userStore = useUserStore();
 
-// Returns `true` when the user may see the protected route, otherwise the location to redirect to.
-function resolveProtectedRouteAccess(route) {
+// Returns the location to redirect to, or `null` when the user may see the route.
+function findAccessRedirect(route) {
     if (route.meta.requiresAuth && !userStore.isAuthenticated) {
         return buildLoginLocation(route.fullPath);
     }
@@ -49,8 +49,9 @@ function resolveProtectedRouteAccess(route) {
         }
     }
 
-    return true;
+    return null;
 }
+
 
 router.beforeEach( async (to) => {
     if (!authStore.authChecked) {
@@ -60,8 +61,12 @@ router.beforeEach( async (to) => {
     if (['/login', '/register'].includes(to.path) && userStore.isAuthenticated) {
         return { path: '/' };
     }
+    const redirect = findAccessRedirect(to);
+    if (redirect && userStore.isAuthenticated) {
+        showApiErrorToast('FORBIDDEN_ACTION');
+    }
 
-    return resolveProtectedRouteAccess(to);
+    return redirect ?? true;
 });
 
 // Guards only run on navigation. When the session ends or the role changes while
@@ -69,9 +74,9 @@ router.beforeEach( async (to) => {
 watch(
     () => [userStore.isAuthenticated, userStore.isAdmin],
     async () => {
-        const access = resolveProtectedRouteAccess(router.currentRoute.value);
-        if (access !== true) {
-            await router.replace(access);
+        const redirect = findAccessRedirect(router.currentRoute.value);
+        if (redirect) {
+            await router.replace(redirect);
         }
     }
 );

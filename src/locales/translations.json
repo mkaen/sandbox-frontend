@@ -21,6 +21,7 @@
     "ERRORS": {
         "EMAIL_ALREADY_EXISTS": "Selle e-mailiga kasutaja on juba registreeritud.",
         "FIRST_NAME_LENGTH": "Eesnimi peab olema {min}–{max} tähemärki",
+        "FORBIDDEN_ACTION": "Keelatud toiming",
         "FORBIDDEN_REQUEST": "Keelatud päring",
         "GENERAL": "Midagi läks valesti",
         "INVALID_EMAIL": "Palun kontrolli sisestatud e-maili",
