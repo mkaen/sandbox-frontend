@@ -51,6 +51,7 @@
         "SESSION_TIMEOUT_TITLE": "Session is about to expire"
     },
     "MY_PROFILE_DATA": "My profile data",
+    "NAME": "Name",
     "NOT_REGISTERED": "Haven't registered yet? Register",
     "OPERATION_SUCCESSFUL": "Operation successful",
     "PASSWORD": {
@@ -78,6 +79,7 @@
     },
     "USERS": "Users",
     "USERS_FOUND_TOTAL": "Found users total: {total}",
+    "VIEW_PROFILE": "View profile",
     "WARNING": "Warning!",
     "WELCOME": "Welcome",
     "WELCOME_TEXT": "This \"Sandbox\" application is meant to learn and practice different tools and third party service providers. So feel free to test me and try different functions."

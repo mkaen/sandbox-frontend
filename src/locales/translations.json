@@ -51,6 +51,7 @@
         "SESSION_TIMEOUT_TITLE": "Sessioon aegub peagi"
     },
     "MY_PROFILE_DATA": "Minu konto andmed",
+    "NAME": "Nimi",
     "NOT_REGISTERED": "Ei ole veel kontot? Registreeri",
     "OPERATION_SUCCESSFUL": "Toiming õnnestus",
     "PASSWORD": {
@@ -78,6 +79,7 @@
     },
     "USERS": "Kasutajad",
     "USERS_FOUND_TOTAL": "Leitud kasutajaid kokku: {total}",
+    "VIEW_PROFILE": "Vaata profiili",
     "WARNING": "Hoiatus!",
     "WELCOME": "Tere tulemast",
     "WELCOME_TEXT": "See \"Sandbox\" rakendus on mõeldud harjutamiseks, erinevate tööriistade kasutamiseks ja testimiseks. Nii et tunne end vabalt, testi erinevaid funktsiooni ja pane mind proovile"

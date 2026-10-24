@@ -45,7 +45,6 @@ const emit = defineEmits(['change-page'])
 const isFirstPage = computed(() => props.currentPage === 1);
 const isFinalPage = computed(() => props.currentPage >= props.totalPages);
 
-const pagesLengthToShow = computed(() => Math.min(props.totalPages, SHOW_MAX_PAGINATION_PAGES));
 
 const visiblePages = computed(() => {
     const count = Math.min(props.totalPages, SHOW_MAX_PAGINATION_PAGES)
@@ -71,7 +70,3 @@ const goToNextPage = () => {
 };
 
 </script>
-
-<style>
-
-</style>

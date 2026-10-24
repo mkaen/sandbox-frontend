@@ -22,7 +22,7 @@
                 </li>
             </ul>
         </div>
-        <HeaderLoginButton class="button" type="submit" :label="`${ t('SEARCH') }`"/>
+        <HeaderLoginButton class="button submit-button" type="submit" :label="`${ t('SEARCH') }`"/>
     </form>
     <hr style="color: var(--text-h-blue);"/>
     <div class="pagination-size-selector">
@@ -152,5 +152,12 @@ h6, h2 {
     display: flex;
     justify-content: flex-end;
     margin: 0.5rem
+}
+.submit-button {
+    box-shadow: inset 0 0 8px var(--text-h-blue);
+    margin: 0.5rem 0.5rem 0.5rem 7rem
+}
+.submit-button:hover {
+    box-shadow: inset 0 0 12px var(--text-h-blue);
 }
 </style>

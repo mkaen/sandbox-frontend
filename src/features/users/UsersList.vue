@@ -12,6 +12,14 @@
             @change-page="changePageTo"
             />
             <hr style="color: var(--text-h-blue);"/>       
+            <div class="users-header">
+                <span>{{ t('NAME') }}</span>
+                <span class="users-header-email">{{ t('EMAIL') }}</span>
+                <div class="users-header-actions">
+                    <span>{{ t('ROLE.VALUE') }}</span>
+                    <span class="users-header-profile-spacer"></span>
+                </div>
+            </div>
             <ul>
                 <UsersItem class="user-item"
                 v-for="user in users"
@@ -41,8 +49,10 @@ import UsersItem from '@/features/users/UsersItem.vue';
 import UsersPagination from './UsersPagination.vue';
 import { DEFAULT_PAGINATION_PAGE_SIZE, FIRST_PAGINATION_PAGE } from '@/constants/enums';
 import { onMounted, watch, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useUserStore } from './userStore.js';
 
+const { t } = useI18n();
 const userStore = useUserStore();
 
 const users = ref([]);
@@ -94,6 +104,29 @@ onMounted(loadUsers)
 <style scoped>
 .filter-content {
     max-width: 90rem;
+    --users-grid-columns: minmax(0, 1fr) minmax(0, 1fr) 9rem;
+    --users-grid-gap: 2rem;
+    --users-actions-gap: 0.5rem;
+    --users-profile-link-width: 1.5rem;
+}
+.users-header {
+    display: grid;
+    grid-template-columns: var(--users-grid-columns);
+    column-gap: var(--users-grid-gap);
+    padding: 0 1rem 0.2em;
+    font-weight: 600;
+    color: var(--text-h-blue);
+}
+.users-header-email {
+    text-align: center;
+}
+.users-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--users-actions-gap);
+}
+.users-header-profile-spacer {
+    width: var(--users-profile-link-width);
 }
 nav {
     display: flex;
