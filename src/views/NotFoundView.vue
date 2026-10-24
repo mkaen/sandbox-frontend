@@ -1,5 +1,5 @@
 <template>
-    <base-card>
+    <base-card class="auth-card">
         <div class="d-flex flex-column align-items-center justify-content-center gap-1">
             <h1 class="text-center">{{ t('ERRORS.PAGE_NOT_FOUND') }}</h1>
             <p class="mb-4 text-center">{{ t('ERRORS.PAGE_NOT_FOUND_CONTENT') }}</p>
@@ -20,3 +20,9 @@ function navigateToHome() {
     router.push('/');
 }
 </script>
+
+<style scoped>
+.auth-card {
+    margin: 2rem auto;
+}
+</style>

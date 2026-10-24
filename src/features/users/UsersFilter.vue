@@ -41,6 +41,7 @@
             </ul>
         </div>
     </div>
+    <h6 class="total-users">{{ t('USERS_FOUND_TOTAL', {total: usersTotal}) }}</h6>
 </template>
 
 
@@ -52,6 +53,10 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const{ t } = useI18n();
+
+defineProps({
+    usersTotal: Number
+})
 
 const emit = defineEmits(['filterInputValues', 'paginationSize'])
 
@@ -117,7 +122,7 @@ form {
 .pagination-size-selector {
     --pagination-control-width: 3.5rem;
     display: flex;
-    direction: row;
+    flex-direction: row;
     justify-content: flex-end;
     align-items: center;
 }
@@ -138,7 +143,14 @@ h6, h2 {
     min-width: var(--pagination-control-width);
 }
 .pagination-dropdown-item {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    display: flex;
+    justify-content: center;
+}
+.total-users {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem
 }
 </style>

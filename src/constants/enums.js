@@ -14,3 +14,4 @@ export const PaginationPageSize = {
 
 export const DEFAULT_PAGINATION_PAGE_SIZE = PaginationPageSize.SIZE_10;
 export const FIRST_PAGINATION_PAGE = 1;
+export const SHOW_MAX_PAGINATION_PAGES = 5;

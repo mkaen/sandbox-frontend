@@ -1,12 +1,17 @@
 <template>
     <base-card style="max-width: 70rem;">
         <div class="filter-content">
-            <UsersFilter 
+            <UsersFilter
+            :users-total="totalUsers"
             @filter-input-values="setFilterValues"
             @pagination-size="savePaginationSize"
             />
-            <UsersPagination/>            
-            <!-- <button type="button" @click="start">Filtri väärtused</button> -->
+            <UsersPagination 
+            :total-pages="totalPages"
+            :current-page="currentPage"
+            @change-page="changePageTo"
+            />
+            <hr style="color: var(--text-h-blue);"/>       
             <ul>
                 <UsersItem class="user-item"
                 v-for="user in users"
@@ -19,7 +24,12 @@
                 :role="user.role"
                 />
             </ul>
-            <UsersPagination/>
+            <hr style="color: var(--text-h-blue);"/>
+            <UsersPagination 
+            :total-pages="totalPages"
+            :current-page="currentPage"
+            @change-page="changePageTo"
+            />
         </div>
     </base-card>
 </template>
@@ -37,6 +47,10 @@ const userStore = useUserStore();
 
 const users = ref([]);
 const totalPages = ref(1);
+const currentPage = ref(1);
+const size = ref(1);
+const totalUsers = ref(0);
+
 
 
 const filterValues = reactive({
@@ -57,15 +71,19 @@ function savePaginationSize(size) {
     filterValues.page = FIRST_PAGINATION_PAGE;
 }
 
-function start() {
-    console.log(filterValues);
+function changePageTo(page) {
+    filterValues.page = page
+    loadUsers();
 }
 
 async function loadUsers() {
     const response = await userStore.fetchUsers({...filterValues});
     if (!response) return
-    users.value = response.users
     totalPages.value = response.totalPages
+    currentPage.value = response.page
+    size.value =response.size
+    totalUsers.value = response.totalUsers
+    users.value = response.users
 }
 watch(filterValues, loadUsers)
 onMounted(loadUsers)

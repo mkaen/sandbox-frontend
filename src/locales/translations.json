@@ -77,6 +77,7 @@
         "LOGIN": "Sisselogimine õnnestus"
     },
     "USERS": "Kasutajad",
+    "USERS_FOUND_TOTAL": "Leitud kasutajaid kokku: {total}",
     "WARNING": "Hoiatus!",
     "WELCOME": "Tere tulemast",
     "WELCOME_TEXT": "See \"Sandbox\" rakendus on mõeldud harjutamiseks, erinevate tööriistade kasutamiseks ja testimiseks. Nii et tunne end vabalt, testi erinevaid funktsiooni ja pane mind proovile"

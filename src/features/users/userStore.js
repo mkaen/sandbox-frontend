@@ -167,13 +167,15 @@ export const useUserStore = defineStore('user', {
                 return
             }
             try {
-                console.log(payload)
                 const response = await userApi.get('/', {params: payload});
                 if (response.status === 200) {
                     const data = response.data;
                     return {
                         totalPages: data.totalPages,
-                         users: data.filteredList
+                        page: data.page,
+                        size: data.size,
+                        totalUsers: data.totalUsers,
+                        users: data.filteredList
                         };
                 } return false;
             } catch (error) {
