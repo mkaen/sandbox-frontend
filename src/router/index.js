@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import LoginView from "../features/auth/views/LoginView.vue";
-import RegistrationView from "../features/auth/views/RegistrationView.vue";
+import LoginView from "@/views/LoginView.vue";
+import RegistrationView from "@/views/RegistrationView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import UserProfileView from "@/views/UserProfileView.vue";
+import Users from "@/views/Users.vue";
 
 import { validateUserProfileId } from './validation.js'
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -50,6 +52,15 @@ const router = createRouter({
             component: NotFoundView,
             meta: {
                 requiresAuth: false,
+            }
+        },
+        {
+            path: '/users',
+            name: "users",
+            component: Users,
+            meta: {
+                requiresAuth: true,
+                requiresAdmin: true
             }
         }
     ]

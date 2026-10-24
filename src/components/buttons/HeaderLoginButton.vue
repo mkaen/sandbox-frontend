@@ -1,11 +1,11 @@
 <template>
-    <button>{{ text }}</button>
+    <button>{{ label }}</button>
 </template>
 
 
 <script setup>
 const props = defineProps({
-    text: {
+    label: {
         type: String,
         required: true,
     }

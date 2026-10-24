@@ -1,5 +1,5 @@
 <template>
-    <base-card width="20rem">
+    <base-card class="auth-card" width="20rem">
         <h1 class="text-center mb-3">{{ t('LOGIN') }}</h1>
         <LoginForm @submit="handleLogin" />
     </base-card>
@@ -7,8 +7,8 @@
 
 
 <script setup>
-import LoginForm from '../forms/LoginForm.vue';
-import { useAuthStore } from '../authStore';
+import LoginForm from '@/components/forms/LoginForm.vue';
+import { useAuthStore } from '@/features/auth/authStore.js';
 import { useRoute, useRouter } from 'vue-router';
 import { resolveSafeRedirect } from '@/router/redirect';
 import { useToast } from '@/utils/toastUtils';
@@ -28,3 +28,9 @@ const handleLogin = async (payload) => {
     }
 };
 </script>
+
+<style scoped>
+.auth-card {
+    margin: 2rem auto;
+}
+</style>

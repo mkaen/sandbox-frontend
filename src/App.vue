@@ -1,6 +1,6 @@
 <template>
   <DefaultLayout />
-  <Toast />
+  <Toast/>
   <notification-modal
     ref="sessionModal"
     :show-cancel="true"

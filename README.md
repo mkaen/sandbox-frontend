@@ -54,9 +54,6 @@ src/
 │   └── axios.js             # axios instance (shared HTTP client)
 ├── features/                # feature modules (co-locate related code)
 │   ├── auth/
-│   │   ├── views/
-│   │   │   ├── LoginView.vue
-│   │   │   └── RegistrationView.vue
 │   │   └── authApi.js
 │   │
 │   │
@@ -74,7 +71,9 @@ src/
 ├── router/
 │    └── index.js
 ├── views /
-│     └── Homeview.vue
+│     ├── Homeview.vue
+│     ├── LoginView.vue
+│     └── RegistrationView.vue
 │
 ```
 

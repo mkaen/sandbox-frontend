@@ -7,12 +7,16 @@
   <script setup>
   defineProps({
       width: {
-          type: String,
-          default: "40rem"
+        type: String,
+        default: "40rem"
       },
       padding: {
-          type: String,
-          default: "1rem"
+        type: String,
+        default: "1rem"
+      },
+      margin: {
+        type: String,
+        default: "1rem"
       }
   })
   </script>
@@ -22,8 +26,6 @@
   .base-card {
     border-radius: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    padding: 1rem;
-    margin: 2rem auto;
     background-color: rgba(255, 255, 255, 0.4);
   }
   </style>

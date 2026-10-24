@@ -162,6 +162,26 @@ export const useUserStore = defineStore('user', {
                 console.error(`Error while fetching user by id ${userId}`, error.response?.status ?? error.message)
             }
         },
+        async fetchUsers(payload) {
+            if (this.role !== ROLES.ADMIN) {
+                return
+            }
+            try {
+                const response = await userApi.get('/', {params: payload});
+                if (response.status === 200) {
+                    const data = response.data;
+                    return {
+                        totalPages: data.totalPages,
+                        page: data.page,
+                        size: data.size,
+                        totalUsers: data.totalUsers,
+                        users: data.filteredList
+                        };
+                } return false;
+            } catch (error) {
+                console.log('Error while fetching users', error.response?.status ?? error.message)
+            }
+        },
         clearProfileViewUser() {
             this.profileViewUser = null
         },
@@ -196,6 +216,12 @@ export const useUserStore = defineStore('user', {
                 this.role = newRole
             }
         },
+        hasRole(role) {
+            if (this.role === ROLES.ADMIN) {
+                return true;
+            }
+            return this.role === role
+        }
     },
     getters: {
         isAuthenticated: (state) => Boolean(state.id),

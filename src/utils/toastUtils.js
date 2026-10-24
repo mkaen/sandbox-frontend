@@ -32,7 +32,7 @@ export function showApiErrorToast(notificationCode) {
         summary: appI18n.global.t('ERROR'),
         detail: resolveApiErrorDetail(notificationCode),
         life: 5000,
-        closable: false,
+        closable: true,
     });
 }
 
