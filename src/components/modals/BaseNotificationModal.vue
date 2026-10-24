@@ -3,13 +3,13 @@
     ref="modalEl"
     class="modal-overlay"
     aria-labelledby="modal-title"
-    @cancel.prevent="cancel"
-    @click.self="cancel"
+    @cancel.prevent="dismiss"
+    @click.self="dismiss"
     >
     <div class="modal-box">
       <div class="modal-header"> 
         <h2 id="modal-title">{{ title }}</h2>
-        <img :src="closeButton" :alt="t('BUTTON.CLOSE')" @click="cancel" width="20px"/>
+        <img :src="closeButton" :alt="t('BUTTON.CLOSE')" @click="dismiss" width="20px"/>
       </div>
       <p>{{ body }}</p>
 
@@ -68,13 +68,20 @@ const resolvedConfirmLabel = computed(
   () => props.confirmButtonLabel ?? t('BUTTON.OK'),
 )
 
-const emit = defineEmits(['cancel', 'confirm']);
+// cancel: the cancel button was clicked.
+// dismiss: the modal was closed without choosing an action (backdrop, close icon, Esc).
+const emit = defineEmits(['cancel', 'confirm', 'dismiss']);
 
 
 function cancel() {
-    if (!props.showCancel) return
     closeModal()
     emit('cancel');
+}
+
+function dismiss() {
+    if (!props.showCancel) return
+    closeModal()
+    emit('dismiss');
 }
 
 function confirm() {

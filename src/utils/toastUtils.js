@@ -32,7 +32,7 @@ export function showApiErrorToast(notificationCode) {
         summary: appI18n.global.t('ERROR'),
         detail: resolveApiErrorDetail(notificationCode),
         life: 5000,
-        closable: true,
+        closable: false,
     });
 }
 
@@ -56,7 +56,7 @@ export const useToast = (methods, i18n) => {
                 summary: t('WARNING'),
                 detail: title,
                 life: 5000,
-                closable: false,
+                closable: true,
             })
         },
         makeSuccessToast: (title) => {
@@ -65,7 +65,7 @@ export const useToast = (methods, i18n) => {
                 summary: t('OPERATION_SUCCESSFUL'),
                 detail: title,
                 life: 5000,
-                closable: false,
+                closable: true,
             })
         }
     };

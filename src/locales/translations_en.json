@@ -9,6 +9,7 @@
         "CREATE_ACCOUNT": "Create account",
         "ENTER": "Enter",
         "EXTEND_SESSION": "Extend session",
+        "LOGOUT": "Log out",
         "NO_FILE_CHOSEN": "No file chosen",
         "OK": "OK",
         "RESTORE_IMAGE": "Restore image",

@@ -6,14 +6,17 @@
     :show-cancel="true"
     :title="t('MODAL.SESSION_TIMEOUT_TITLE')"
     :body="t('MODAL.SESSION_TIMEOUT_BODY')"
+    :cancel-button-label="t('BUTTON.LOGOUT')"
     :confirm-button-label="t('BUTTON.EXTEND_SESSION')"
     @confirm="onExtendSession"
-    @cancel="onCancelSession"
+    @cancel="onLogout"
+    @dismiss="onDismissReminder"
   />
   <notification-modal
     ref="loggedOutModal"
     :title="t('MODAL.SESSION_EXPIRED_TITLE')"
     :body="t('MODAL.SESSION_EXPIRED_BODY')"
+    :confirm-button-label="t('BUTTON.CLOSE')"
   />
 </template>
 
@@ -61,7 +64,11 @@ function onExtendSession() {
   resetSession();
 }
 
-function onCancelSession() {
+function onLogout() {
+  authStore.logout();
+}
+
+function onDismissReminder() {
   dismissReminder();
 }
 
