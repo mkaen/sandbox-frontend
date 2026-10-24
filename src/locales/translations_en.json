@@ -19,7 +19,11 @@
     "EMAIL": "E-mail",
     "ERROR": "Error",
     "ERRORS": {
+        "EMAIL_ALREADY_EXISTS": "Email already exists",
         "FIRST_NAME_LENGTH": "First name must be between {min} and {max} characters",
+        "FORBIDDEN_ACTION": "Forbidden action",
+        "FORBIDDEN_REQUEST": "Forbidden request",
+        "GENERAL": "Something went wrong",
         "INVALID_EMAIL": "Invalid e-mail address",
         "INVALID_PHONE": "Phone length must be between {min} and {max}",
         "LAST_NAME_LENGTH": "Last name must be between {min} and {max} characters",
@@ -33,6 +37,7 @@
             "OLD_REQUIRED": "Old password is required"
         }
     },
+    "FILTER_USERS": "Filter users",
     "FIRST_NAME": "First name",
     "HAVE_ACCOUNT": "Already have an account?",
     "HERE": "HERE",
@@ -47,6 +52,7 @@
         "SESSION_TIMEOUT_TITLE": "Session is about to expire"
     },
     "MY_PROFILE_DATA": "My profile data",
+    "NAME": "Name",
     "NOT_REGISTERED": "Haven't registered yet? Register",
     "OPERATION_SUCCESSFUL": "Operation successful",
     "PASSWORD": {
@@ -62,14 +68,19 @@
     "REMOVE_ACCOUNT": "Remove account",
     "ROLE": {
         "VALUE": "Role",
+        "ALL": "All roles",
         "USER": "User",
         "ADMIN": "Admin"
     },
+    "ROWS_PER_PAGE": "Rows per page",
     "SEARCH": "Search",
     "SIGN_OUT": "Sign out",
     "SUCCESS": {
         "LOGIN": "Login successful"
     },
+    "USERS": "Users",
+    "USERS_FOUND_TOTAL": "Found users total: {total}",
+    "VIEW_PROFILE": "View profile",
     "WARNING": "Warning!",
     "WELCOME": "Welcome",
     "WELCOME_TEXT": "This \"Sandbox\" application is meant to learn and practice different tools and third party service providers. So feel free to test me and try different functions."

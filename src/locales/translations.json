@@ -19,7 +19,11 @@
     "EMAIL": "E-mail",
     "ERROR": "Viga",
     "ERRORS": {
+        "EMAIL_ALREADY_EXISTS": "Selle e-mailiga kasutaja on juba registreeritud.",
         "FIRST_NAME_LENGTH": "Eesnimi peab olema {min}–{max} tähemärki",
+        "FORBIDDEN_ACTION": "Keelatud toiming",
+        "FORBIDDEN_REQUEST": "Keelatud päring",
+        "GENERAL": "Midagi läks valesti",
         "INVALID_EMAIL": "Palun kontrolli sisestatud e-maili",
         "INVALID_PHONE": "Telefoni numbri pikkuse vahemik peab olema {min}-{max}",
         "LAST_NAME_LENGTH": "Perekonnanimi peab olema {min}-{max} tähemärki",
@@ -33,8 +37,9 @@
             "OLD_REQUIRED": "Vana parool on kohustuslik"
         }
     },
+    "FILTER_USERS": "Filtreeri kasutajaid",
     "FIRST_NAME": "Eesnimi",
-    "HAVE_ACCOUNT": "Omad juba kontot?",
+    "HAVE_ACCOUNT": "Sul on juba konto?",
     "HERE": "SIIN",
     "LAST_NAME": "Perekonnanimi",
     "LOGIN": "Logi sisse",
@@ -47,6 +52,7 @@
         "SESSION_TIMEOUT_TITLE": "Sessioon aegub peagi"
     },
     "MY_PROFILE_DATA": "Minu konto andmed",
+    "NAME": "Nimi",
     "NOT_REGISTERED": "Ei ole veel kontot? Registreeri",
     "OPERATION_SUCCESSFUL": "Toiming õnnestus",
     "PASSWORD": {
@@ -62,14 +68,19 @@
     "REMOVE_ACCOUNT": "Kustuta konto",
     "ROLE": {
         "VALUE": "Roll",
+        "ALL": "Kõik rollid",
         "USER": "Tavakasutaja",
         "ADMIN": "Admin"
     },
+    "ROWS_PER_PAGE": "Ridasid lehekülje kohta",
     "SEARCH": "Otsi",
     "SIGN_OUT": "Logi välja",
     "SUCCESS": {
         "LOGIN": "Sisselogimine õnnestus"
     },
+    "USERS": "Kasutajad",
+    "USERS_FOUND_TOTAL": "Leitud kasutajaid kokku: {total}",
+    "VIEW_PROFILE": "Vaata profiili",
     "WARNING": "Hoiatus!",
     "WELCOME": "Tere tulemast",
     "WELCOME_TEXT": "See \"Sandbox\" rakendus on mõeldud harjutamiseks, erinevate tööriistade kasutamiseks ja testimiseks. Nii et tunne end vabalt, testi erinevaid funktsiooni ja pane mind proovile"

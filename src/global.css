@@ -100,6 +100,10 @@ h2 {
     font-size: 20px;
   }
 }
+h5,
+h6 {
+  margin:0;
+}
 p {
   margin: 0;
 }
@@ -309,4 +313,8 @@ code {
     right: 0;
     border-right-color: var(--border);
   }
+}
+/* PrimeVue sets `top: 20px` as an inline style, so !important is needed to override it. */
+.p-toast-top-right {
+  top: 125px !important; /* headeri kõrgus + väike varu */
 }

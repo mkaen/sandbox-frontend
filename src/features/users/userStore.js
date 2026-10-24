@@ -48,7 +48,10 @@ export const useUserStore = defineStore('user', {
             }
 
             try {
-                const response = await userApi.get(`/${userId}/image`, { responseType: 'blob' })
+                const response = await userApi.get(`/${userId}/image`, {
+                    responseType: 'blob',
+                    silentErrorStatuses: [404],
+                })
                 if (response.status !== 200 || !response.data?.size) {
                     return null
                 }
@@ -97,7 +100,9 @@ export const useUserStore = defineStore('user', {
         },
         async updateUser(userId, userData, imageOptions = {}) {
             try {
-                const response = await userApi.put(`/${userId}/update`, userData)
+                const response = await userApi.put(`/${userId}/update`, userData, {
+                    silentErrorStatuses: [400],
+                })
                 if (response.status !== 200) {
                     return
                 }
@@ -138,7 +143,9 @@ export const useUserStore = defineStore('user', {
                 return this.profileViewUser
             }
             try {
-                const response = await userApi.get(`/${userId}`)
+                const response = await userApi.get(`/${userId}`, {
+                    silentErrorStatuses: [404],
+                })
                 if (response.status === 200) {
                     const userData = response.data
                     userData.id = userData.id != null ? String(userData.id) : userId
@@ -153,6 +160,26 @@ export const useUserStore = defineStore('user', {
                     return { notFound: true }
                 }
                 console.error(`Error while fetching user by id ${userId}`, error.response?.status ?? error.message)
+            }
+        },
+        async fetchUsers(payload) {
+            if (this.role !== ROLES.ADMIN) {
+                return
+            }
+            try {
+                const response = await userApi.get('/', {params: payload});
+                if (response.status === 200) {
+                    const data = response.data;
+                    return {
+                        totalPages: data.totalPages,
+                        page: data.page,
+                        size: data.size,
+                        totalUsers: data.totalUsers,
+                        users: data.filteredList
+                        };
+                } return false;
+            } catch (error) {
+                console.log('Error while fetching users', error.response?.status ?? error.message)
             }
         },
         clearProfileViewUser() {
@@ -189,6 +216,12 @@ export const useUserStore = defineStore('user', {
                 this.role = newRole
             }
         },
+        hasRole(role) {
+            if (this.role === ROLES.ADMIN) {
+                return true;
+            }
+            return this.role === role
+        }
     },
     getters: {
         isAuthenticated: (state) => Boolean(state.id),
