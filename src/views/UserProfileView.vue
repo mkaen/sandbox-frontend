@@ -118,7 +118,7 @@
 
                         <hr>
 
-                        <div v-if="canEditProfile" class="password-section">
+                        <div v-if="canEditPassword" class="password-section">
                             <span><u><b>{{ t('PASSWORD.CHANGE') }}</b></u></span>
                             <div class="field-group">
                                 <div class="field">
@@ -303,8 +303,9 @@ const fields = {
 const accountId = computed(() => String(route.params.id ?? ''))
 const isSelf = computed(() => accountId.value === String(userStore.id))
 let profileLoadId = 0
-const canEditProfile = computed(() => isSelf.value)
+const canEditProfile = computed(() => isSelf.value || isAdmin)
 const canEditRole = computed(() => userStore.isAdmin && !isSelf.value)
+const canEditPassword = computed(() => isSelf.value);
 const canManageArchiveStatus = computed(() => userStore.isAdmin && !isSelf.value)
 const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value))
 const selectedFileName = computed(() => image.value?.name || t('BUTTON.NO_FILE_CHOSEN'))
@@ -389,8 +390,6 @@ function openRemoveAccountModal() {
 }
 
 async function onArchiveBadgeClick() {
-    // Call your archive/unarchive endpoint here, then set profileMeta.isArchived from the response.
-    console.log(`Id: ${profileMeta.id} ja isArchived väärtus ${!profileMeta.isArchived}`)
     const response = await userStore.archiveUser(profileMeta.id, !profileMeta.isArchived)
     if (response) {
         profileMeta.isArchived = response.isArchived
