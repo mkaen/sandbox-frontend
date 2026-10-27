@@ -583,7 +583,7 @@ const handleSubmit = async () => {
     if (updatedUser && editingSelf) {
         await fillForm({
             ...updatedUser,
-            image: updatedUser.image || userStore.image,
+            image: isSelf.value ? userStore.image : updatedUser.image,
         }, profileLoadId)
         restoreImage()
         oldPassword.value = ''
