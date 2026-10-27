@@ -76,6 +76,7 @@
     "ROWS_PER_PAGE": "Ridasid lehekülje kohta",
     "SEARCH": "Otsi",
     "SIGN_OUT": "Logi välja",
+    "SORT_BY_SELECTOR": "Sorteerimise viis",
     "SUCCESS": {
         "LOGIN": "Sisselogimine õnnestus"
     },
