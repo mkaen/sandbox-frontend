@@ -14,7 +14,12 @@
       <p>{{ body }}</p>
 
         <div class="modal-actions">
-        <button v-if="showCancel" class="btn btn-cancel" @click="cancel">{{ resolvedCancelLabel }}</button>
+        <ConfirmationButton
+          v-if="showCancel"
+          :label="resolvedCancelLabel"
+          :variant="cancelButtonVariant"
+          @click="cancel"
+        />
         <ConfirmationButton :label="resolvedConfirmLabel" :variant="confirmButtonVariant" @click="confirm" />
       </div>
     </div>
@@ -50,6 +55,11 @@ const props = defineProps({
     },
     cancelButtonLabel: {
         type: String,
+    },
+    cancelButtonVariant: {
+        type: String,
+        default: 'secondary',
+        validator: (value) => ['secondary', 'danger'].includes(value),
     },
     confirmButtonLabel: {
         type: String,
@@ -160,23 +170,6 @@ function closeModal() {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-}
-
-.btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-.btn-cancel {
-  background: #e5e7eb;
-  color: #111;
-}
-
-.btn-cancel:hover {
-  background: #d1d5db;
 }
 
 img:hover {

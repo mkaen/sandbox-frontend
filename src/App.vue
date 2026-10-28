@@ -7,6 +7,7 @@
     :title="t('MODAL.SESSION_TIMEOUT_TITLE')"
     :body="t('MODAL.SESSION_TIMEOUT_BODY')"
     :cancel-button-label="t('BUTTON.LOGOUT')"
+    cancel-button-variant="danger"
     :confirm-button-label="t('BUTTON.EXTEND_SESSION')"
     @confirm="onExtendSession"
     @cancel="onLogout"
