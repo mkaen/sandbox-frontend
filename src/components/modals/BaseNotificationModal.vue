@@ -3,18 +3,23 @@
     ref="modalEl"
     class="modal-overlay"
     aria-labelledby="modal-title"
-    @cancel.prevent="cancel"
-    @click.self="cancel"
+    @cancel.prevent="dismiss"
+    @click.self="dismiss"
     >
     <div class="modal-box">
       <div class="modal-header"> 
         <h2 id="modal-title">{{ title }}</h2>
-        <img :src="closeButton" :alt="t('BUTTON.CLOSE')" @click="cancel" width="20px"/>
+        <img :src="closeButton" :alt="t('BUTTON.CLOSE')" @click="dismiss" width="20px"/>
       </div>
       <p>{{ body }}</p>
 
         <div class="modal-actions">
-        <button v-if="showCancel" class="btn btn-cancel" @click="cancel">{{ resolvedCancelLabel }}</button>
+        <ConfirmationButton
+          v-if="showCancel"
+          :label="resolvedCancelLabel"
+          :variant="cancelButtonVariant"
+          @click="cancel"
+        />
         <ConfirmationButton :label="resolvedConfirmLabel" :variant="confirmButtonVariant" @click="confirm" />
       </div>
     </div>
@@ -51,6 +56,11 @@ const props = defineProps({
     cancelButtonLabel: {
         type: String,
     },
+    cancelButtonVariant: {
+        type: String,
+        default: 'secondary',
+        validator: (value) => ['secondary', 'danger'].includes(value),
+    },
     confirmButtonLabel: {
         type: String,
     },
@@ -68,13 +78,20 @@ const resolvedConfirmLabel = computed(
   () => props.confirmButtonLabel ?? t('BUTTON.OK'),
 )
 
-const emit = defineEmits(['cancel', 'confirm']);
+// cancel: the cancel button was clicked.
+// dismiss: the modal was closed without choosing an action (backdrop, close icon, Esc).
+const emit = defineEmits(['cancel', 'confirm', 'dismiss']);
 
 
 function cancel() {
-    if (!props.showCancel) return
     closeModal()
     emit('cancel');
+}
+
+function dismiss() {
+    if (!props.showCancel) return
+    closeModal()
+    emit('dismiss');
 }
 
 function confirm() {
@@ -153,23 +170,6 @@ function closeModal() {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-}
-
-.btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-.btn-cancel {
-  background: #e5e7eb;
-  color: #111;
-}
-
-.btn-cancel:hover {
-  background: #d1d5db;
 }
 
 img:hover {

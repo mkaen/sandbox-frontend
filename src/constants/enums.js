@@ -3,6 +3,16 @@ export const Language = {
     ENG: 'ENG',
 };
 
+export const SortType = {
+    ASC: 'ASC',
+    DESC: 'DESC'
+}
+
+export const SortBy = {
+    LAST_NAME: 'lastName',
+    EMAIL: 'email'
+}
+
 export const PaginationPageSize = {
     SIZE_10: '10',
     SIZE_15: '15',

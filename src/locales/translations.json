@@ -9,6 +9,7 @@
         "CREATE_ACCOUNT": "Loo konto",
         "ENTER": "Sisene",
         "EXTEND_SESSION": "Pikenda sessiooni",
+        "LOGOUT": "Logi välja",
         "NO_FILE_CHOSEN": "Faili pole valitud",
         "OK": "OK",
         "RESTORE_IMAGE": "Taasta vana pilt",
@@ -75,6 +76,7 @@
     "ROWS_PER_PAGE": "Ridasid lehekülje kohta",
     "SEARCH": "Otsi",
     "SIGN_OUT": "Logi välja",
+    "SORT_BY_SELECTOR": "Sorteerimise viis",
     "SUCCESS": {
         "LOGIN": "Sisselogimine õnnestus"
     },

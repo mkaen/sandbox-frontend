@@ -118,7 +118,7 @@
 
                         <hr>
 
-                        <div v-if="canEditProfile" class="password-section">
+                        <div v-if="canEditPassword" class="password-section">
                             <span><u><b>{{ t('PASSWORD.CHANGE') }}</b></u></span>
                             <div class="field-group">
                                 <div class="field">
@@ -181,7 +181,7 @@
                             alt="profile"
                             @error="imageFailed = true"
                         >
-                        <div v-if="canEditProfile" class="upload-image">
+                        <div v-if="canEditImage" class="upload-image">
                             <div class="file-picker" :class="{ 'is-invalid': !image.isValid }">
                                 <input
                                     ref="imageInput"
@@ -300,15 +300,17 @@ const fields = {
     image,
 }
 
-const accountId = computed(() => String(route.params.id ?? ''))
-const isSelf = computed(() => accountId.value === String(userStore.id))
+const accountId = computed(() => String(route.params.id ?? ''));
+const isSelf = computed(() => accountId.value === String(userStore.id));
 let profileLoadId = 0
-const canEditProfile = computed(() => isSelf.value)
-const canEditRole = computed(() => userStore.isAdmin && !isSelf.value)
-const canManageArchiveStatus = computed(() => userStore.isAdmin && !isSelf.value)
-const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value))
-const selectedFileName = computed(() => image.value?.name || t('BUTTON.NO_FILE_CHOSEN'))
-const isAdmin = computed(() => userStore.isAdmin)
+const canEditProfile = computed(() => isSelf.value || isAdmin);
+const canEditRole = computed(() => userStore.isAdmin && !isSelf.value);
+const canEditImage = computed(() => isSelf.value);
+const canEditPassword = computed(() => isSelf.value);
+const canManageArchiveStatus = computed(() => userStore.isAdmin && !isSelf.value);
+const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value));
+const selectedFileName = computed(() => image.value?.name || t('BUTTON.NO_FILE_CHOSEN'));
+const isAdmin = computed(() => userStore.isAdmin);
 
 const hasProfileChanges = computed(() => {
     if (!canEditProfile.value) {
@@ -389,8 +391,6 @@ function openRemoveAccountModal() {
 }
 
 async function onArchiveBadgeClick() {
-    // Call your archive/unarchive endpoint here, then set profileMeta.isArchived from the response.
-    console.log(`Id: ${profileMeta.id} ja isArchived väärtus ${!profileMeta.isArchived}`)
     const response = await userStore.archiveUser(profileMeta.id, !profileMeta.isArchived)
     if (response) {
         profileMeta.isArchived = response.isArchived
@@ -584,7 +584,7 @@ const handleSubmit = async () => {
     if (updatedUser && editingSelf) {
         await fillForm({
             ...updatedUser,
-            image: updatedUser.image || userStore.image,
+            image: isSelf.value ? userStore.image : updatedUser.image,
         }, profileLoadId)
         restoreImage()
         oldPassword.value = ''

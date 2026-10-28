@@ -35,7 +35,7 @@ const props = defineProps({
     variant: {
         type: String,
         default: 'primary',
-        validator: (value) => ['primary', 'danger'].includes(value),
+        validator: (value) => ['primary', 'secondary', 'danger'].includes(value),
     },
 });
 
@@ -57,6 +57,14 @@ button.primary {
     background-color: #2a74c2;
     &:hover:not(:disabled) {
         background-color: #004085;
+    }
+}
+
+button.secondary {
+    color: #111;
+    background-color: #e5e7eb;
+    &:hover:not(:disabled) {
+        background-color: #d1d5db;
     }
 }
 

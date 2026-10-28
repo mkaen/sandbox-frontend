@@ -9,6 +9,7 @@
         "CREATE_ACCOUNT": "Create account",
         "ENTER": "Enter",
         "EXTEND_SESSION": "Extend session",
+        "LOGOUT": "Log out",
         "NO_FILE_CHOSEN": "No file chosen",
         "OK": "OK",
         "RESTORE_IMAGE": "Restore image",
@@ -75,6 +76,7 @@
     "ROWS_PER_PAGE": "Rows per page",
     "SEARCH": "Search",
     "SIGN_OUT": "Sign out",
+    "SORT_BY_SELECTOR": "Sort by selector",
     "SUCCESS": {
         "LOGIN": "Login successful"
     },
