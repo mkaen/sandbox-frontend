@@ -4,7 +4,7 @@
         <input type="search" :placeholder="`${ t('SEARCH') }...`" :aria-label="`${ t('SEARCH') }`" v-model="searchInput"/>
         <div class="dropdown">
             <HeaderLoginButton
-                class="button dropdown-toggle"
+                class="button role-dropdown-selector dropdown-toggle"
                 type="button"
                 :label="chosenRole ?? t('ROLE.VALUE')"
                 data-bs-toggle="dropdown"
@@ -25,23 +25,25 @@
         <HeaderLoginButton class="button submit-button" type="submit" :label="`${ t('SEARCH') }`"/>
     </form>
     <hr style="color: var(--text-h-blue);"/>
-    <div class="pagination-size-selector">
-        <h6>{{ t('ROWS_PER_PAGE') }}</h6>
-        <div class="dropdown">
-            <HeaderLoginButton class="button pagination-button dropdown-toggle"
-            type="button"
-            :label="paginationSize" 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false"
-            />
-            <ul class="dropdown-menu dropdown-menu-end pagination-dropdown-menu">
-                <li v-for="size in PaginationPageSize" :key="size">
-                    <button class="dropdown-item pagination-dropdown-item" type="button" @click="setPaginationSize(size)">{{ size }}</button>
-                </li>
-            </ul>
+    <div class="total-rows">
+        <h6 class="total-users">{{ t('USERS_FOUND_TOTAL', {total: usersTotal}) }}</h6>
+        <div class="pagination-size-selector">
+            <h6>{{ t('ROWS_PER_PAGE') }}</h6>
+            <div class="dropdown">
+                <HeaderLoginButton class="button pagination-button dropdown-toggle"
+                type="button"
+                :label="paginationSize" 
+                data-bs-toggle="dropdown" 
+                aria-expanded="false"
+                />
+                <ul class="dropdown-menu dropdown-menu-end pagination-dropdown-menu">
+                    <li v-for="size in PaginationPageSize" :key="size">
+                        <button class="dropdown-item pagination-dropdown-item" type="button" @click="setPaginationSize(size)">{{ size }}</button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    <h6 class="total-users">{{ t('USERS_FOUND_TOTAL', {total: usersTotal}) }}</h6>
 </template>
 
 
@@ -123,8 +125,15 @@ form {
     --pagination-control-width: 3.5rem;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
+}
+.total-rows {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
 }
 h6, h2 {
     margin: 0;
@@ -148,9 +157,12 @@ h6, h2 {
     display: flex;
     justify-content: center;
 }
+.role-dropdown-selector {
+    max-width: 7.1rem;
+}
 .total-users {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin: 0.5rem
 }
 .submit-button {
@@ -159,5 +171,28 @@ h6, h2 {
 }
 .submit-button:hover {
     box-shadow: inset 0 0 12px var(--text-h-blue);
+}
+
+@media (max-width: 52rem) {
+    form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+    form input,
+    form .button,
+    form .dropdown {
+        width: 100%;
+        margin: 0;
+    }
+    form input,
+    form .button {
+        height: 2.5rem;
+    }
+    form .dropdown-menu {
+        width: 100%;
+        margin-right: 0;
+    }
 }
 </style>
