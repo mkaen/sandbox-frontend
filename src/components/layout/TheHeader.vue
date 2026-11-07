@@ -12,8 +12,10 @@
           <li v-if="userStore.hasRole(ROLES.ADMIN)">
             <RouterLink to="/users" class="nav-link px-2 link-body-emphasis">{{ t('USERS') }}</RouterLink>
           </li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+          <li>
+            <RouterLink to="/crypto" class="nav-link px-2 link-body-emphasis">{{ t('CRYPTO.VALUE') }}</RouterLink>
+          </li>
+          <!-- <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li> -->
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" @submit.prevent>

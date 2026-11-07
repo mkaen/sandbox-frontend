@@ -17,6 +17,10 @@
         "TO_HOMEPAGE": "Mine kodulehele",
         "UPLOAD_NEW_IMAGE": "Lae uus pilt"
     },
+    "CRYPTO": {
+        "INTRO": "Krüpto moodul jälgib erinevate krüptovaluutade hindu ja turukapitali väärtusi nelja tunni kaupa. Hinna käitumist analüüsides otsitakse potentsiaalseid ostu- ja müügihetki. Leitud signaale kontrollib AI täiendavalt: hinnatakse tõenäosust, hinna muutuse suunda, mustrit ja riskitaset. Usaldusväärse signaali korral saadetakse teavitus võimalikust turuliikumisest.",
+        "VALUE": "Krüpto"
+        },
     "EMAIL": "E-mail",
     "ERROR": "Viga",
     "ERRORS": {
