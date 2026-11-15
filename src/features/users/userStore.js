@@ -217,6 +217,9 @@ export const useUserStore = defineStore('user', {
             }
         },
         hasRole(role) {
+            if (!this.role) {
+                return false;
+            }
             if (this.role === ROLES.ADMIN) {
                 return true;
             }
