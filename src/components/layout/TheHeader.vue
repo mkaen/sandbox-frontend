@@ -136,4 +136,8 @@ const setLocale = (lang) => {
   min-width: 2rem;
   margin-right: 0.5rem;
 }
+
+.dropdown-item:hover {
+  cursor: pointer;
+}
 </style>
