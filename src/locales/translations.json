@@ -18,7 +18,12 @@
         "UPLOAD_NEW_IMAGE": "Lae uus pilt"
     },
     "CRYPTO": {
+        "24H_CHANGE": "Viimase 24h muutus",
+        "ATH_CHANGE": "Muutus kõrgeimast hinnast",
+        "CURRENCY": "Valuuta",
         "INTRO": "Krüpto moodul jälgib erinevate krüptovaluutade hindu ja turukapitali väärtusi nelja tunni kaupa. Hinna käitumist analüüsides otsitakse potentsiaalseid ostu- ja müügihetki. Leitud signaale kontrollib AI täiendavalt: hinnatakse tõenäosust, hinna muutuse suunda, mustrit ja riskitaset. Usaldusväärse signaali korral saadetakse teavitus võimalikust turuliikumisest.",
+        "MARKET_CAP": "Turuväärtus",
+        "RANK": "Koht",
         "VALUE": "Krüpto"
         },
     "EMAIL": "E-mail",
@@ -68,6 +73,8 @@
         "VALUE": "Parool"
     },
     "PHONE": "Telefon",
+    "POPULAR_ASSETS": "Populaarsemad",
+    "PRICE": "Hind",
     "PROFILE": "Profiil",
     "REGISTER_NEW_ACCOUNT": "Registreeri uus konto", 
     "REMOVE_ACCOUNT": "Kustuta konto",

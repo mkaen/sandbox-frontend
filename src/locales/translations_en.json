@@ -18,7 +18,12 @@
         "UPLOAD_NEW_IMAGE": "Upload new image"
     },
     "CRYPTO": {
+        "24H_CHANGE": "Last 24h Change",
+        "ATH_CHANGE": "ATH Change",
+        "CURRENCY": "Currency",
         "INTRO": "The crypto module tracks prices and market capitalisation for various cryptocurrencies at four-hour intervals. By analysing price behaviour, it looks for potential buy and sell opportunities. When a signal is found, AI performs an additional review—assessing probability, price direction, pattern, and risk. If the outcome is credible, you receive a notification about a possible market move.",
+        "MARKET_CAP": "Total market cap",
+        "RANK": "Rank",
         "VALUE": "Crypto"
         },
     "EMAIL": "E-mail",
@@ -68,6 +73,8 @@
         "VALUE": "Password"
     },
     "PHONE": "Phone",
+    "POPULAR_ASSETS": "Popular assets",
+    "PRICE": "Price",
     "PROFILE": "Profile",
     "REGISTER_NEW_ACCOUNT": "Register new account",
     "REMOVE_ACCOUNT": "Remove account",
