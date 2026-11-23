@@ -93,6 +93,7 @@
     "SUCCESS": {
         "LOGIN": "Login successful"
     },
+    "UPDATED_AT": "Updated at: ",
     "USERS": "Users",
     "USERS_FOUND_TOTAL": "Found users total: {total}",
     "VIEW_PROFILE": "View profile",

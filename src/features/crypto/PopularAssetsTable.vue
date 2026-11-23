@@ -13,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="asset in popularAssets" :key="asset.currency">
+                <tr v-for="asset in popularAssets" :key="asset.currency" :title="formatUpdatedAt(asset.updatedAt)">
                     <td><img :src="asset.imageThumb" alt="asset"></td>
                     <td>{{ asset.currency }}</td>
                     <td>{{ asset.marketCapRank }}</td>
@@ -31,7 +31,14 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 
-const {t} = useI18n();
+const { t, locale } = useI18n();
+
+function formatUpdatedAt(updatedAt) {
+  if (!updatedAt) return '';
+  const date = new Date(updatedAt);
+  if (Number.isNaN(date.getTime())) return t('UPDATED_AT') + String(updatedAt);
+  return t('UPDATED_AT') + date.toLocaleString(locale.value);
+}
 
 defineProps({
     popularAssets: Array

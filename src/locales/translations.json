@@ -93,6 +93,7 @@
     "SUCCESS": {
         "LOGIN": "Sisselogimine õnnestus"
     },
+    "UPDATED_AT": "Viimati uuendatud: ",
     "USERS": "Kasutajad",
     "USERS_FOUND_TOTAL": "Leitud kasutajaid kokku: {total}",
     "VIEW_PROFILE": "Vaata profiili",
