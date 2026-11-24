@@ -583,8 +583,12 @@ const handleSubmit = async () => {
         return updatedUser
     }
 
-    if (updatedUser && imageFile) {
-        toast.makeSuccessToast(t('PROFILE_IMAGE_UPLOAD_SUCCESS'))
+    if (updatedUser) {
+        if (imageFile) {
+            toast.makeSuccessToast(t('PROFILE_UPDATED_INCLUDING_IMAGE'))
+        } else {
+            toast.makeSuccessToast(t('PROFILE_UPDATED'))
+        }
     }
 
     if (updatedUser && editingSelf) {
