@@ -23,7 +23,7 @@ const toast = useToast();
 const handleLogin = async (payload) => {
     const response = await authStore.login(payload);
     if (response) {
-        router.push(resolveSafeRedirect(router, route.query.redirect));
+        await router.push(resolveSafeRedirect(router, route.query.redirect));
         toast.makeSuccessToast(t('SUCCESS.LOGIN'));
     }
 };

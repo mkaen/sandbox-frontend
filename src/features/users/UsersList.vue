@@ -57,7 +57,7 @@ import UsersPagination from './UsersPagination.vue';
 import { DEFAULT_PAGINATION_PAGE_SIZE, FIRST_PAGINATION_PAGE } from '@/constants/enums';
 import sortButton from '@/assets/icons/arrows-down-up.svg'
 import { SortType, SortBy } from '@/constants/enums.js';
-import { onMounted, watch, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useUserStore } from './userStore.js';
 
@@ -85,6 +85,7 @@ function setFilterValues(filterBy) {
     filterValues.nameFilter = filterBy.search;
     filterValues.role = filterBy.role;
     filterValues.page = FIRST_PAGINATION_PAGE;
+    loadUsers();
 };
 
 function orderBy(type) {
@@ -114,7 +115,7 @@ async function loadUsers() {
     totalUsers.value = response.totalUsers;
     users.value = response.users;
 };
-watch(filterValues);
+
 onMounted(loadUsers);
 
 </script>
