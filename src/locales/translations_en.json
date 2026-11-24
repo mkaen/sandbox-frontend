@@ -2,6 +2,7 @@
     "ACTIVE": "Active",
     "ADD_IMAGE": "Add image",
     "ARCHIVED": "Archived",
+    "ASSET_MANUAL_REFRESH_TIMEOUT": "Popular assets can be refreshed once every {cooldown_minutes} minutes",
     "BUTTON": {
         "CANCEL": "Cancel",
         "CHOOSE_FILE": "Choose file",

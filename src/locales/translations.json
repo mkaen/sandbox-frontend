@@ -2,6 +2,7 @@
     "ACTIVE": "Aktiivne",
     "ADD_IMAGE": "Lisa pilt",
     "ARCHIVED": "Arhiveeritud",
+    "ASSET_MANUAL_REFRESH_TIMEOUT": "Populaarsemaid valuutasid on võimalik uuendada iga {cooldown_minutes} minuti järel.",
     "BUTTON": {
         "CANCEL": "Tühista",
         "CHOOSE_FILE": "Vali fail",

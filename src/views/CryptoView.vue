@@ -7,6 +7,7 @@
         <ConfirmationButton
             :label="t('REFRESH_MANUALLY')"
             :variant="'success'"
+            :title="t('ASSET_MANUAL_REFRESH_TIMEOUT', {cooldown_minutes: POPULAR_ASSET_MANUAL_REFRESH_TIME})"
             @click="refreshAssetsManually"
         >
         </ConfirmationButton>
@@ -23,6 +24,7 @@ import { onBeforeMount, ref } from 'vue';
 import PopularAssetsTable from '@/features/crypto/PopularAssetsTable.vue';
 import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
 import { useUserStore } from '@/features/users/userStore'
+import { POPULAR_ASSET_MANUAL_REFRESH_TIME } from '@/constants/constants'
 
 const {t} = useI18n();
 const toast = useToast();
@@ -37,7 +39,6 @@ async function fetchPopularAssets() {
             toast.makeErrorToast(t('ERRORS.GENERAL'))
             return
         }
-        toast.makeSuccessToast(t('CRYPTO.ASSETS_REFRESHED'))
         return response.data
     } 
     catch (error) {
@@ -67,9 +68,15 @@ async function refreshAssetsManually() {
         if (response.status !== 200) {
             return
         }
-        await getPopularAssets()
+        await getPopularAssets();
+        toast.makeSuccessToast(t('CRYPTO.ASSETS_REFRESHED'));
     } catch (error) {
-        console.error("Error while refreshing popular assets manually", error)
+        if (error.response?.status === 429) {
+            const responseData = error.response?.data;
+            const notificationCode = responseData?.notificationCode;
+            toast.makeErrorToast(t(`${notificationCode}`, {cooldown_minutes: POPULAR_ASSET_MANUAL_REFRESH_TIME}));
+        }
+        console.error("Error while refreshing popular assets manually", error);
     }
 }
 
