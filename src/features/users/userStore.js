@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
-import { ROLES } from '@/constants/constants'
-import { userApi } from '@/config/api'
+import { defineStore } from 'pinia';
+import { ROLES } from '@/constants/constants';
+import { userApi } from '@/config/api';
 
 let managedProfileImageUrl = null
 

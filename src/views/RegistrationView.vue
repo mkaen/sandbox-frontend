@@ -18,7 +18,7 @@ const router = useRouter();
 const handleRegistration = async (payload, image) => {
     const response = await authStore.register(payload, image);
     if (response) {
-        router.push('/');
+        await router.push('/');
     }
 }
 </script>
