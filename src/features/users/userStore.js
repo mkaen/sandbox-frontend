@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
-import { ROLES } from '@/constants/constants'
-import { userApi } from '@/config/api'
+import { defineStore } from 'pinia';
+import { ROLES } from '@/constants/constants';
+import { userApi } from '@/config/api';
 
 let managedProfileImageUrl = null
 
@@ -217,6 +217,9 @@ export const useUserStore = defineStore('user', {
             }
         },
         hasRole(role) {
+            if (!this.role) {
+                return false;
+            }
             if (this.role === ROLES.ADMIN) {
                 return true;
             }

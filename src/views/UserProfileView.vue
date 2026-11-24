@@ -252,8 +252,10 @@ import { validateProfileImageFile } from '@/utils/imageFile'
 import defaultProfileImage from '@/assets/icons/user.png'
 import BasicBadge from '@/components/badges/BasicBadge.vue'
 import { useI18n } from 'vue-i18n';
+import { useToast } from '@/utils/toastUtils';
 
 const { t } = useI18n()
+const toast = useToast()
 
 const route = useRoute();
 const router = useRouter();
@@ -581,6 +583,10 @@ const handleSubmit = async () => {
         return updatedUser
     }
 
+    if (updatedUser && imageFile) {
+        toast.makeSuccessToast(t('PROFILE_IMAGE_UPLOAD_SUCCESS'))
+    }
+
     if (updatedUser && editingSelf) {
         await fillForm({
             ...updatedUser,
@@ -658,8 +664,8 @@ async function loadProfile(id) {
     }
 }
 
-watch(accountId, (id) => {
-    loadProfile(id)
+watch(accountId, async (id) => {
+    await loadProfile(id)
 }, { immediate: true })
 
 watch(profileImageUrl, () => {

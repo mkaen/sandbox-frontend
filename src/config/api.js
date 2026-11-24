@@ -9,7 +9,8 @@ export const API_BASE_URL = `http://${API_HOST}:${API_PORT}`;
 
 export const API_PREFIX = {
     user: '/users',
-    auth: '/auth'
+    auth: '/auth',
+    crypto: '/crypto'
 };
 
 export const ENDPOINT_VERSION = {
@@ -18,7 +19,8 @@ export const ENDPOINT_VERSION = {
 
 export const API_ENDPOINT_PREFIX = {
     auth: `${API_BASE_URL}${ENDPOINT_VERSION.v1}${API_PREFIX.auth}`,
-    user: `${API_BASE_URL}${ENDPOINT_VERSION.v1}${API_PREFIX.user}`
+    user: `${API_BASE_URL}${ENDPOINT_VERSION.v1}${API_PREFIX.user}`,
+    crypto: `${API_BASE_URL}${ENDPOINT_VERSION.v1}${API_PREFIX.crypto}`
 };
 
 
@@ -149,6 +151,10 @@ export const authApi = axios.create({
 
 export const userApi = axios.create({
     baseURL: API_ENDPOINT_PREFIX.user,
+    ...sharedApiConfig,
+});
+export const cryptoApi = axios.create({
+    baseURL: API_ENDPOINT_PREFIX.crypto,
     ...sharedApiConfig,
 });
 

@@ -2,6 +2,7 @@
     "ACTIVE": "Active",
     "ADD_IMAGE": "Add image",
     "ARCHIVED": "Archived",
+    "ASSET_MANUAL_REFRESH_TIMEOUT": "Popular assets can be refreshed once every {cooldown_minutes} minutes",
     "BUTTON": {
         "CANCEL": "Cancel",
         "CHOOSE_FILE": "Choose file",
@@ -17,6 +18,16 @@
         "TO_HOMEPAGE": "Go to homepage",
         "UPLOAD_NEW_IMAGE": "Upload new image"
     },
+    "CRYPTO": {
+        "24H_CHANGE": "Last 24h Change",
+        "ASSETS_REFRESHED": "Assets refreshed successfully",
+        "ATH_CHANGE": "ATH Change",
+        "CURRENCY": "Currency",
+        "INTRO": "The crypto module tracks prices and market capitalisation for various cryptocurrencies at four-hour intervals. By analysing price behaviour, it looks for potential buy and sell opportunities. When a signal is found, AI performs an additional review—assessing probability, price direction, pattern, and risk. If the outcome is credible, you receive a notification about a possible market move.",
+        "MARKET_CAP": "Total market cap",
+        "RANK": "Rank",
+        "VALUE": "Crypto"
+        },
     "EMAIL": "E-mail",
     "ERROR": "Error",
     "ERRORS": {
@@ -64,7 +75,11 @@
         "VALUE": "Password"
     },
     "PHONE": "Phone",
+    "POPULAR_ASSETS": "Popular assets",
+    "PRICE": "Price",
     "PROFILE": "Profile",
+    "PROFILE_IMAGE_UPLOAD_SUCCESS": "Profile image has uploaded successfully",
+    "REFRESH_MANUALLY": "Refresh manually",
     "REGISTER_NEW_ACCOUNT": "Register new account",
     "REMOVE_ACCOUNT": "Remove account",
     "ROLE": {
@@ -80,6 +95,7 @@
     "SUCCESS": {
         "LOGIN": "Login successful"
     },
+    "UPDATED_AT": "Updated at: ",
     "USERS": "Users",
     "USERS_FOUND_TOTAL": "Found users total: {total}",
     "VIEW_PROFILE": "View profile",

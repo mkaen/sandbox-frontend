@@ -2,6 +2,7 @@
     <button
         :type="type"
         :disabled="disabled"
+        :title="title"
         :class="variant"
         :style="{minWidth: width}"
     >
@@ -28,6 +29,10 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    title: {
+        type: String,
+        required: false
+    },
     width: {
         type: String,
         default: '6rem'
@@ -35,7 +40,7 @@ const props = defineProps({
     variant: {
         type: String,
         default: 'primary',
-        validator: (value) => ['primary', 'secondary', 'danger'].includes(value),
+        validator: (value) => ['primary', 'secondary', 'danger', 'success'].includes(value),
     },
 });
 
@@ -72,6 +77,13 @@ button.danger {
     background-color: #c23a2a;
     &:hover:not(:disabled) {
         background-color: #8b1e14;
+    }
+}
+
+button.success {
+    background-color: #139426;
+    &:hover:not(:disabled) {
+        background-color: #1eb93d;
     }
 }
 

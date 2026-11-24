@@ -2,6 +2,7 @@
     "ACTIVE": "Aktiivne",
     "ADD_IMAGE": "Lisa pilt",
     "ARCHIVED": "Arhiveeritud",
+    "ASSET_MANUAL_REFRESH_TIMEOUT": "Populaarsemaid valuutasid on võimalik uuendada iga {cooldown_minutes} minuti järel.",
     "BUTTON": {
         "CANCEL": "Tühista",
         "CHOOSE_FILE": "Vali fail",
@@ -17,6 +18,16 @@
         "TO_HOMEPAGE": "Mine kodulehele",
         "UPLOAD_NEW_IMAGE": "Lae uus pilt"
     },
+    "CRYPTO": {
+        "24H_CHANGE": "Viimase 24h muutus",
+        "ASSETS_REFRESHED": "Valuuta väärtused edukalt värskendatud",
+        "ATH_CHANGE": "Muutus kõrgeimast hinnast",
+        "CURRENCY": "Valuuta",
+        "INTRO": "Krüpto moodul jälgib erinevate krüptovaluutade hindu ja turukapitali väärtusi nelja tunni kaupa. Hinna käitumist analüüsides otsitakse potentsiaalseid ostu- ja müügihetki. Leitud signaale kontrollib AI täiendavalt: hinnatakse tõenäosust, hinna muutuse suunda, mustrit ja riskitaset. Usaldusväärse signaali korral saadetakse teavitus võimalikust turuliikumisest.",
+        "MARKET_CAP": "Turuväärtus",
+        "RANK": "Koht",
+        "VALUE": "Krüpto"
+        },
     "EMAIL": "E-mail",
     "ERROR": "Viga",
     "ERRORS": {
@@ -64,7 +75,11 @@
         "VALUE": "Parool"
     },
     "PHONE": "Telefon",
+    "POPULAR_ASSETS": "Populaarsemad",
+    "PRICE": "Hind",
     "PROFILE": "Profiil",
+    "PROFILE_IMAGE_UPLOAD_SUCCESS": "Profiilipilt on edukalt üles laetud",
+    "REFRESH_MANUALLY": "Värskenda manuaalselt",
     "REGISTER_NEW_ACCOUNT": "Registreeri uus konto", 
     "REMOVE_ACCOUNT": "Kustuta konto",
     "ROLE": {
@@ -80,6 +95,7 @@
     "SUCCESS": {
         "LOGIN": "Sisselogimine õnnestus"
     },
+    "UPDATED_AT": "Viimati uuendatud: ",
     "USERS": "Kasutajad",
     "USERS_FOUND_TOTAL": "Leitud kasutajaid kokku: {total}",
     "VIEW_PROFILE": "Vaata profiili",

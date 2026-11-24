@@ -5,6 +5,7 @@ import RegistrationView from "@/views/RegistrationView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import UserProfileView from "@/views/UserProfileView.vue";
 import Users from "@/views/Users.vue";
+import CryptoView from "@/views/CryptoView.vue";
 
 import { validateUserProfileId } from './validation.js'
 
@@ -61,6 +62,15 @@ const router = createRouter({
             meta: {
                 requiresAuth: true,
                 requiresAdmin: true
+            }
+        },
+        {
+            path: '/crypto',
+            name: "crypto",
+            component: CryptoView,
+            meta: {
+                requiresAuth: false,
+                requiresAdmin: false
             }
         }
     ]
