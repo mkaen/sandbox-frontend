@@ -1,7 +1,7 @@
 <template>
     <component
         :is="clickable ? 'button' : 'span'"
-        type="button"
+        :type="clickable ? 'button' : undefined"
         class="badge rounded-pill"
         :class="variantClass"
         :disabled="clickable && disabled"
@@ -46,6 +46,10 @@ function onClick(event) {
 </script>
 
 <style scoped>
+span.badge {
+    cursor: default;
+}
+
 button.badge {
     border: none;
     cursor: pointer;
