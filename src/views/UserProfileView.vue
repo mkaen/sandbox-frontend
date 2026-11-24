@@ -304,16 +304,21 @@ const fields = {
 
 const accountId = computed(() => String(route.params.id ?? ''));
 const isSelf = computed(() => accountId.value === String(userStore.id));
+const isAccountRoleAdmin = computed(() => role.value === ROLES.ADMIN)
 let profileLoadId = 0
-const canEditProfile = computed(() => isSelf.value || isAdmin);
+const isAdmin = computed(() => userStore.isAdmin)
+const canEditProfile = computed(() => {
+    if (isSelf.value) {
+        return true
+    }
+    return isAdmin.value && !isAccountRoleAdmin.value
+})
 const canEditRole = computed(() => userStore.isAdmin && !isSelf.value);
 const canEditImage = computed(() => isSelf.value);
 const canEditPassword = computed(() => isSelf.value);
 const canManageArchiveStatus = computed(() => userStore.isAdmin && !isSelf.value);
 const hasPendingImage = computed(() => Boolean(image.value || previewUrl.value));
 const selectedFileName = computed(() => image.value?.name || t('BUTTON.NO_FILE_CHOSEN'));
-const isAdmin = computed(() => userStore.isAdmin);
-
 const hasProfileChanges = computed(() => {
     if (!canEditProfile.value) {
         return false
@@ -541,21 +546,7 @@ function resolveImageChange() {
         : PROFILE_IMAGE_CHANGE.ADDED
 }
 
-const handleSubmit = async () => {
-    let formIsValid = true
-
-    if (canEditProfile.value) {
-        formIsValid = validateProfileFields() && formIsValid
-    }
-    if (!formIsValid) {
-        return
-    }
-
-    const userId = accountId.value
-    const editingSelf = canEditProfile.value
-    const imageChange = resolveImageChange()
-    const imageFile = imageChange === PROFILE_IMAGE_CHANGE.NONE ? null : image.value
-
+function buildProfileUpdateFormData(userId, editingSelf) {
     const formData = {}
     if (editingSelf) {
         formData.id = userId
@@ -571,6 +562,43 @@ const handleSubmit = async () => {
     if (canEditRole.value) {
         formData.role = role.value
     }
+    return formData
+}
+
+function showProfileUpdateSuccessToast(imageFile) {
+    const messageKey = imageFile
+        ? 'PROFILE_UPDATED_INCLUDING_IMAGE'
+        : 'PROFILE_UPDATED'
+    toast.makeSuccessToast(t(messageKey))
+}
+
+async function refreshProfileFormAfterSelfUpdate(updatedUser) {
+    await fillForm({
+        ...updatedUser,
+        image: isSelf.value ? userStore.image : updatedUser.image,
+    }, profileLoadId)
+    restoreImage()
+    oldPassword.value = ''
+    newPassword.value = ''
+    passwordConfirm.value = ''
+    oldPassword.match = true
+}
+
+const handleSubmit = async () => {
+    let formIsValid = true
+
+    if (canEditProfile.value) {
+        formIsValid = validateProfileFields() && formIsValid
+    }
+    if (!formIsValid) {
+        return
+    }
+
+    const userId = accountId.value
+    const editingSelf = canEditProfile.value
+    const imageChange = resolveImageChange()
+    const imageFile = imageChange === PROFILE_IMAGE_CHANGE.NONE ? null : image.value
+    const formData = buildProfileUpdateFormData(userId, editingSelf)
 
     const updatedUser = await userStore.updateUser(
         userId,
@@ -584,23 +612,11 @@ const handleSubmit = async () => {
     }
 
     if (updatedUser) {
-        if (imageFile) {
-            toast.makeSuccessToast(t('PROFILE_UPDATED_INCLUDING_IMAGE'))
-        } else {
-            toast.makeSuccessToast(t('PROFILE_UPDATED'))
-        }
+        showProfileUpdateSuccessToast(imageFile)
     }
 
     if (updatedUser && editingSelf) {
-        await fillForm({
-            ...updatedUser,
-            image: isSelf.value ? userStore.image : updatedUser.image,
-        }, profileLoadId)
-        restoreImage()
-        oldPassword.value = ''
-        newPassword.value = ''
-        passwordConfirm.value = ''
-        oldPassword.match = true
+        await refreshProfileFormAfterSelfUpdate(updatedUser)
     }
 
     return updatedUser
