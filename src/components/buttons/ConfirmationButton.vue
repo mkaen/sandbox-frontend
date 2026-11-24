@@ -2,6 +2,7 @@
     <button
         :type="type"
         :disabled="disabled"
+        :title="title"
         :class="variant"
         :style="{minWidth: width}"
     >
@@ -27,6 +28,10 @@ const props = defineProps({
     disabled: {
         type: Boolean,
         default: false,
+    },
+    title: {
+        type: String,
+        required: false
     },
     width: {
         type: String,
