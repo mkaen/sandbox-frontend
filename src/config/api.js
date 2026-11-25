@@ -283,8 +283,10 @@ export function setupAuthInterceptors() {
     authInterceptorsAttached = true;
     attachErrorToastInterceptor(authApi);
     attachErrorToastInterceptor(userApi);
+    attachErrorToastInterceptor(cryptoApi);
     attachAuthInterceptor(authApi);
     attachAuthInterceptor(userApi);
+    attachAuthInterceptor(cryptoApi);
 }
 
 setupAuthInterceptors();
