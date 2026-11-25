@@ -21,7 +21,7 @@ import { useToast } from '@/utils/toastUtils';
 import { cryptoApi } from '@/config/api';
 import { onBeforeMount, reactive, ref } from 'vue';
 import PopularAssetsTable from '@/features/crypto/PopularAssetsTable.vue';
-import { SENTIMENT } from '@/constants/constants';
+import { SENTIMENT, POPULAR_ASSET_MANUAL_REFRESH_TIME, FEAR_AND_GREED_INDEX_REFRESH_TIME } from '@/constants/constants';
 import FearAndGreedIndex from '@/features/crypto/FearAndGreedIndex.vue';
 
 const {t} = useI18n();
@@ -96,7 +96,9 @@ function normalizePopularAssets(assets) {
 
 async function refreshAssetsManually() {
     try {
-        const response = await cryptoApi.post('/refresh-popular-assets-manually');
+        const response = await cryptoApi.post('/refresh-popular-assets-manually', null, {
+            silentErrorStatuses: [429],
+        });
         if (response.status !== 200) {
             return
         }
@@ -114,7 +116,9 @@ async function refreshAssetsManually() {
 
 async function refreshFearAndGreedIndexManually() {
     try {
-        const response = await cryptoApi.post('/refresh-fear-and-greed');
+        const response = await cryptoApi.post('/refresh-fear-and-greed', null, {
+            silentErrorStatuses: [429],
+        });
         if (response.status !== 200) {
             return
         }
@@ -124,7 +128,7 @@ async function refreshFearAndGreedIndexManually() {
         if (error.response?.status === 429) {
             const responseData = error.response?.data;
             const notificationCode = responseData?.notificationCode;
-            toast.makeErrorToast(t(`${notificationCode}`, {cooldown_minutes: POPULAR_ASSET_MANUAL_REFRESH_TIME}));
+            toast.makeErrorToast(t(`${notificationCode}`, {cooldown_minutes: FEAR_AND_GREED_INDEX_REFRESH_TIME}));
         }
         console.error("Error while refreshing popular assets manually", error);
     }

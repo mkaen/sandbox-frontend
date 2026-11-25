@@ -48,7 +48,7 @@ const sentimentLabel = computed(() => (props.sentiment ? t(`SENTIMENT.${props.se
 const updatedAtTitle = computed(() => formatUpdatedAt(props.updatedAt, locale.value, t('UPDATED_AT')));
 const chartSummary = computed(() => `${t('FEAR_AND_GREED_INDEX')}: ${props.value ?? ''} ${sentimentLabel.value}`.trim());
 const refreshTitle = computed(() =>
-    t('FEAR_AND_GREED_INDEX_REFRESH_TIME_REFRESH_TIMEOUT', {
+    t('FEAR_AND_GREED_INDEX_REFRESH_LIMITED', {
         cooldown_minutes: FEAR_AND_GREED_INDEX_REFRESH_TIME,
     }),
 );

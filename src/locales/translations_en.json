@@ -51,7 +51,7 @@
         }
     },
     "FEAR_AND_GREED_INDEX": "Fear and Greed index",
-    "FEAR_AND_GREED_INDEX_REFRESH_TIME_REFRESH_TIMEOUT": "Fear and Greed index can be refreshed once every {cooldown_minutes} minutes",
+    "FEAR_AND_GREED_INDEX_REFRESH_LIMITED": "Fear and Greed index can be refreshed once every {cooldown_minutes} minutes",
     "FILTER_USERS": "Filter users",
     "FIRST_NAME": "First name",
     "HAVE_ACCOUNT": "Already have an account?",

@@ -51,7 +51,7 @@
         }
     },
     "FEAR_AND_GREED_INDEX": "Hirmu ja ahnuse index",
-    "FEAR_AND_GREED_INDEX_REFRESH_TIME_REFRESH_TIMEOUT": "Hirmu ja ahnuse indikaatorit on võimalik uuendada iga {cooldown_minutes} minuti järel.",
+    "FEAR_AND_GREED_INDEX_REFRESH_LIMITED": "Hirmu ja ahnuse indikaatorit on võimalik uuendada iga {cooldown_minutes} minuti järel.",
     "FILTER_USERS": "Filtreeri kasutajaid",
     "FIRST_NAME": "Eesnimi",
     "HAVE_ACCOUNT": "Sul on juba konto?",
