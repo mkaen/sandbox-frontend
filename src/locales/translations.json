@@ -23,11 +23,12 @@
         "ASSETS_REFRESHED": "Valuuta väärtused edukalt värskendatud",
         "ATH_CHANGE": "Muutus kõrgeimast hinnast",
         "CURRENCY": "Valuuta",
+        "FEAR_AND_GREED_INDEX_REFRESHED": "Hirmu ja ahnuse index värskendatud",
         "INTRO": "Krüpto moodul jälgib erinevate krüptovaluutade hindu ja turukapitali väärtusi nelja tunni kaupa. Hinna käitumist analüüsides otsitakse potentsiaalseid ostu- ja müügihetki. Leitud signaale kontrollib AI täiendavalt: hinnatakse tõenäosust, hinna muutuse suunda, mustrit ja riskitaset. Usaldusväärse signaali korral saadetakse teavitus võimalikust turuliikumisest.",
         "MARKET_CAP": "Turuväärtus",
         "RANK": "Koht",
         "VALUE": "Krüpto"
-        },
+    },
     "EMAIL": "E-mail",
     "ERROR": "Viga",
     "ERRORS": {
@@ -49,6 +50,8 @@
             "OLD_REQUIRED": "Vana parool on kohustuslik"
         }
     },
+    "FEAR_AND_GREED_INDEX": "Hirmu ja ahnuse index",
+    "FEAR_AND_GREED_INDEX_REFRESH_TIME_REFRESH_TIMEOUT": "Hirmu ja ahnuse indikaatorit on võimalik uuendada iga {cooldown_minutes} minuti järel.",
     "FILTER_USERS": "Filtreeri kasutajaid",
     "FIRST_NAME": "Eesnimi",
     "HAVE_ACCOUNT": "Sul on juba konto?",
@@ -91,6 +94,13 @@
     },
     "ROWS_PER_PAGE": "Ridasid lehekülje kohta",
     "SEARCH": "Otsi",
+    "SENTIMENT": {
+        "EXTREME_FEAR": "Äärmuslik hirm",
+        "FEAR": "Hirm",
+        "NEUTRAL": "Neutraalne",
+        "GREED": "Ahnus",
+        "EXTREME_GREED": "Äärmuslik ahnus"
+    },
     "SIGN_OUT": "Logi välja",
     "SORT_BY_SELECTOR": "Sorteerimise viis",
     "SUCCESS": {

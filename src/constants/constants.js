@@ -20,6 +20,7 @@ export const SESSION_CONFIG = {
 }
 
 export const POPULAR_ASSET_MANUAL_REFRESH_TIME = Number(import.meta.env.VITE_ASSET_MANUAL_REFRESH_TIME) || 15
+export const FEAR_AND_GREED_INDEX_REFRESH_TIME = Number(import.meta.env.FEAR_AND_GREED_INDEX_REFRESH_TIME) || 10
 
 export const LOCALE_STORAGE_KEY = 'locale'
 
@@ -27,4 +28,12 @@ export const PROFILE_IMAGE_CHANGE = {
     NONE: 'NONE',
     ADDED: 'ADDED',
     CHANGED: 'CHANGED',
+}
+
+export const SENTIMENT = {
+    EXTREME_FEAR: 'EXTREME_FEAR',
+    FEAR: 'FEAR',
+    NEUTRAL: 'NEUTRAL',
+    GREED: 'GREED',
+    EXTREME_GREED: 'EXTREME_GREED',
 }

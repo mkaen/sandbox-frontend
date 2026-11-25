@@ -2,17 +2,16 @@
     <h1>{{ t('CRYPTO.VALUE') }}</h1>
     <p>{{ t('CRYPTO.INTRO') }}</p>
     <hr/>
+    <h3>{{ t('FEAR_AND_GREED_INDEX') }}</h3>
+    <FearAndGreedIndex
+        :updated-at="fearAndGreedData.updatedAt"
+        :value="fearAndGreedData.value"
+        :sentiment="fearAndGreedData.sentiment"
+        @refresh="refreshFearAndGreedIndexManually"
+    />
+    <hr/>
     <h3>{{ t('POPULAR_ASSETS') }}</h3>
-    <div v-if="userStore.isAdmin" class="refresh-assets-header">
-        <ConfirmationButton
-            :label="t('REFRESH_MANUALLY')"
-            :variant="'success'"
-            :title="t('ASSET_MANUAL_REFRESH_TIMEOUT', {cooldown_minutes: POPULAR_ASSET_MANUAL_REFRESH_TIME})"
-            @click="refreshAssetsManually"
-        >
-        </ConfirmationButton>
-    </div>
-    <PopularAssetsTable :popularAssets="popularAssets"/>
+    <PopularAssetsTable :popular-assets="popularAssets" @refresh="refreshAssetsManually" />
 </template>
 
 
@@ -20,17 +19,50 @@
 import { useI18n } from 'vue-i18n';
 import { useToast } from '@/utils/toastUtils';
 import { cryptoApi } from '@/config/api';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, reactive, ref } from 'vue';
 import PopularAssetsTable from '@/features/crypto/PopularAssetsTable.vue';
-import ConfirmationButton from '@/components/buttons/ConfirmationButton.vue';
-import { useUserStore } from '@/features/users/userStore'
-import { POPULAR_ASSET_MANUAL_REFRESH_TIME } from '@/constants/constants'
+import { SENTIMENT } from '@/constants/constants';
+import FearAndGreedIndex from '@/features/crypto/FearAndGreedIndex.vue';
 
 const {t} = useI18n();
 const toast = useToast();
 
-const userStore = useUserStore();
+
 const popularAssets = ref([]);
+const fearAndGreedData = reactive({
+    updatedAt: '',
+    value: null,
+    sentiment: null,
+});
+
+const VALID_SENTIMENT_CODES = new Set(Object.values(SENTIMENT));
+
+function normalizeFearAndGreedIndex(payload) {
+    if (!payload || typeof payload !== 'object') {
+        return null;
+    }
+
+    const sentiment =
+        typeof payload.sentiment === 'string' && VALID_SENTIMENT_CODES.has(payload.sentiment)
+            ? payload.sentiment
+            : null;
+
+    const value =
+        typeof payload.value === 'number'
+        && Number.isFinite(payload.value)
+        && payload.value >= 0
+        && payload.value <= 100
+            ? payload.value
+            : null;
+
+    const updatedAt = typeof payload.updatedAt === 'string' ? payload.updatedAt : '';
+
+    if (sentiment === null && value === null && !updatedAt) {
+        return null;
+    }
+
+    return { updatedAt, value, sentiment };
+}
 
 async function fetchPopularAssets() {
     try {
@@ -80,6 +112,24 @@ async function refreshAssetsManually() {
     }
 }
 
+async function refreshFearAndGreedIndexManually() {
+    try {
+        const response = await cryptoApi.post('/refresh-fear-and-greed');
+        if (response.status !== 200) {
+            return
+        }
+        setFearAndGreedIndexValues(response.data);
+        toast.makeSuccessToast(t('CRYPTO.FEAR_AND_GREED_INDEX_REFRESHED'));
+    } catch (error) {
+        if (error.response?.status === 429) {
+            const responseData = error.response?.data;
+            const notificationCode = responseData?.notificationCode;
+            toast.makeErrorToast(t(`${notificationCode}`, {cooldown_minutes: POPULAR_ASSET_MANUAL_REFRESH_TIME}));
+        }
+        console.error("Error while refreshing popular assets manually", error);
+    }
+}
+
 async function getPopularAssets() {
     const data = await fetchPopularAssets()
     if (data?.assets) {
@@ -87,8 +137,31 @@ async function getPopularAssets() {
     }
 }
 
+async function fetchFearAndGreedIndex() {
+    try {
+        const response = await cryptoApi.get('/fear-and-greed-index');
+        if (response.status !== 200) {
+            return
+        }
+        setFearAndGreedIndexValues(response.data);
+    } catch (error) {
+        console.error("Fetching Fear and Greed Index data failed", error)
+    }
+};
+
+function setFearAndGreedIndexValues(data) {
+    const normalized = normalizeFearAndGreedIndex(data);
+        if (!normalized) {
+            return;
+        }
+        fearAndGreedData.updatedAt = normalized.updatedAt;
+        fearAndGreedData.value = normalized.value;
+        fearAndGreedData.sentiment = normalized.sentiment;
+}
+
 onBeforeMount(async () => {
     await getPopularAssets();
+    await fetchFearAndGreedIndex();
 })
 
 </script>
@@ -97,10 +170,5 @@ onBeforeMount(async () => {
 h3 {
     color: var(--text-h-blue);
     margin-top: 2rem;
-}
-
-.refresh-assets-header {
-    display: flex;
-    justify-content: flex-end;
 }
 </style>

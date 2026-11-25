@@ -12,6 +12,7 @@
     "@primevue/themes": "^4.5.4",
     "axios": "^1.13.6",
     "bootstrap": "^5.3.8",
+    "echarts": "^6.1.0",
     "eslint": "^9.39.4",
     "pinia": "^3.0.4",
     "prettier": "^3.8.1",

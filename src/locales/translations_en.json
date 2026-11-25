@@ -23,11 +23,12 @@
         "ASSETS_REFRESHED": "Assets refreshed successfully",
         "ATH_CHANGE": "ATH Change",
         "CURRENCY": "Currency",
+        "FEAR_AND_GREED_INDEX_REFRESHED": "Fear and Greed index refreshed",
         "INTRO": "The crypto module tracks prices and market capitalisation for various cryptocurrencies at four-hour intervals. By analysing price behaviour, it looks for potential buy and sell opportunities. When a signal is found, AI performs an additional review—assessing probability, price direction, pattern, and risk. If the outcome is credible, you receive a notification about a possible market move.",
         "MARKET_CAP": "Total market cap",
         "RANK": "Rank",
         "VALUE": "Crypto"
-        },
+    },
     "EMAIL": "E-mail",
     "ERROR": "Error",
     "ERRORS": {
@@ -49,6 +50,8 @@
             "OLD_REQUIRED": "Old password is required"
         }
     },
+    "FEAR_AND_GREED_INDEX": "Fear and Greed index",
+    "FEAR_AND_GREED_INDEX_REFRESH_TIME_REFRESH_TIMEOUT": "Fear and Greed index can be refreshed once every {cooldown_minutes} minutes",
     "FILTER_USERS": "Filter users",
     "FIRST_NAME": "First name",
     "HAVE_ACCOUNT": "Already have an account?",
@@ -91,6 +94,13 @@
     },
     "ROWS_PER_PAGE": "Rows per page",
     "SEARCH": "Search",
+    "SENTIMENT": {
+        "EXTREME_FEAR": "Extreme fear",
+        "FEAR": "Fear",
+        "NEUTRAL": "Neutral",
+        "GREED": "Greed",
+        "EXTREME_GREED": "Extreme greed"
+    },
     "SIGN_OUT": "Sign out",
     "SORT_BY_SELECTOR": "Sort by selector",
     "SUCCESS": {
