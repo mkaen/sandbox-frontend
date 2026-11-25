@@ -102,7 +102,8 @@ async function refreshAssetsManually() {
         if (response.status !== 200) {
             return
         }
-        await getPopularAssets();
+        const data = response.data;
+        popularAssets.value = normalizePopularAssets(data.assets);
         toast.makeSuccessToast(t('CRYPTO.ASSETS_REFRESHED'));
     } catch (error) {
         if (error.response?.status === 429) {
