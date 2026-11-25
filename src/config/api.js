@@ -176,9 +176,10 @@ function processQueue(error) {
     failedQueue = [];
 }
 
-function requestUrlIncludes(config, endpoints) {
+function requestPathIsOneOf(config, endpoints) {
     const url = config?.url || '';
-    return endpoints.some((endpoint) => url.includes(endpoint));
+    const path = url.split('?')[0].split('#')[0];
+    return endpoints.includes(path);
 }
 
 function shouldSkipAuthRefresh(config) {
@@ -186,7 +187,7 @@ function shouldSkipAuthRefresh(config) {
         return true;
     }
 
-    return requestUrlIncludes(config, AUTH_ENDPOINTS_WITHOUT_REFRESH);
+    return requestPathIsOneOf(config, AUTH_ENDPOINTS_WITHOUT_REFRESH);
 }
 
 function readNotificationCode(error) {
@@ -213,7 +214,7 @@ function shouldSkipErrorToast(error) {
         return true;
     }
 
-    return status === 401 && !requestUrlIncludes(config, USER_FACING_AUTH_ENDPOINTS);
+    return status === 401 && !requestPathIsOneOf(config, USER_FACING_AUTH_ENDPOINTS);
 }
 
 function attachErrorToastInterceptor(api) {
