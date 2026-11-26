@@ -23,7 +23,7 @@
 
 <script setup>
 import DefaultLayout from '@/components/layout/DefaultLayout.vue'
-import { inactive, activateReminder, resetSession, dismissReminder } from '@/composables/sessionManager'
+import { inactive, activateReminder, dismissReminder } from '@/composables/sessionManager'
 import { useAuthStore } from '@/features/auth/authStore'
 import { useRouter } from 'vue-router'
 import { buildLoginLocation } from '@/router/redirect'
@@ -41,13 +41,13 @@ const loggedOutModal = ref(null);
 
 // SESSION REMINDER
 
-watch(inactive, (newVal) => {
+watch(inactive, async (newVal) => {
   if (newVal) {
     sessionModal.value?.closeModal();
     const loginLocation = buildLoginLocation(router.currentRoute.value.fullPath);
-    authStore.logout();
-    router.push(loginLocation);
-    loggedOutModal.value?.openModal()
+    await authStore.logout();
+    await router.push(loginLocation);
+    loggedOutModal.value?.openModal();
   }
 });
 
@@ -61,8 +61,15 @@ function openSessionModal() {
   sessionModal.value?.openModal();
 }
 
-function onExtendSession() {
-  resetSession();
+async function onExtendSession() {
+  const extended = await authStore.refreshToken();
+  if (extended) {
+    return;
+  }
+  const loginLocation = buildLoginLocation(router.currentRoute.value.fullPath);
+  await authStore.logout();
+  await router.push(loginLocation);
+  loggedOutModal.value?.openModal();
 }
 
 function onLogout() {
